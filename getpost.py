@@ -142,7 +142,6 @@ def incoming_sms():
             modified = open('Current Values.txt', 'w')
             modified.writelines(lines)
             modified.close()
-            workout(weekday, resp)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
                       "warmup\n" + \
