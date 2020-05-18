@@ -75,6 +75,7 @@ def incoming_sms():
             increase = 15
         message = "You did " + string + " reps, which results in a " + str(increase) + "lb increase.\n\n" + "Old max: " + str(bench) + "\n" + "New max: " + str(bench + increase)
         resp.message(message)
+        message = "THIS SHOULD FUCKING WORK."
         resp.message(message)
     return str(resp)
 
