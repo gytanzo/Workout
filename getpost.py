@@ -17,9 +17,6 @@ def warmup(value):
     return message
 
 
-def workout(day):
-
-
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
     weekday = datetime.today().strftime('%A')
