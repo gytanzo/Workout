@@ -11,9 +11,9 @@ def my_round(x, base = 5):
 
 def warmup(value):
     message = "Here is your warmup." + "\n" + "\n"
-    message += str(my_round(value * 0.4)) + "x5"
-    message += str(my_round(value * 0.5)) + "x5"
-    message += str(my_round(value * 0.6)) + "x5"
+    message += str(my_round(value * 0.4)) + "x5\n"
+    message += str(my_round(value * 0.5)) + "x5\n"
+    message += str(my_round(value * 0.6)) + "x5\n"
     return message
 
 
