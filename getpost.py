@@ -75,9 +75,9 @@ def incoming_sms():
                       "New max: " + str(bench + increase)
             resp.message(message)
         else:
-            message = "You don't seem to be using this correctly. These are the currently available commands.\n" + \
-                "\twarmup\n" + \
-                "\t(int) reps"
+            message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
+                "warmup\n" + \
+                "(int) reps"
             resp.message(message)
     return str(resp)
 
