@@ -29,10 +29,16 @@ def incoming_sms():
     resp = MessagingResponse()
 
     # Determine the right reply for this message
-    if (body == 'Warmup' or body == 'warmup'):
+    if body == 'Warmup' or body == 'warmup' or body == 'Warmup ' or body == 'warmup ':
         resp.message(warmup())
     elif body == 'bye':
         resp.message("Goodbye")
+    else:
+        string = ""
+        for character in body:
+            if character.isdigit():
+                string += character
+        resp.message(string)
 
     return str(resp)
 
