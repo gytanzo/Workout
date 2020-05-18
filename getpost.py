@@ -75,23 +75,23 @@ def incoming_sms():
             if weekday == "Tuesday":
                 message += "Old max: " + str(deadlift) + "\n" + \
                            "New max: " + str(deadlift + increase)
-                lines[2] = str(deadlift + increase)
+                lines[2] = str(deadlift + increase) + "\n"
             elif weekday == "Wednesday":
                 message += "Old max: " + str(press) + "\n" + \
                            "New max: " + str(press + increase)
-                lines[3] = str(press + increase)
+                lines[3] = str(press + increase) + "\n"
             elif weekday == "Thursday":
                 message += "Old max: " + str(squat) + "\n" + \
                            "New max: " + str(squat + increase)
-                lines[0] = str(squat + increase)
+                lines[0] = str(squat + increase) + "\n"
             elif weekday == "Friday":
                 message += "Old max: " + str(bench) + "\n" + \
                            "New max: " + str(bench + increase)
-                lines[1] = str(bench + increase)
+                lines[1] = str(bench + increase) + "\n"
             else:  # Test day.
                 message += "Old max: " + str(bench) + "\n" + \
                            "New max: " + str(bench + increase)
-                lines[1] = str(bench + increase)
+                lines[1] = str(bench + increase) + "\n"
             file = open('Current Values.txt', 'w')
             file.writelines(lines)
             file.close()
