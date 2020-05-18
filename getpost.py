@@ -277,7 +277,7 @@ def incoming_sms():
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
                       "warmup\n" + \
                       "workout\n" + \
-                      "(int) reps" + \
+                      "(int) reps\n" + \
                       "maxes"
             resp.message(message)
     return str(resp)
