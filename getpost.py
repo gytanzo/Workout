@@ -1,7 +1,22 @@
 from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
+from datetime import datetime
 
 app = Flask(__name__)
+
+weekday = datetime.today().strftime('%A')
+
+
+def warmup():
+    if weekday == "Sunday":
+        return "Silly goose, it's a Sunday. You don't have a warmup."
+    elif weekday == "Monday":
+        message = "Today's T1 is Bench Press. This is your warmup." + "\n"
+        file = open('Message.txt', 'r')
+        lines = file.readlines()
+        for line in lines:
+            message += line + "\n"
+        return message
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -14,8 +29,8 @@ def incoming_sms():
     resp = MessagingResponse()
 
     # Determine the right reply for this message
-    if body == 'hello':
-        resp.message("Hi!")
+    if (body == 'Warmup' or body == 'warmup'):
+        resp.message(warmup())
     elif body == 'bye':
         resp.message("Goodbye")
 
