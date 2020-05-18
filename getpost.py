@@ -76,10 +76,6 @@ def incoming_sms():
         message = "You did " + string + " reps, which results in a " + str(increase) + "lb increase.\n\n" + "Old max: " + str(bench) + "\n" + "New max: " + str(bench + increase)
         resp.message(message)
     else:
-        client.messages.create(
-            to="+15853974321",
-            from_="+18722595697",
-            body="This is the first message.")
         message = "This is the second massage."
         resp.message(message)
     return str(resp)
