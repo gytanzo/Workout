@@ -30,12 +30,17 @@ def warmup(value):
 
 
 def five_three_one(weekday, resp):
-    message = ""
+    message = "Here is your 5/3/1 split for today.\n\n"
     if weekday == "Tuesday":
-        message = "Here is your 5/3/1 split for today.\n\n" + \
-                  str(my_round(deadlift * 0.75)) + "x5\n" + \
-                  str(my_round(deadlift * 0.85)) + "x3\n" + \
-                  str(my_round(deadlift * 0.95)) + "x1+\n"
+        message += \
+            str(my_round(deadlift * 0.75)) + "x5\n" + \
+            str(my_round(deadlift * 0.85)) + "x3\n" + \
+            str(my_round(deadlift * 0.95)) + "x1+\n"
+    elif weekday == "Wednesday":
+        message += \
+            str(my_round(press * 0.75)) + "x5\n" + \
+            str(my_round(press * 0.85)) + "x3\n" + \
+            str(my_round(press * 0.95)) + "x1+\n"
     resp.message(message)
 
 
@@ -80,12 +85,66 @@ def workout(weekday, resp):
             str(my_round(squat * 0.55)) + "x4\n" + \
             str(my_round(squat * 0.55)) + "x6\n" + \
             str(my_round(squat * 0.55)) + "x8"
+    if weekday == "Wednesday":
+        message += \
+            "OVERHEAD PRESS\n" + \
+            str(my_round(deadlift * 0.9)) + "x3\n" + \
+            str(my_round(deadlift * 0.85)) + "x3\n" + \
+            str(my_round(deadlift * 0.8)) + "x3\n" + \
+            str(my_round(deadlift * 0.75)) + "x5\n" + \
+            str(my_round(deadlift * 0.7)) + "x5\n" + \
+            str(my_round(deadlift * 0.65)) + "x5+\n\n" + \
+            "INCLINE BENCH PRESS\n" + \
+            str(my_round(squat * 0.4)) + "x6\n" + \
+            str(my_round(squat * 0.5)) + "x5\n" + \
+            str(my_round(squat * 0.6)) + "x3\n" + \
+            str(my_round(squat * 0.6)) + "x5\n" + \
+            str(my_round(squat * 0.6)) + "x7\n" + \
+            str(my_round(squat * 0.6)) + "x4\n" + \
+            str(my_round(squat * 0.6)) + "x6\n" + \
+            str(my_round(squat * 0.6)) + "x8"
+    if weekday == "Thursday":
+        message += \
+            "SQUAT\n" + \
+            str(my_round(deadlift * 0.9)) + "x3\n" + \
+            str(my_round(deadlift * 0.85)) + "x3\n" + \
+            str(my_round(deadlift * 0.8)) + "x3\n" + \
+            str(my_round(deadlift * 0.75)) + "x3\n" + \
+            str(my_round(deadlift * 0.7)) + "x3\n" + \
+            str(my_round(deadlift * 0.65)) + "x3+\n\n" + \
+            "SUMO DEADLIFT\n" + \
+            str(my_round(squat * 0.35)) + "x5\n" + \
+            str(my_round(squat * 0.45)) + "x5\n" + \
+            str(my_round(squat * 0.55)) + "x3\n" + \
+            str(my_round(squat * 0.55)) + "x5\n" + \
+            str(my_round(squat * 0.55)) + "x7\n" + \
+            str(my_round(squat * 0.55)) + "x4\n" + \
+            str(my_round(squat * 0.55)) + "x6\n" + \
+            str(my_round(squat * 0.55)) + "x8"
+    if weekday == "Friday":
+        message += \
+            "BENCH PRESS\n" + \
+            str(my_round(deadlift * 0.9)) + "x3\n" + \
+            str(my_round(deadlift * 0.85)) + "x3\n" + \
+            str(my_round(deadlift * 0.8)) + "x3\n" + \
+            str(my_round(deadlift * 0.75)) + "x3\n" + \
+            str(my_round(deadlift * 0.7)) + "x3\n" + \
+            str(my_round(deadlift * 0.65)) + "x3+\n\n" + \
+            "CLOSE GRIP BENCH PRESS\n" + \
+            str(my_round(squat * 0.35)) + "x5\n" + \
+            str(my_round(squat * 0.45)) + "x5\n" + \
+            str(my_round(squat * 0.55)) + "x3\n" + \
+            str(my_round(squat * 0.55)) + "x5\n" + \
+            str(my_round(squat * 0.55)) + "x7\n" + \
+            str(my_round(squat * 0.55)) + "x4\n" + \
+            str(my_round(squat * 0.55)) + "x6\n" + \
+            str(my_round(squat * 0.55)) + "x8"
     resp.message(message)
 
 
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
-    weekday = datetime.today().strftime('%A')
+    weekday = "Wednesday"
 
     """Send a dynamic reply to an incoming text message"""
     # Get the message the user sent our Twilio number
