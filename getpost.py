@@ -4,9 +4,17 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+file = open('Current Values.txt', 'r')
+lines = file.readlines()
+squat = int(lines[0].rstrip())
+bench = int(lines[1].rstrip())
+deadlift = int(lines[2].rstrip())
+press = int(lines[3].rstrip())
+file.close()
 
-def my_round(x, base = 5):
-    return base * round(x/base)
+
+def my_round(x, base=5):
+    return base * round(x / base)
 
 
 def has_numbers(input_string):
@@ -21,16 +29,37 @@ def warmup(value):
     return message
 
 
+def workout(weekday, resp):
+    message = ""
+    if weekday == "Sunday":
+        message = "Dude, it's a Sunday. You don't have a workout. Go back to bed."
+    elif weekday == "Monday":
+        message = "Here is the remainder of your workout.\n\n" + \
+            "BENCH PRESS\n" + \
+            str(my_round(bench * 0.65)) + "x8\n" + \
+            str(my_round(bench * 0.75)) + "x6\n" + \
+            str(my_round(bench * 0.85)) + "x4\n" + \
+            str(my_round(bench * 0.85)) + "x4\n" + \
+            str(my_round(bench * 0.85)) + "x4\n" + \
+            str(my_round(bench * 0.8)) + "x5\n" + \
+            str(my_round(bench * 0.75)) + "x6\n" + \
+            str(my_round(bench * 0.7)) + "x7\n" + \
+            str(my_round(bench * 0.65)) + "x8+\n\n" + \
+            "OVERHEAD PRESS\n" + \
+            str(my_round(press * 0.5)) + "x6\n" + \
+            str(my_round(press * 0.6)) + "x5\n" + \
+            str(my_round(press * 0.7)) + "x3\n" + \
+            str(my_round(press * 0.7)) + "x5\n" + \
+            str(my_round(press * 0.7)) + "x7\n" + \
+            str(my_round(press * 0.7)) + "x4\n" + \
+            str(my_round(press * 0.7)) + "x6\n" + \
+            str(my_round(press * 0.7)) + "x8\n"
+    resp.message(message)
+
+
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
     weekday = datetime.today().strftime('%A')
-    file = open('Current Values.txt', 'r')
-    lines = file.readlines()
-    squat = int(lines[0].rstrip())
-    bench = int(lines[1].rstrip())
-    deadlift = int(lines[2].rstrip())
-    press = int(lines[3].rstrip())
-    file.close()
 
     """Send a dynamic reply to an incoming text message"""
     # Get the message the user sent our Twilio number
@@ -76,26 +105,30 @@ def incoming_sms():
                 message += "Old max: " + str(deadlift) + "\n" + \
                            "New max: " + str(deadlift + increase)
                 lines[2] = str(deadlift + increase) + "\n"
+                resp.message(message)
             elif weekday == "Wednesday":
                 message += "Old max: " + str(press) + "\n" + \
                            "New max: " + str(press + increase)
                 lines[3] = str(press + increase) + "\n"
+                resp.message(message)
             elif weekday == "Thursday":
                 message += "Old max: " + str(squat) + "\n" + \
                            "New max: " + str(squat + increase)
                 lines[0] = str(squat + increase) + "\n"
+                resp.message(message)
             elif weekday == "Friday":
                 message += "Old max: " + str(bench) + "\n" + \
                            "New max: " + str(bench + increase)
                 lines[1] = str(bench + increase) + "\n"
-            file = open('Current Values.txt', 'w')
-            file.writelines(lines)
-            file.close()
-            resp.message(message)
+                resp.message(message)
+            modified = open('Current Values.txt', 'w')
+            modified.writelines(lines)
+            modified.close()
+            workout(weekday, resp)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
-                "warmup\n" + \
-                "(int) reps"
+                      "warmup\n" + \
+                      "(int) reps"
             resp.message(message)
     return str(resp)
 
