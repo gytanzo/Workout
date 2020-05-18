@@ -88,6 +88,10 @@ def incoming_sms():
                 message += "Old max: " + str(bench) + "\n" + \
                            "New max: " + str(bench + increase)
                 lines[1] = str(bench + increase)
+            else:  # Test day.
+                message += "Old max: " + str(bench) + "\n" + \
+                           "New max: " + str(bench + increase)
+                lines[1] = str(bench + increase)
             file = open('Current Values.txt', 'w')
             file.writelines(lines)
             file.close()
