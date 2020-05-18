@@ -30,6 +30,7 @@ def incoming_sms():
     bench = int(lines[1].rstrip())
     deadlift = int(lines[2].rstrip())
     press = int(lines[3].rstrip())
+    file.close()
 
     """Send a dynamic reply to an incoming text message"""
     # Get the message the user sent our Twilio number
@@ -70,9 +71,26 @@ def incoming_sms():
                 increase = 10
             elif number > 5:
                 increase = 15
-            message = "You did " + string + " reps, which results in a " + str(increase) + "lb increase.\n\n" + \
-                      "Old max: " + str(bench) + "\n" + \
-                      "New max: " + str(bench + increase)
+            message = "You did " + string + " reps, which results in a " + str(increase) + "lb increase.\n\n"
+            if weekday == "Tuesday":
+                message += "Old max: " + str(deadlift) + "\n" + \
+                           "New max: " + str(deadlift + increase)
+                lines[2] = str(deadlift + increase)
+            elif weekday == "Wednesday":
+                message += "Old max: " + str(press) + "\n" + \
+                           "New max: " + str(press + increase)
+                lines[3] = str(press + increase)
+            elif weekday == "Thursday":
+                message += "Old max: " + str(squat) + "\n" + \
+                           "New max: " + str(squat + increase)
+                lines[0] = str(squat + increase)
+            elif weekday == "Friday":
+                message += "Old max: " + str(bench) + "\n" + \
+                           "New max: " + str(bench + increase)
+                lines[1] = str(bench + increase)
+            file = open('Current Values.txt', 'w')
+            file.writelines(lines)
+            file.close()
             resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
