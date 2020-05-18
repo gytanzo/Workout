@@ -135,26 +135,26 @@ def workout(weekday, resp):
         message += \
             "BENCH PRESS\n" + \
             str(my_round(bench * 0.9)) + "x3\n" + \
-            str(my_round(bench * 0.85)) + "x3\n" + \
+            str(my_round(bench * 0.85)) + "x5\n" + \
             str(my_round(bench * 0.8)) + "x3\n" + \
-            str(my_round(bench * 0.75)) + "x3\n" + \
+            str(my_round(bench * 0.75)) + "x5\n" + \
             str(my_round(bench * 0.7)) + "x3\n" + \
-            str(my_round(bench * 0.65)) + "x3+\n\n" + \
+            str(my_round(bench * 0.65)) + "x5+\n\n" + \
             "CLOSE GRIP BENCH PRESS\n" + \
-            str(my_round(bench * 0.35)) + "x5\n" + \
-            str(my_round(bench * 0.45)) + "x5\n" + \
-            str(my_round(bench * 0.55)) + "x3\n" + \
-            str(my_round(bench * 0.55)) + "x5\n" + \
-            str(my_round(bench * 0.55)) + "x7\n" + \
-            str(my_round(bench * 0.55)) + "x4\n" + \
-            str(my_round(bench * 0.55)) + "x6\n" + \
-            str(my_round(bench * 0.55)) + "x8"
+            str(my_round(bench * 0.4)) + "x6\n" + \
+            str(my_round(bench * 0.5)) + "x5\n" + \
+            str(my_round(bench * 0.6)) + "x3\n" + \
+            str(my_round(bench * 0.6)) + "x5\n" + \
+            str(my_round(bench * 0.6)) + "x7\n" + \
+            str(my_round(bench * 0.6)) + "x4\n" + \
+            str(my_round(bench * 0.6)) + "x6\n" + \
+            str(my_round(bench * 0.6)) + "x8"
     resp.message(message)
 
 
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
-    weekday = "Thursday"
+    weekday = "Friday"
 
     """Send a dynamic reply to an incoming text message"""
     # Get the message the user sent our Twilio number
