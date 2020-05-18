@@ -33,16 +33,16 @@ def five_three_one(weekday, resp):
     message = ""
     if weekday == "Tuesday":
         message = "Here is your 5/3/1 split for today.\n\n" + \
-            str(my_round(deadlift * 0.75)) + "x5\n" + \
-            str(my_round(deadlift * 0.85)) + "x3\n" + \
-            str(my_round(deadlift * 0.95)) + "x1+\n"
+                  str(my_round(deadlift * 0.75)) + "x5\n" + \
+                  str(my_round(deadlift * 0.85)) + "x3\n" + \
+                  str(my_round(deadlift * 0.95)) + "x1+\n"
     resp.message(message)
 
 
 def workout(weekday, resp):
-    message = ""
+    message = "Here is the remainder of your workout.\n\n"
     if weekday == "Monday":
-        message = "Here is the remainder of your workout.\n\n" + \
+        message += \
             "BENCH PRESS\n" + \
             str(my_round(bench * 0.65)) + "x8\n" + \
             str(my_round(bench * 0.75)) + "x6\n" + \
@@ -61,7 +61,25 @@ def workout(weekday, resp):
             str(my_round(press * 0.7)) + "x7\n" + \
             str(my_round(press * 0.7)) + "x4\n" + \
             str(my_round(press * 0.7)) + "x6\n" + \
-            str(my_round(press * 0.7)) + "x8\n"
+            str(my_round(press * 0.7)) + "x8"
+    if weekday == "Tuesday":
+        message += \
+            "DEADLIFT\n" + \
+            str(my_round(deadlift * 0.9)) + "x3\n" + \
+            str(my_round(deadlift * 0.85)) + "x3\n" + \
+            str(my_round(deadlift * 0.8)) + "x3\n" + \
+            str(my_round(deadlift * 0.75)) + "x3\n" + \
+            str(my_round(deadlift * 0.7)) + "x3\n" + \
+            str(my_round(deadlift * 0.65)) + "x3+\n\n" + \
+            "FRONT SQUAT\n" + \
+            str(my_round(squat * 0.35)) + "x5\n" + \
+            str(my_round(squat * 0.45)) + "x5\n" + \
+            str(my_round(squat * 0.55)) + "x3\n" + \
+            str(my_round(squat * 0.55)) + "x5\n" + \
+            str(my_round(squat * 0.55)) + "x7\n" + \
+            str(my_round(squat * 0.55)) + "x4\n" + \
+            str(my_round(squat * 0.55)) + "x6\n" + \
+            str(my_round(squat * 0.55)) + "x8"
     resp.message(message)
 
 
@@ -124,6 +142,7 @@ def incoming_sms():
                            "New max: " + str(deadlift + increase)
                 lines[2] = str(deadlift + increase) + "\n"
                 resp.message(message)
+                workout(weekday, resp)
             elif weekday == "Wednesday":
                 message += "Old max: " + str(press) + "\n" + \
                            "New max: " + str(press + increase)
