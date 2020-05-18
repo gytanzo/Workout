@@ -59,10 +59,6 @@ def incoming_sms():
         elif weekday == "Saturday":
             resp.message(warmup(deadlift))
     elif body is not None and body != '"':
-        client.messages.create(
-            to="+15853974321",
-            from_="+18722595697",
-            body="This is the first message.")
         string = ""
         for character in body:
             if character.isdigit():
@@ -78,6 +74,7 @@ def incoming_sms():
         elif number > 5:
             increase = 15
         message = "You did " + string + " reps, which results in a " + str(increase) + "lb increase.\n\n" + "Old max: " + str(bench) + "\n" + "New max: " + str(bench + increase)
+        resp.message(message)
         resp.message(message)
     return str(resp)
 
