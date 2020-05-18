@@ -85,7 +85,7 @@ def workout(weekday, resp):
 
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
-    weekday = "Tuesday"
+    weekday = datetime.today().strftime('%A')
 
     """Send a dynamic reply to an incoming text message"""
     # Get the message the user sent our Twilio number
