@@ -11,7 +11,7 @@ def warmup():
     if weekday == "Sunday":
         return "Silly goose, it's a Sunday. You don't have a warmup."
     elif weekday == "Monday":
-        message = "Today's T1 is Bench Press. This is your warmup." + "\n"
+        message = "Today's T1 is Bench Press. This is your warmup." + "\n" + "\n"
         file = open('Message.txt', 'r')
         lines = file.readlines()
         for line in lines:
