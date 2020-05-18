@@ -76,8 +76,8 @@ def incoming_sms():
             resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n" + \
-                "warmup\n" + \
-                "(int) reps"
+                "\twarmup\n" + \
+                "\t(int) reps"
             resp.message(message)
     return str(resp)
 
