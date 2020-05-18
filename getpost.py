@@ -207,16 +207,19 @@ def incoming_sms():
                            "New max: " + str(press + increase)
                 lines[3] = str(press + increase) + "\n"
                 resp.message(message)
+                workout(weekday, resp)
             elif weekday == "Thursday":
                 message += "Old max: " + str(squat) + "\n" + \
                            "New max: " + str(squat + increase)
                 lines[0] = str(squat + increase) + "\n"
                 resp.message(message)
+                workout(weekday, resp)
             elif weekday == "Friday":
                 message += "Old max: " + str(bench) + "\n" + \
                            "New max: " + str(bench + increase)
                 lines[1] = str(bench + increase) + "\n"
                 resp.message(message)
+                workout(weekday, resp)
             modified = open('Current Values.txt', 'w')
             modified.writelines(lines)
             modified.close()
