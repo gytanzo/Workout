@@ -25,16 +25,16 @@ def get_change(current, previous):
     if current == previous:
         return 0
     try:
-        return (abs(current - previous) / previous) * 100.0
+        return round((abs(current - previous) / previous) * 100.0, 2)
     except ZeroDivisionError:
         return float('inf')
 
 
 def warmup(value):
     message = "Here is your warmup." + "\n" + "\n"
-    message += str(my_round(value * 0.4)) + "x5\n"
-    message += str(my_round(value * 0.5)) + "x5\n"
-    message += str(my_round(value * 0.6)) + "x5\n"
+    message += str(my_round(value * 0.4)) + " x5\n"
+    message += str(my_round(value * 0.5)) + " x5\n"
+    message += str(my_round(value * 0.6)) + " x5\n"
     return message
 
 
@@ -42,24 +42,24 @@ def five_three_one(weekday, resp):
     message = "Here is your 5/3/1 split for today.\n\n"
     if weekday == "Tuesday":
         message += \
-            str(my_round(deadlift * 0.75)) + "x5\n" + \
-            str(my_round(deadlift * 0.85)) + "x3\n" + \
-            str(my_round(deadlift * 0.95)) + "x1+\n"
+            str(my_round(deadlift * 0.75)) + " x5\n" + \
+            str(my_round(deadlift * 0.85)) + " x3\n" + \
+            str(my_round(deadlift * 0.95)) + " x1+\n"
     elif weekday == "Wednesday":
         message += \
-            str(my_round(press * 0.75)) + "x5\n" + \
-            str(my_round(press * 0.85)) + "x3\n" + \
-            str(my_round(press * 0.95)) + "x1+\n"
+            str(my_round(press * 0.75)) + " x5\n" + \
+            str(my_round(press * 0.85)) + " x3\n" + \
+            str(my_round(press * 0.95)) + " x1+\n"
     elif weekday == "Thursday":
         message += \
-            str(my_round(squat * 0.75)) + "x5\n" + \
-            str(my_round(squat * 0.85)) + "x3\n" + \
-            str(my_round(squat * 0.95)) + "x1+\n"
+            str(my_round(squat * 0.75)) + " x5\n" + \
+            str(my_round(squat * 0.85)) + " x3\n" + \
+            str(my_round(squat * 0.95)) + " x1+\n"
     elif weekday == "Friday":
         message += \
-            str(my_round(bench * 0.75)) + "x5\n" + \
-            str(my_round(bench * 0.85)) + "x3\n" + \
-            str(my_round(bench * 0.95)) + "x1+\n"
+            str(my_round(bench * 0.75)) + " x5\n" + \
+            str(my_round(bench * 0.85)) + " x3\n" + \
+            str(my_round(bench * 0.95)) + " x1+\n"
     else:
         message = "You don't have a 5/3/1 split today."
     resp.message(message)
@@ -70,114 +70,114 @@ def workout(weekday, resp):
     if weekday == "Monday":
         message = \
             "BENCH PRESS\n" + \
-            str(my_round(bench * 0.65)) + "x8\n" + \
-            str(my_round(bench * 0.75)) + "x6\n" + \
-            str(my_round(bench * 0.85)) + "x4\n" + \
-            str(my_round(bench * 0.85)) + "x4\n" + \
-            str(my_round(bench * 0.85)) + "x4\n" + \
-            str(my_round(bench * 0.8)) + "x5\n" + \
-            str(my_round(bench * 0.75)) + "x6\n" + \
-            str(my_round(bench * 0.7)) + "x7\n" + \
-            str(my_round(bench * 0.65)) + "x8+\n\n" + \
+            str(my_round(bench * 0.65)) + " x8\n" + \
+            str(my_round(bench * 0.75)) + " x6\n" + \
+            str(my_round(bench * 0.85)) + " x4\n" + \
+            str(my_round(bench * 0.85)) + " x4\n" + \
+            str(my_round(bench * 0.85)) + " x4\n" + \
+            str(my_round(bench * 0.8)) + " x5\n" + \
+            str(my_round(bench * 0.75)) + " x6\n" + \
+            str(my_round(bench * 0.7)) + " x7\n" + \
+            str(my_round(bench * 0.65)) + " x8+\n\n" + \
             "OVERHEAD PRESS\n" + \
-            str(my_round(press * 0.5)) + "x6\n" + \
-            str(my_round(press * 0.6)) + "x5\n" + \
-            str(my_round(press * 0.7)) + "x3\n" + \
-            str(my_round(press * 0.7)) + "x5\n" + \
-            str(my_round(press * 0.7)) + "x7\n" + \
-            str(my_round(press * 0.7)) + "x4\n" + \
-            str(my_round(press * 0.7)) + "x6\n" + \
-            str(my_round(press * 0.7)) + "x8"
+            str(my_round(press * 0.5)) + " x6\n" + \
+            str(my_round(press * 0.6)) + " x5\n" + \
+            str(my_round(press * 0.7)) + " x3\n" + \
+            str(my_round(press * 0.7)) + " x5\n" + \
+            str(my_round(press * 0.7)) + " x7\n" + \
+            str(my_round(press * 0.7)) + " x4\n" + \
+            str(my_round(press * 0.7)) + " x6\n" + \
+            str(my_round(press * 0.7)) + " x8"
     elif weekday == "Tuesday":
         message += \
             "DEADLIFT\n" + \
-            str(my_round(deadlift * 0.9)) + "x3\n" + \
-            str(my_round(deadlift * 0.85)) + "x3\n" + \
-            str(my_round(deadlift * 0.8)) + "x3\n" + \
-            str(my_round(deadlift * 0.75)) + "x3\n" + \
-            str(my_round(deadlift * 0.7)) + "x3\n" + \
-            str(my_round(deadlift * 0.65)) + "x3+\n\n" + \
+            str(my_round(deadlift * 0.9)) + " x3\n" + \
+            str(my_round(deadlift * 0.85)) + " x3\n" + \
+            str(my_round(deadlift * 0.8)) + " x3\n" + \
+            str(my_round(deadlift * 0.75)) + " x3\n" + \
+            str(my_round(deadlift * 0.7)) + " x3\n" + \
+            str(my_round(deadlift * 0.65)) + " x3+\n\n" + \
             "FRONT SQUAT\n" + \
-            str(my_round(squat * 0.35)) + "x5\n" + \
-            str(my_round(squat * 0.45)) + "x5\n" + \
-            str(my_round(squat * 0.55)) + "x3\n" + \
-            str(my_round(squat * 0.55)) + "x5\n" + \
-            str(my_round(squat * 0.55)) + "x7\n" + \
-            str(my_round(squat * 0.55)) + "x4\n" + \
-            str(my_round(squat * 0.55)) + "x6\n" + \
-            str(my_round(squat * 0.55)) + "x8"
+            str(my_round(squat * 0.35)) + " x5\n" + \
+            str(my_round(squat * 0.45)) + " x5\n" + \
+            str(my_round(squat * 0.55)) + " x3\n" + \
+            str(my_round(squat * 0.55)) + " x5\n" + \
+            str(my_round(squat * 0.55)) + " x7\n" + \
+            str(my_round(squat * 0.55)) + " x4\n" + \
+            str(my_round(squat * 0.55)) + " x6\n" + \
+            str(my_round(squat * 0.55)) + " x8"
     elif weekday == "Wednesday":
         message += \
             "OVERHEAD PRESS\n" + \
-            str(my_round(press * 0.9)) + "x3\n" + \
-            str(my_round(press * 0.85)) + "x3\n" + \
-            str(my_round(press * 0.8)) + "x3\n" + \
-            str(my_round(press * 0.75)) + "x5\n" + \
-            str(my_round(press * 0.7)) + "x5\n" + \
-            str(my_round(press * 0.65)) + "x5+\n\n" + \
+            str(my_round(press * 0.9)) + " x3\n" + \
+            str(my_round(press * 0.85)) + " x3\n" + \
+            str(my_round(press * 0.8)) + " x3\n" + \
+            str(my_round(press * 0.75)) + " x5\n" + \
+            str(my_round(press * 0.7)) + " x5\n" + \
+            str(my_round(press * 0.65)) + " x5+\n\n" + \
             "INCLINE BENCH PRESS\n" + \
-            str(my_round(bench * 0.4)) + "x6\n" + \
-            str(my_round(bench * 0.5)) + "x5\n" + \
-            str(my_round(bench * 0.6)) + "x3\n" + \
-            str(my_round(bench * 0.6)) + "x5\n" + \
-            str(my_round(bench * 0.6)) + "x7\n" + \
-            str(my_round(bench * 0.6)) + "x4\n" + \
-            str(my_round(bench * 0.6)) + "x6\n" + \
-            str(my_round(bench * 0.6)) + "x8"
+            str(my_round(bench * 0.4)) + " x6\n" + \
+            str(my_round(bench * 0.5)) + " x5\n" + \
+            str(my_round(bench * 0.6)) + " x3\n" + \
+            str(my_round(bench * 0.6)) + " x5\n" + \
+            str(my_round(bench * 0.6)) + " x7\n" + \
+            str(my_round(bench * 0.6)) + " x4\n" + \
+            str(my_round(bench * 0.6)) + " x6\n" + \
+            str(my_round(bench * 0.6)) + " x8"
     elif weekday == "Thursday":
         message += \
             "SQUAT\n" + \
-            str(my_round(squat * 0.9)) + "x3\n" + \
-            str(my_round(squat * 0.85)) + "x3\n" + \
-            str(my_round(squat * 0.8)) + "x3\n" + \
-            str(my_round(squat * 0.75)) + "x5\n" + \
-            str(my_round(squat * 0.7)) + "x5\n" + \
-            str(my_round(squat * 0.65)) + "x5+\n\n" + \
+            str(my_round(squat * 0.9)) + " x3\n" + \
+            str(my_round(squat * 0.85)) + " x3\n" + \
+            str(my_round(squat * 0.8)) + " x3\n" + \
+            str(my_round(squat * 0.75)) + " x5\n" + \
+            str(my_round(squat * 0.7)) + " x5\n" + \
+            str(my_round(squat * 0.65)) + " x5+\n\n" + \
             "SUMO DEADLIFT\n" + \
-            str(my_round(deadlift * 0.5)) + "x5\n" + \
-            str(my_round(deadlift * 0.6)) + "x5\n" + \
-            str(my_round(deadlift * 0.7)) + "x3\n" + \
-            str(my_round(deadlift * 0.7)) + "x5\n" + \
-            str(my_round(deadlift * 0.7)) + "x7\n" + \
-            str(my_round(deadlift * 0.7)) + "x4\n" + \
-            str(my_round(deadlift * 0.7)) + "x6\n" + \
-            str(my_round(deadlift * 0.7)) + "x8"
+            str(my_round(deadlift * 0.5)) + " x5\n" + \
+            str(my_round(deadlift * 0.6)) + " x5\n" + \
+            str(my_round(deadlift * 0.7)) + " x3\n" + \
+            str(my_round(deadlift * 0.7)) + " x5\n" + \
+            str(my_round(deadlift * 0.7)) + " x7\n" + \
+            str(my_round(deadlift * 0.7)) + " x4\n" + \
+            str(my_round(deadlift * 0.7)) + " x6\n" + \
+            str(my_round(deadlift * 0.7)) + " x8"
     elif weekday == "Friday":
         message += \
             "BENCH PRESS\n" + \
-            str(my_round(bench * 0.9)) + "x3\n" + \
-            str(my_round(bench * 0.85)) + "x5\n" + \
-            str(my_round(bench * 0.8)) + "x3\n" + \
-            str(my_round(bench * 0.75)) + "x5\n" + \
-            str(my_round(bench * 0.7)) + "x3\n" + \
-            str(my_round(bench * 0.65)) + "x5+\n\n" + \
+            str(my_round(bench * 0.9)) + " x3\n" + \
+            str(my_round(bench * 0.85)) + " x5\n" + \
+            str(my_round(bench * 0.8)) + " x3\n" + \
+            str(my_round(bench * 0.75)) + " x5\n" + \
+            str(my_round(bench * 0.7)) + " x3\n" + \
+            str(my_round(bench * 0.65)) + " x5+\n\n" + \
             "CLOSE GRIP BENCH PRESS\n" + \
-            str(my_round(bench * 0.4)) + "x6\n" + \
-            str(my_round(bench * 0.5)) + "x5\n" + \
-            str(my_round(bench * 0.6)) + "x3\n" + \
-            str(my_round(bench * 0.6)) + "x5\n" + \
-            str(my_round(bench * 0.6)) + "x7\n" + \
-            str(my_round(bench * 0.6)) + "x4\n" + \
-            str(my_round(bench * 0.6)) + "x6\n" + \
-            str(my_round(bench * 0.6)) + "x8"
+            str(my_round(bench * 0.4)) + " x6\n" + \
+            str(my_round(bench * 0.5)) + " x5\n" + \
+            str(my_round(bench * 0.6)) + " x3\n" + \
+            str(my_round(bench * 0.6)) + " x5\n" + \
+            str(my_round(bench * 0.6)) + " x7\n" + \
+            str(my_round(bench * 0.6)) + " x4\n" + \
+            str(my_round(bench * 0.6)) + " x6\n" + \
+            str(my_round(bench * 0.6)) + " x8"
     elif weekday == "Saturday":
         message = \
             "DEADLIFT\n" + \
-            str(my_round(deadlift * 0.725)) + "x3\n" + \
-            str(my_round(deadlift * 0.725)) + "x3\n" + \
-            str(my_round(deadlift * 0.725)) + "x3\n" + \
-            str(my_round(deadlift * 0.725)) + "x3\n" + \
-            str(my_round(deadlift * 0.725)) + "x3\n" + \
-            str(my_round(deadlift * 0.725)) + "x3\n" + \
-            str(my_round(deadlift * 0.725)) + "x3\n" + \
-            str(my_round(deadlift * 0.725)) + "x3\n\n" + \
+            str(my_round(deadlift * 0.725)) + " x3\n" + \
+            str(my_round(deadlift * 0.725)) + " x3\n" + \
+            str(my_round(deadlift * 0.725)) + " x3\n" + \
+            str(my_round(deadlift * 0.725)) + " x3\n" + \
+            str(my_round(deadlift * 0.725)) + " x3\n" + \
+            str(my_round(deadlift * 0.725)) + " x3\n" + \
+            str(my_round(deadlift * 0.725)) + " x3\n" + \
+            str(my_round(deadlift * 0.725)) + " x3\n\n" + \
             "FRONT SQUAT\n" + \
-            str(my_round(squat * 0.75 * .75)) + "x3\n" + \
-            str(my_round(squat * 0.75 * .75)) + "x3\n" + \
-            str(my_round(squat * 0.75 * .75)) + "x3\n" + \
-            str(my_round(squat * 0.75 * .75)) + "x3\n" + \
-            str(my_round(squat * 0.75 * .75)) + "x3\n" + \
-            str(my_round(squat * 0.75 * .75)) + "x3"
+            str(my_round(squat * 0.75 * .75)) + " x3\n" + \
+            str(my_round(squat * 0.75 * .75)) + " x3\n" + \
+            str(my_round(squat * 0.75 * .75)) + " x3\n" + \
+            str(my_round(squat * 0.75 * .75)) + " x3\n" + \
+            str(my_round(squat * 0.75 * .75)) + " x3\n" + \
+            str(my_round(squat * 0.75 * .75)) + " x3"
     resp.message(message)
 
 
@@ -268,10 +268,10 @@ def incoming_sms():
             og_deadlift = int(lines[7].rstrip())
             og_press = int(lines[8].rstrip())
             message = "These are your current maxes.\n\n" + \
-                str(og_squat) + " -> " + str(squat) + "(A " + str(get_change(og_squat, squat)) + "% increase!\n" + \
-                str(og_bench) + " -> " + str(bench) + "(A " + str(get_change(og_bench, bench)) + "% increase!\n" + \
-                str(og_deadlift) + " -> " + str(deadlift) + "(A " + str(get_change(og_deadlift, deadlift)) + "% increase!\n" + \
-                str(og_press) + " -> " + str(press) + "(A " + str(get_change(og_press, press)) + "% increase!"
+                str(og_squat) + " -> " + str(squat) + " (A " + str(get_change(og_squat, squat)) + "% increase!\n" + \
+                str(og_bench) + " -> " + str(bench) + " (A " + str(get_change(og_bench, bench)) + "% increase!\n" + \
+                str(og_deadlift) + " -> " + str(deadlift) + " (A " + str(get_change(og_deadlift, deadlift)) + "% increase!\n" + \
+                str(og_press) + " -> " + str(press) + " (A " + str(get_change(og_press, press)) + "% increase!"
             resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
