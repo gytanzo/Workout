@@ -50,36 +50,23 @@ def incoming_sms():
             resp.message(warmup(bench))
         elif weekday == "Saturday":
             resp.message(warmup(deadlift))
-    elif body == 'Workout' or body == 'workout' or body == 'Workout ' or body == 'workout ':
-        if weekday == "Sunday":
-            resp.message("Dude, it's a Sunday. Go lay down and sleep or something, you don't have a workout.")
-        if weekday == "Monday":
-            message = "Here is your workout." + "\n" + "\n"
-            message += "BENCH PRESS + \n"
-            message += str(my_round(bench * 0.65)) + "x8\n"
-            message += str(my_round(bench * 0.75)) + "x6\n"
-            message += str(my_round(bench * 0.85)) + "x4\n"
-            message += str(my_round(bench * 0.85)) + "x4\n"
-            message += str(my_round(bench * 0.85)) + "x4\n"
-            message += str(my_round(bench * 0.8)) + "x5\n"
-            message += str(my_round(bench * 0.75)) + "x6\n"
-            message += str(my_round(bench * 0.7)) + "x7\n"
-            message += str(my_round(bench * 0.65)) + "x8+\n + \n"
-            message += "OVERHEAD PRESS + \n"
-            message += str(my_round(press * 0.5)) + "x6\n"
-            message += str(my_round(press * 0.6)) + "x5\n"
-            message += str(my_round(press * 0.7)) + "x3\n"
-            message += str(my_round(press * 0.7)) + "x5\n"
-            message += str(my_round(press * 0.7)) + "x7\n"
-            message += str(my_round(press * 0.7)) + "x4\n"
-            message += str(my_round(press * 0.7)) + "x6\n"
-            message += str(my_round(press * 0.7)) + "x8\n"
-    else:
+    elif body is not None and body != '"':
         string = ""
         for character in body:
             if character.isdigit():
                 string += character
-        resp.message(string)
+        number = int(string)
+        increase = ""
+        if number <= 1:
+            increase = 0
+        elif 2 <= number <= 3:
+            increase = 5
+        elif 4 <= number <= 5:
+            increase = 10
+        elif number > 5:
+            increase = 15
+        message = "You did " + string + " reps, which results in a " + str(increase) + "lb increase. The file has been updated, you may continue with your workout."
+        resp.message(message)
     return str(resp)
 
 
