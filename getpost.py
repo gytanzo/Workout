@@ -77,7 +77,7 @@ def workout(weekday, resp):
             str(my_round(press * 0.7)) + "x4\n" + \
             str(my_round(press * 0.7)) + "x6\n" + \
             str(my_round(press * 0.7)) + "x8"
-    if weekday == "Tuesday":
+    elif weekday == "Tuesday":
         message += \
             "DEADLIFT\n" + \
             str(my_round(deadlift * 0.9)) + "x3\n" + \
@@ -95,7 +95,7 @@ def workout(weekday, resp):
             str(my_round(squat * 0.55)) + "x4\n" + \
             str(my_round(squat * 0.55)) + "x6\n" + \
             str(my_round(squat * 0.55)) + "x8"
-    if weekday == "Wednesday":
+    elif weekday == "Wednesday":
         message += \
             "OVERHEAD PRESS\n" + \
             str(my_round(press * 0.9)) + "x3\n" + \
@@ -113,7 +113,7 @@ def workout(weekday, resp):
             str(my_round(bench * 0.6)) + "x4\n" + \
             str(my_round(bench * 0.6)) + "x6\n" + \
             str(my_round(bench * 0.6)) + "x8"
-    if weekday == "Thursday":
+    elif weekday == "Thursday":
         message += \
             "SQUAT\n" + \
             str(my_round(squat * 0.9)) + "x3\n" + \
@@ -131,7 +131,7 @@ def workout(weekday, resp):
             str(my_round(deadlift * 0.7)) + "x4\n" + \
             str(my_round(deadlift * 0.7)) + "x6\n" + \
             str(my_round(deadlift * 0.7)) + "x8"
-    if weekday == "Friday":
+    elif weekday == "Friday":
         message += \
             "BENCH PRESS\n" + \
             str(my_round(bench * 0.9)) + "x3\n" + \
@@ -149,12 +149,30 @@ def workout(weekday, resp):
             str(my_round(bench * 0.6)) + "x4\n" + \
             str(my_round(bench * 0.6)) + "x6\n" + \
             str(my_round(bench * 0.6)) + "x8"
+    elif weekday == "Saturday":
+        message += \
+            "DEADLIFT\n" + \
+            str(my_round(deadlift * 0.725)) + "x3\n" + \
+            str(my_round(deadlift * 0.725)) + "x3\n" + \
+            str(my_round(deadlift * 0.725)) + "x3\n" + \
+            str(my_round(deadlift * 0.725)) + "x3\n" + \
+            str(my_round(deadlift * 0.725)) + "x3\n" + \
+            str(my_round(deadlift * 0.725)) + "x3\n" + \
+            str(my_round(deadlift * 0.725)) + "x3\n" + \
+            str(my_round(deadlift * 0.725)) + "x3\n\n" + \
+            "FRONT SQUAT\n" + \
+            str(my_round(squat * 0.75 * .75)) + "x3\n" + \
+            str(my_round(squat * 0.75 * .75)) + "x3\n" + \
+            str(my_round(squat * 0.75 * .75)) + "x3\n" + \
+            str(my_round(squat * 0.75 * .75)) + "x3\n" + \
+            str(my_round(squat * 0.75 * .75)) + "x3\n" + \
+            str(my_round(squat * 0.75 * .75)) + "x3"
     resp.message(message)
 
 
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
-    weekday = "Friday"
+    weekday = "Saturday"
 
     """Send a dynamic reply to an incoming text message"""
     # Get the message the user sent our Twilio number
