@@ -15,7 +15,7 @@ def warmup():
         file = open('Message.txt', 'r')
         lines = file.readlines()
         for line in lines:
-            message += line + "\n"
+            message += line
         return message
 
 
