@@ -39,6 +39,7 @@ def incoming_sms():
             if character.isdigit():
                 string += character
         resp.message(string)
+        print(string)
 
     return str(resp)
 
