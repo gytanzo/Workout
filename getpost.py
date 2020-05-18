@@ -21,6 +21,15 @@ def has_numbers(input_string):
     return any(char.isdigit() for char in input_string)
 
 
+def get_change(current, previous):
+    if current == previous:
+        return 0
+    try:
+        return (abs(current - previous) / previous) * 100.0
+    except ZeroDivisionError:
+        return float('inf')
+
+
 def warmup(value):
     message = "Here is your warmup." + "\n" + "\n"
     message += str(my_round(value * 0.4)) + "x5\n"
@@ -59,7 +68,7 @@ def five_three_one(weekday, resp):
 def workout(weekday, resp):
     message = "Here is the remainder of your workout.\n\n"
     if weekday == "Monday":
-        message += \
+        message = \
             "BENCH PRESS\n" + \
             str(my_round(bench * 0.65)) + "x8\n" + \
             str(my_round(bench * 0.75)) + "x6\n" + \
@@ -152,7 +161,7 @@ def workout(weekday, resp):
             str(my_round(bench * 0.6)) + "x6\n" + \
             str(my_round(bench * 0.6)) + "x8"
     elif weekday == "Saturday":
-        message += \
+        message = \
             "DEADLIFT\n" + \
             str(my_round(deadlift * 0.725)) + "x3\n" + \
             str(my_round(deadlift * 0.725)) + "x3\n" + \
@@ -174,7 +183,7 @@ def workout(weekday, resp):
 
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
-    weekday = "Saturday"
+    weekday = datetime.today().strftime('%A')
 
     """Send a dynamic reply to an incoming text message"""
     # Get the message the user sent our Twilio number
@@ -253,11 +262,23 @@ def incoming_sms():
             modified = open('Current Values.txt', 'w')
             modified.writelines(lines)
             modified.close()
+        elif body == 'maxes' or body == 'Maxes' or body == 'maxes ' or body == 'Maxes ':
+            og_squat = int(lines[5].rstrip())
+            og_bench = int(lines[6].rstrip())
+            og_deadlift = int(lines[7].rstrip())
+            og_press = int(lines[8].rstrip())
+            message = "These are your current maxes.\n\n" + \
+                str(og_squat) + " -> " + str(squat) + "(A " + str(get_change(og_squat, squat)) + "% increase!\n" + \
+                str(og_bench) + " -> " + str(bench) + "(A " + str(get_change(og_bench, bench)) + "% increase!\n" + \
+                str(og_deadlift) + " -> " + str(deadlift) + "(A " + str(get_change(og_deadlift, deadlift)) + "% increase!\n" + \
+                str(og_press) + " -> " + str(press) + "(A " + str(get_change(og_press, press)) + "% increase!"
+            resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
                       "warmup\n" + \
                       "workout\n" + \
-                      "(int) reps"
+                      "(int) reps" + \
+                      "maxes"
             resp.message(message)
     return str(resp)
 
