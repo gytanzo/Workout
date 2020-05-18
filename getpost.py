@@ -51,6 +51,8 @@ def five_three_one(weekday, resp):
             str(my_round(bench * 0.75)) + "x5\n" + \
             str(my_round(bench * 0.85)) + "x3\n" + \
             str(my_round(bench * 0.95)) + "x1+\n"
+    else:
+        message = "You don't have a 5/3/1 split today."
     resp.message(message)
 
 
