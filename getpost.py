@@ -17,6 +17,9 @@ def warmup(value):
     return message
 
 
+def workout(day):
+
+
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
     weekday = datetime.today().strftime('%A')
@@ -37,11 +40,43 @@ def incoming_sms():
     # Determine the right reply for this message
     if body == 'Warmup' or body == 'warmup' or body == 'Warmup ' or body == 'warmup ':
         if weekday == "Sunday":
-            resp.message("Silly goose, it's a Sunday. You don't have a warmup.")
+            resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
         elif weekday == "Monday":
             resp.message(warmup(bench))
+        elif weekday == "Tuesday":
+            resp.message(warmup(deadlift))
+        elif weekday == "Wednesday":
+            resp.message(warmup(press))
+        elif weekday == "Thursday":
+            resp.message(warmup(squat))
+        elif weekday == "Friday":
+            resp.message(warmup(bench))
+        elif weekday == "Saturday":
+            resp.message(warmup(deadlift))
     elif body == 'Workout' or body == 'workout' or body == 'Workout ' or body == 'workout ':
-        resp.message("goodbye")
+        if weekday == "Sunday":
+            resp.message("Dude, it's a Sunday. Go lay down and sleep or something, you don't have a workout.")
+        if weekday == "Monday":
+            message = "Here is your workout." + "\n" + "\n"
+            message += "BENCH PRESS + \n"
+            message += str(my_round(bench * 0.65)) + "x8\n"
+            message += str(my_round(bench * 0.75)) + "x6\n"
+            message += str(my_round(bench * 0.85)) + "x4\n"
+            message += str(my_round(bench * 0.85)) + "x4\n"
+            message += str(my_round(bench * 0.85)) + "x4\n"
+            message += str(my_round(bench * 0.8)) + "x5\n"
+            message += str(my_round(bench * 0.75)) + "x6\n"
+            message += str(my_round(bench * 0.7)) + "x7\n"
+            message += str(my_round(bench * 0.65)) + "x8+\n + \n"
+            message += "OVERHEAD PRESS + \n"
+            message += str(my_round(press * 0.5)) + "x6\n"
+            message += str(my_round(press * 0.6)) + "x5\n"
+            message += str(my_round(press * 0.7)) + "x3\n"
+            message += str(my_round(press * 0.7)) + "x5\n"
+            message += str(my_round(press * 0.7)) + "x7\n"
+            message += str(my_round(press * 0.7)) + "x4\n"
+            message += str(my_round(press * 0.7)) + "x6\n"
+            message += str(my_round(press * 0.7)) + "x8\n"
     else:
         string = ""
         for character in body:
