@@ -29,11 +29,19 @@ def warmup(value):
     return message
 
 
+def five_three_one(weekday, resp):
+    message = ""
+    if weekday == "Tuesday":
+        message = "Here is your 5/3/1 split for today.\n\n" + \
+            str(my_round(deadlift * 0.75)) + "x5\n" + \
+            str(my_round(deadlift * 0.85)) + "x3\n" + \
+            str(my_round(deadlift * 0.95)) + "x1+\n"
+    resp.message(message)
+
+
 def workout(weekday, resp):
     message = ""
-    if weekday == "Sunday":
-        message = "Dude, it's a Sunday. You don't have a workout. Go back to bed."
-    elif weekday == "Monday":
+    if weekday == "Monday":
         message = "Here is the remainder of your workout.\n\n" + \
             "BENCH PRESS\n" + \
             str(my_round(bench * 0.65)) + "x8\n" + \
@@ -85,6 +93,16 @@ def incoming_sms():
                 resp.message(warmup(bench))
             elif weekday == "Saturday":
                 resp.message(warmup(deadlift))
+        elif body == 'Workout' or body == 'workout' or body == 'Workout ' or body == 'workout ':
+            if weekday == "Sunday":
+                message = "Dude, it's a Sunday. You don't have a workout. Go back to bed."
+                resp.message(message)
+            if weekday == "Monday":
+                workout(weekday, resp)
+            elif weekday == "Saturday":
+                workout(weekday, resp)
+            else:
+                five_three_one(weekday, resp)
         elif has_numbers(body):
             string = ""
             for character in body:
@@ -128,6 +146,7 @@ def incoming_sms():
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
                       "warmup\n" + \
+                      "workout\n" + \
                       "(int) reps"
             resp.message(message)
     return str(resp)
