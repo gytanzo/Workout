@@ -1,20 +1,16 @@
 from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
-from twilio.rest import Client
 from datetime import datetime
 
 app = Flask(__name__)
 
-# Your Account SID from twilio.com/console
-account_sid = "***REMOVED***"
-# Your Auth Token from twilio.com/console
-auth_token  = "***REMOVED***"
-
-client = Client(account_sid, auth_token)
-
 
 def my_round(x, base = 5):
     return base * round(x/base)
+
+
+def has_numbers(input_string):
+    return any(char.isdigit() for char in input_string)
 
 
 def warmup(value):
@@ -59,7 +55,7 @@ def incoming_sms():
                 resp.message(warmup(bench))
             elif weekday == "Saturday":
                 resp.message(warmup(deadlift))
-        else:
+        elif has_numbers(body):
             string = ""
             for character in body:
                 if character.isdigit():
@@ -78,8 +74,10 @@ def incoming_sms():
                       "Old max: " + str(bench) + "\n" + \
                       "New max: " + str(bench + increase)
             resp.message(message)
-            message = "THIS SHOULD " + "\n" + \
-                      "FUCKING WORK."
+        else:
+            message = "You don't seem to be using this correctly. These are the currently available commands.\n" + \
+                "warmup\n" + \
+                "(int) reps"
             resp.message(message)
     return str(resp)
 
