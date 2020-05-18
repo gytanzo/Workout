@@ -268,10 +268,10 @@ def incoming_sms():
             og_deadlift = int(lines[7].rstrip())
             og_press = int(lines[8].rstrip())
             message = "These are your current maxes.\n\n" + \
-                str(og_squat) + " -> " + str(squat) + " (A " + str(get_change(og_squat, squat)) + "% increase!)\n" + \
-                str(og_bench) + " -> " + str(bench) + " (A " + str(get_change(og_bench, bench)) + "% increase!)\n" + \
-                str(og_deadlift) + " -> " + str(deadlift) + " (A " + str(get_change(og_deadlift, deadlift)) + "% increase!)\n" + \
-                str(og_press) + " -> " + str(press) + " (A " + str(get_change(og_press, press)) + "% increase!)"
+                "Squat: " + str(og_squat) + " -> " + str(squat) + " (A " + str(get_change(og_squat, squat)) + "% increase!)\n" + \
+                "Bench: " + str(og_bench) + " -> " + str(bench) + " (A " + str(get_change(og_bench, bench)) + "% increase!)\n" + \
+                "Deadlift: " + str(og_deadlift) + " -> " + str(deadlift) + " (A " + str(get_change(og_deadlift, deadlift)) + "% increase!)\n" + \
+                "Press: " + str(og_press) + " -> " + str(press) + " (A " + str(get_change(og_press, press)) + "% increase!)"
             resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
