@@ -35,7 +35,12 @@ def incoming_sms():
     resp = MessagingResponse()
 
     # Determine the right reply for this message
-    if body == 'Warmup' or body == 'warmup' or body == 'Warmup ' or body == 'warmup ':
+    if body == 'help' or body == 'Help' or body == 'help ' or body == 'Help ':
+        message = "Available commands:" \
+                  "warmup" \
+                  "help"
+        resp.message(message)
+    elif body == 'Warmup' or body == 'warmup' or body == 'Warmup ' or body == 'warmup ':
         if weekday == "Sunday":
             resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
         elif weekday == "Monday":
