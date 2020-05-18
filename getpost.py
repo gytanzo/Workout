@@ -1,8 +1,16 @@
 from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
+from twilio.rest import Client
 from datetime import datetime
 
 app = Flask(__name__)
+
+# Your Account SID from twilio.com/console
+account_sid = "***REMOVED***"
+# Your Auth Token from twilio.com/console
+auth_token  = "***REMOVED***"
+
+client = Client(account_sid, auth_token)
 
 
 def my_round(x, base = 5):
@@ -35,12 +43,7 @@ def incoming_sms():
     resp = MessagingResponse()
 
     # Determine the right reply for this message
-    if body == 'help' or body == 'Help' or body == 'help ' or body == 'Help ':
-        message = "Available commands:" \
-                  "warmup" \
-                  "help"
-        resp.message(message)
-    elif body == 'Warmup' or body == 'warmup' or body == 'Warmup ' or body == 'warmup ':
+    if body == 'Warmup' or body == 'warmup' or body == 'Warmup ' or body == 'warmup ':
         if weekday == "Sunday":
             resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
         elif weekday == "Monday":
@@ -71,6 +74,13 @@ def incoming_sms():
         elif number > 5:
             increase = 15
         message = "You did " + string + " reps, which results in a " + str(increase) + "lb increase.\n\n" + "Old max: " + str(bench) + "\n" + "New max: " + str(bench + increase)
+        resp.message(message)
+    else:
+        client.messages.create(
+            to="+15853974321",
+            from_="+18722595697",
+            body="This is the first message.")
+        message = "This is the second massage."
         resp.message(message)
     return str(resp)
 
