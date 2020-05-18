@@ -43,43 +43,44 @@ def incoming_sms():
     resp = MessagingResponse()
 
     # Determine the right reply for this message
-    if body == 'Warmup' or body == 'warmup' or body == 'Warmup ' or body == 'warmup ':
-        if weekday == "Sunday":
-            resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
-        elif weekday == "Monday":
-            resp.message(warmup(bench))
-        elif weekday == "Tuesday":
-            resp.message(warmup(deadlift))
-        elif weekday == "Wednesday":
-            resp.message(warmup(press))
-        elif weekday == "Thursday":
-            resp.message(warmup(squat))
-        elif weekday == "Friday":
-            resp.message(warmup(bench))
-        elif weekday == "Saturday":
-            resp.message(warmup(deadlift))
-    elif body is not None and body != '"':
-        string = ""
-        for character in body:
-            if character.isdigit():
-                string += character
-        number = int(string)
-        increase = ""
-        if number <= 1:
-            increase = 0
-        elif 2 <= number <= 3:
-            increase = 5
-        elif 4 <= number <= 5:
-            increase = 10
-        elif number > 5:
-            increase = 15
-        message = "You did " + string + " reps, which results in a " + str(increase) + "lb increase.\n\n" + \
-                  "Old max: " + str(bench) + "\n" + \
-                  "New max: " + str(bench + increase)
-        resp.message(message)
-        message = "THIS SHOULD " + "\n" + \
-                  "FUCKING WORK."
-        resp.message(message)
+    if body is not None and body != '"':
+        if body == 'Warmup' or body == 'warmup' or body == 'Warmup ' or body == 'warmup ':
+            if weekday == "Sunday":
+                resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
+            elif weekday == "Monday":
+                resp.message(warmup(bench))
+            elif weekday == "Tuesday":
+                resp.message(warmup(deadlift))
+            elif weekday == "Wednesday":
+                resp.message(warmup(press))
+            elif weekday == "Thursday":
+                resp.message(warmup(squat))
+            elif weekday == "Friday":
+                resp.message(warmup(bench))
+            elif weekday == "Saturday":
+                resp.message(warmup(deadlift))
+        else:
+            string = ""
+            for character in body:
+                if character.isdigit():
+                    string += character
+            number = int(string)
+            increase = ""
+            if number <= 1:
+                increase = 0
+            elif 2 <= number <= 3:
+                increase = 5
+            elif 4 <= number <= 5:
+                increase = 10
+            elif number > 5:
+                increase = 15
+            message = "You did " + string + " reps, which results in a " + str(increase) + "lb increase.\n\n" + \
+                      "Old max: " + str(bench) + "\n" + \
+                      "New max: " + str(bench + increase)
+            resp.message(message)
+            message = "THIS SHOULD " + "\n" + \
+                      "FUCKING WORK."
+            resp.message(message)
     return str(resp)
 
 
