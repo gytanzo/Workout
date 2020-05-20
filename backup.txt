@@ -1,0 +1,15 @@
+180
+140
+210
+100
+
+160
+120
+170
+90
+
+Key:
+Squat
+Bench
+Deadlift
+Press
