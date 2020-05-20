@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 
@@ -287,6 +288,14 @@ def incoming_sms():
 
             backup = open('backup.txt', 'w')
             backup.close()
+
+            message = ""
+            path = 'backup.txt'
+            if os.path.getsize(path) == 0:
+                message = "There are no changes to undo."
+            else:
+                message = "Undid most recent change."
+            resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
                       "warmup\n" + \
