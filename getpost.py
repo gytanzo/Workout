@@ -278,6 +278,14 @@ def incoming_sms():
                 "Press: " + str(og_press) + " -> " + str(press) + " (A " + str(get_change(og_press, press)) + "% increase!)"
             resp.message(message)
         elif body == 'Undo' or body == 'undo' or body == 'Undo ' or body == 'undo ':
+            message = ""
+            path = 'backup.txt'
+            if os.path.getsize(path) == 0:
+                message = "There are no changes to undo."
+            else:
+                message = "Undid most recent change."
+            resp.message(message)
+            
             backup = open('backup.txt', 'r')
             backup_lines = backup.readlines()
             backup.close()
@@ -288,14 +296,6 @@ def incoming_sms():
 
             backup = open('backup.txt', 'w')
             backup.close()
-
-            message = ""
-            path = 'backup.txt'
-            if os.path.getsize(path) == 0:
-                message = "There are no changes to undo."
-            else:
-                message = "Undid most recent change."
-            resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
                       "warmup\n" + \
