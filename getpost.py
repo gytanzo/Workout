@@ -293,9 +293,6 @@ def incoming_sms():
             current = open('Current Values.txt', 'w')
             current.writelines(backup_lines)
             current.close()
-
-            backup = open('backup.txt', 'w')
-            backup.close()
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
                       "warmup\n" + \
