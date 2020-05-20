@@ -220,6 +220,9 @@ def incoming_sms():
             else:
                 five_three_one(weekday, resp)
         elif has_numbers(body):
+            backup = open('backup.txt', 'w')
+            backup.writelines(lines)
+            backup.close()
             string = ""
             for character in body:
                 if character.isdigit():
@@ -273,6 +276,17 @@ def incoming_sms():
                 "Deadlift: " + str(og_deadlift) + " -> " + str(deadlift) + " (A " + str(get_change(og_deadlift, deadlift)) + "% increase!)\n" + \
                 "Press: " + str(og_press) + " -> " + str(press) + " (A " + str(get_change(og_press, press)) + "% increase!)"
             resp.message(message)
+        elif body == 'Undo' or body == 'undo' or body == 'Undo ' or body == 'undo ':
+            backup = open('backup.txt', 'r')
+            backup_lines = backup.readlines()
+            backup.close()
+
+            current = open('Current Values.txt', 'w')
+            current.writelines(backup_lines)
+            current.close()
+
+            backup = open('backup.txt', 'w')
+            backup.close()
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
                       "warmup\n" + \
