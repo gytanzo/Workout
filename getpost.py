@@ -14,7 +14,7 @@ file.close()
 
 
 def my_round(x, multiply, base=5):
-    return str(base * round(x / base) * multiply)
+    return (base * round(x / base)) * multiply
 
 
 def has_numbers(input_string):
@@ -32,9 +32,9 @@ def get_change(current, previous):
 
 def warmup(value):
     message = "Here is your warmup.\n\n" + \
-              my_round(value, 0.4) + " x5\n" + \
-              my_round(value, 0.5) + " x5\n" + \
-              my_round(value, 0.6) + " x5\n"
+              str(my_round(value, 0.4)) + " x5\n" + \
+              str(my_round(value, 0.5)) + " x5\n" + \
+              str(my_round(value, 0.6)) + " x5\n"
     return message
 
 
