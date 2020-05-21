@@ -14,10 +14,11 @@ file.close()
 
 
 def convert(x, percentage, reps, base=5):
-    decimal_percent = percentage * .01
-    val = x * decimal_percent
-    rounded = str(base * round(val / base))
-    return rounded + " x" + str(reps) + "\n"
+    decimal_percent = percentage, .01
+    val = x, decimal_percent
+    rounded = str(base, round(val / base))
+    if reps is int:
+        return rounded + " x" + str(reps)
 
 
 def has_numbers(input_string):
@@ -28,16 +29,16 @@ def get_change(current, previous):
     if current == previous:
         return 0
     try:
-        return round((abs(current - previous) / previous) * 100.0, 2)
+        return round((abs(current - previous) / previous), 100, 2)
     except ZeroDivisionError:
         return float('inf')
 
 
 def warmup(value):
     message = "Here is your warmup.\n\n" + \
-              convert(value, 40, 5) + \
-              convert(value, 50, 5) + \
-              convert(value, 60, 5)
+              convert(value, 40, 5) + "\n" + \
+              convert(value, 50, 5) + "\n" + \
+              convert(value, 60, 5) + "\n"
     return message
 
 
@@ -45,24 +46,24 @@ def five_three_one(weekday, resp):
     message = "Here is your 5/3/1 split for today.\n\n"
     if weekday == "Tuesday":
         message += \
-            str(convert(deadlift * 0.75)) + " x5\n" + \
-            str(convert(deadlift * 0.85)) + " x3\n" + \
-            str(convert(deadlift * 0.95)) + " x1+\n"
+            convert(deadlift, 75, 5) + "\n" + \
+            convert(deadlift, 85, 3) + "\n" + \
+            convert(deadlift, 95, 1) + "+\n"
     elif weekday == "Wednesday":
         message += \
-            str(convert(press * 0.75)) + " x5\n" + \
-            str(convert(press * 0.85)) + " x3\n" + \
-            str(convert(press * 0.95)) + " x1+\n"
+            convert(press, 75, 5) + "\n" + \
+            convert(press, 85, 3) + "\n" + \
+            convert(press, 95, 1) + "+\n"
     elif weekday == "Thursday":
         message += \
-            str(convert(squat * 0.75)) + " x5\n" + \
-            str(convert(squat * 0.85)) + " x3\n" + \
-            str(convert(squat * 0.95)) + " x1+\n"
+            convert(squat, 75, 5) + "\n" + \
+            convert(squat, 85, 3) + "\n" + \
+            convert(squat, 95, 1) + "+\n"
     elif weekday == "Friday":
         message += \
-            str(convert(bench * 0.75)) + " x5\n" + \
-            str(convert(bench * 0.85)) + " x3\n" + \
-            str(convert(bench * 0.95)) + " x1+\n"
+            convert(bench, 75, 5) + "\n" + \
+            convert(bench, 85, 3) + "\n" + \
+            convert(bench, 95, 1) + "+\n"
     else:
         message = "You don't have a 5/3/1 split today."
     resp.message(message)
@@ -73,114 +74,114 @@ def workout(weekday, resp):
     if weekday == "Monday":
         message = \
             "BENCH PRESS\n" + \
-            str(convert(bench * 0.65)) + " x8\n" + \
-            str(convert(bench * 0.75)) + " x6\n" + \
-            str(convert(bench * 0.85)) + " x4\n" + \
-            str(convert(bench * 0.85)) + " x4\n" + \
-            str(convert(bench * 0.85)) + " x4\n" + \
-            str(convert(bench * 0.8)) + " x5\n" + \
-            str(convert(bench * 0.75)) + " x6\n" + \
-            str(convert(bench * 0.7)) + " x7\n" + \
-            str(convert(bench * 0.65)) + " x8+\n\n" + \
+            convert(bench, 65, 8) + "\n" + \
+            convert(bench, 75, 6) + "\n" + \
+            convert(bench, 85, 4) + "\n" + \
+            convert(bench, 85, 4) + "\n" + \
+            convert(bench, 85, 4) + "\n" + \
+            convert(bench, 80, 5) + "\n" + \
+            convert(bench, 75, 6) + "\n" + \
+            convert(bench, 70, 7) + "\n" + \
+            convert(bench, 65, 8) + "+\n\n" + \
             "OVERHEAD PRESS\n" + \
-            str(convert(press * 0.5)) + " x6\n" + \
-            str(convert(press * 0.6)) + " x5\n" + \
-            str(convert(press * 0.7)) + " x3\n" + \
-            str(convert(press * 0.7)) + " x5\n" + \
-            str(convert(press * 0.7)) + " x7\n" + \
-            str(convert(press * 0.7)) + " x4\n" + \
-            str(convert(press * 0.7)) + " x6\n" + \
-            str(convert(press * 0.7)) + " x8"
+            convert(press, 50, 6) + "\n" + \
+            convert(press, 60, 5) + "\n" + \
+            convert(press, 70, 3) + "\n" + \
+            convert(press, 70, 5) + "\n" + \
+            convert(press, 70, 7) + "\n" + \
+            convert(press, 70, 4) + "\n" + \
+            convert(press, 70, 6) + "\n" + \
+            convert(press, 70, 8)
     elif weekday == "Tuesday":
         message += \
             "DEADLIFT\n" + \
-            str(convert(deadlift * 0.9)) + " x3\n" + \
-            str(convert(deadlift * 0.85)) + " x3\n" + \
-            str(convert(deadlift * 0.8)) + " x3\n" + \
-            str(convert(deadlift * 0.75)) + " x3\n" + \
-            str(convert(deadlift * 0.7)) + " x3\n" + \
-            str(convert(deadlift * 0.65)) + " x3+\n\n" + \
+            convert(deadlift, 90, 3) + "\n" + \
+            convert(deadlift, 85, 3) + "\n" + \
+            convert(deadlift, 80, 3) + "\n" + \
+            convert(deadlift, 75, 3) + "\n" + \
+            convert(deadlift, 70, 3) + "\n" + \
+            convert(deadlift, 65, 3) + "+\n\n" + \
             "FRONT SQUAT\n" + \
-            str(convert(squat * 0.35)) + " x5\n" + \
-            str(convert(squat * 0.45)) + " x5\n" + \
-            str(convert(squat * 0.55)) + " x3\n" + \
-            str(convert(squat * 0.55)) + " x5\n" + \
-            str(convert(squat * 0.55)) + " x7\n" + \
-            str(convert(squat * 0.55)) + " x4\n" + \
-            str(convert(squat * 0.55)) + " x6\n" + \
-            str(convert(squat * 0.55)) + " x8"
+            convert(squat, 35, 5) + "\n" + \
+            convert(squat, 45, 5) + "\n" + \
+            convert(squat, 55, 3) + "\n" + \
+            convert(squat, 55, 5) + "\n" + \
+            convert(squat, 55, 7) + "\n" + \
+            convert(squat, 55, 4) + "\n" + \
+            convert(squat, 55, 6) + "\n" + \
+            convert(squat, 55, 8)
     elif weekday == "Wednesday":
         message += \
             "OVERHEAD PRESS\n" + \
-            str(convert(press * 0.9)) + " x3\n" + \
-            str(convert(press * 0.85)) + " x3\n" + \
-            str(convert(press * 0.8)) + " x3\n" + \
-            str(convert(press * 0.75)) + " x5\n" + \
-            str(convert(press * 0.7)) + " x5\n" + \
-            str(convert(press * 0.65)) + " x5+\n\n" + \
+            convert(press, 90, 3) + "\n" + \
+            convert(press, 85, 3) + "\n" + \
+            convert(press, 80, 3) + "\n" + \
+            convert(press, 75, 5) + "\n" + \
+            convert(press, 70, 5) + "\n" + \
+            convert(press, 65, 5) + "+\n\n" + \
             "INCLINE BENCH PRESS\n" + \
-            str(convert(bench * 0.4)) + " x6\n" + \
-            str(convert(bench * 0.5)) + " x5\n" + \
-            str(convert(bench * 0.6)) + " x3\n" + \
-            str(convert(bench * 0.6)) + " x5\n" + \
-            str(convert(bench * 0.6)) + " x7\n" + \
-            str(convert(bench * 0.6)) + " x4\n" + \
-            str(convert(bench * 0.6)) + " x6\n" + \
-            str(convert(bench * 0.6)) + " x8"
+            convert(bench, 40, 6) + "\n" + \
+            convert(bench, 50, 5) + "\n" + \
+            convert(bench, 60, 3) + "\n" + \
+            convert(bench, 60, 5) + "\n" + \
+            convert(bench, 60, 7) + "\n" + \
+            convert(bench, 60, 4) + "\n" + \
+            convert(bench, 60, 6) + "\n" + \
+            convert(bench, 60, 8)
     elif weekday == "Thursday":
         message += \
             "SQUAT\n" + \
-            str(convert(squat * 0.9)) + " x3\n" + \
-            str(convert(squat * 0.85)) + " x3\n" + \
-            str(convert(squat * 0.8)) + " x3\n" + \
-            str(convert(squat * 0.75)) + " x5\n" + \
-            str(convert(squat * 0.7)) + " x5\n" + \
-            str(convert(squat * 0.65)) + " x5+\n\n" + \
+            convert(squat, 90, 3) + "\n" + \
+            convert(squat, 85, 3) + "\n" + \
+            convert(squat, 80, 3) + "\n" + \
+            convert(squat, 75, 5) + "\n" + \
+            convert(squat, 70, 5) + "\n" + \
+            convert(squat, 65, 5) + "+\n\n" + \
             "SUMO DEADLIFT\n" + \
-            str(convert(deadlift * 0.5)) + " x5\n" + \
-            str(convert(deadlift * 0.6)) + " x5\n" + \
-            str(convert(deadlift * 0.7)) + " x3\n" + \
-            str(convert(deadlift * 0.7)) + " x5\n" + \
-            str(convert(deadlift * 0.7)) + " x7\n" + \
-            str(convert(deadlift * 0.7)) + " x4\n" + \
-            str(convert(deadlift * 0.7)) + " x6\n" + \
-            str(convert(deadlift * 0.7)) + " x8"
+            convert(deadlift, 50, 5) + "\n" + \
+            convert(deadlift, 60, 5) + "\n" + \
+            convert(deadlift, 70, 3) + "\n" + \
+            convert(deadlift, 70, 5) + "\n" + \
+            convert(deadlift, 70, 7) + "\n" + \
+            convert(deadlift, 70, 4) + "\n" + \
+            convert(deadlift, 70, 6) + "\n" + \
+            convert(deadlift, 70, 8)
     elif weekday == "Friday":
         message += \
             "BENCH PRESS\n" + \
-            str(convert(bench * 0.9)) + " x3\n" + \
-            str(convert(bench * 0.85)) + " x5\n" + \
-            str(convert(bench * 0.8)) + " x3\n" + \
-            str(convert(bench * 0.75)) + " x5\n" + \
-            str(convert(bench * 0.7)) + " x3\n" + \
-            str(convert(bench * 0.65)) + " x5+\n\n" + \
+            convert(bench, 90, 3) + "\n" + \
+            convert(bench, 85, 5) + "\n" + \
+            convert(bench, 80, 3) + "\n" + \
+            convert(bench, 75, 5) + "\n" + \
+            convert(bench, 70, 3) + "\n" + \
+            convert(bench, 65, 5) + "+\n\n" + \
             "CLOSE GRIP BENCH PRESS\n" + \
-            str(convert(bench * 0.4)) + " x6\n" + \
-            str(convert(bench * 0.5)) + " x5\n" + \
-            str(convert(bench * 0.6)) + " x3\n" + \
-            str(convert(bench * 0.6)) + " x5\n" + \
-            str(convert(bench * 0.6)) + " x7\n" + \
-            str(convert(bench * 0.6)) + " x4\n" + \
-            str(convert(bench * 0.6)) + " x6\n" + \
-            str(convert(bench * 0.6)) + " x8"
+            convert(bench, 40, 6) + "\n" + \
+            convert(bench, 50, 5) + "\n" + \
+            convert(bench, 60, 3) + "\n" + \
+            convert(bench, 60, 5) + "\n" + \
+            convert(bench, 60, 7) + "\n" + \
+            convert(bench, 60, 4) + "\n" + \
+            convert(bench, 60, 6) + "\n" + \
+            convert(bench, 60, 8)
     elif weekday == "Saturday":
         message = \
             "DEADLIFT\n" + \
-            str(convert(deadlift * 0.725)) + " x3\n" + \
-            str(convert(deadlift * 0.725)) + " x3\n" + \
-            str(convert(deadlift * 0.725)) + " x3\n" + \
-            str(convert(deadlift * 0.725)) + " x3\n" + \
-            str(convert(deadlift * 0.725)) + " x3\n" + \
-            str(convert(deadlift * 0.725)) + " x3\n" + \
-            str(convert(deadlift * 0.725)) + " x3\n" + \
-            str(convert(deadlift * 0.725)) + " x3\n\n" + \
+            convert(deadlift, 72.5, 3) + "\n" + \
+            convert(deadlift, 72.5, 3) + "\n" + \
+            convert(deadlift, 72.5, 3) + "\n" + \
+            convert(deadlift, 72.5, 3) + "\n" + \
+            convert(deadlift, 72.5, 3) + "\n" + \
+            convert(deadlift, 72.5, 3) + "\n" + \
+            convert(deadlift, 72.5, 3) + "\n" + \
+            convert(deadlift, 72.5, 3) + "\n\n" + \
             "FRONT SQUAT\n" + \
-            str(convert(squat * 0.75 * .75)) + " x3\n" + \
-            str(convert(squat * 0.75 * .75)) + " x3\n" + \
-            str(convert(squat * 0.75 * .75)) + " x3\n" + \
-            str(convert(squat * 0.75 * .75)) + " x3\n" + \
-            str(convert(squat * 0.75 * .75)) + " x3\n" + \
-            str(convert(squat * 0.75 * .75)) + " x3"
+            convert(squat, 56.25, 3) + "\n" + \
+            convert(squat, 56.25, 3) + "\n" + \
+            convert(squat, 56.25, 3) + "\n" + \
+            convert(squat, 56.25, 3) + "\n" + \
+            convert(squat, 56.25, 3) + "\n" + \
+            convert(squat, 56.25, 3)
     resp.message(message)
 
 
