@@ -31,6 +31,13 @@ def get_change(current, previous):
         return float('inf')
 
 
+def warmup(value):
+    message = "Here is your warmup." + "\n" + "\n"
+    message += str(my_round(value * 0.4)) + " x5\n"
+    message += str(my_round(value * 0.5)) + " x5\n"
+    message += str(my_round(value * 0.6)) + " x5\n"
+    return message
+
 
 def five_three_one(weekday, resp):
     message = "Here is your 5/3/1 split for today.\n\n"
@@ -271,6 +278,7 @@ def incoming_sms():
                 "Press: " + str(og_press) + " -> " + str(press) + " (A " + str(get_change(og_press, press)) + "% increase!)"
             resp.message(message)
         elif body == 'Undo' or body == 'undo' or body == 'Undo ' or body == 'undo ':
+            message = ""
             path = 'backup.txt'
             if os.path.getsize(path) == 0:
                 message = "There are no changes to undo."
