@@ -1,7 +1,6 @@
-from flask import Flask, request, redirect
+from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 from datetime import datetime
-import os
 
 app = Flask(__name__)
 
@@ -186,14 +185,10 @@ def workout(weekday, resp):
 def incoming_sms():
     weekday = datetime.today().strftime('%A')
 
-    """Send a dynamic reply to an incoming text message"""
-    # Get the message the user sent our Twilio number
     body = request.values.get('Body', None)
 
-    # Start our TwiML response
     resp = MessagingResponse()
 
-    # Determine the right reply for this message
     if body is not None and body != '"':
         if body == 'Warmup' or body == 'warmup' or body == 'Warmup ' or body == 'warmup ':
             if weekday == "Sunday":
@@ -278,21 +273,17 @@ def incoming_sms():
                 "Press: " + str(og_press) + " -> " + str(press) + " (A " + str(get_change(og_press, press)) + "% increase!)"
             resp.message(message)
         elif body == 'Undo' or body == 'undo' or body == 'Undo ' or body == 'undo ':
-            message = ""
-            path = 'backup.txt'
-            if os.path.getsize(path) == 0:
-                message = "There are no changes to undo."
-            else:
-                message = "Undid most recent change."
-            resp.message(message)
-
             backup = open('backup.txt', 'r')
             backup_lines = backup.readlines()
             backup.close()
-
-            current = open('Current Values.txt', 'w')
-            current.writelines(backup_lines)
-            current.close()
+            if backup_lines == lines:
+                message = "There are no changes to undo."
+            else:
+                message = "Undid most recent change."
+                current = open('Current Values.txt', 'w')
+                current.writelines(backup_lines)
+                current.close()
+            resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
                       "warmup\n" + \
