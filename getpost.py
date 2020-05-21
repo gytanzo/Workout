@@ -13,8 +13,8 @@ press = int(lines[3].rstrip())
 file.close()
 
 
-def my_round(x, multiply, base=5):
-    return (base * round(x / base)) * multiply
+def my_round(x, base=5):
+    return base * round(x / base)
 
 
 def has_numbers(input_string):
@@ -32,9 +32,9 @@ def get_change(current, previous):
 
 def warmup(value):
     message = "Here is your warmup.\n\n" + \
-              str(my_round(value, 0.4)) + " x5\n" + \
-              str(my_round(value, 0.5)) + " x5\n" + \
-              str(my_round(value, 0.6)) + " x5\n"
+              str(my_round(value * 0.4)) + " x5\n" + \
+              str(my_round(value * 0.5)) + " x5\n" + \
+              str(my_round(value * 0.6)) + " x5\n"
     return message
 
 
