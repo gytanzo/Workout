@@ -31,10 +31,10 @@ def get_change(current, previous):
 
 
 def warmup(value):
-    message = "Here is your warmup." + "\n" + "\n"
-    message += str(my_round(value * 0.4)) + " x5\n"
-    message += str(my_round(value * 0.5)) + " x5\n"
-    message += str(my_round(value * 0.6)) + " x5\n"
+    message = "Here is your warmup.\n\n" + \
+              str(my_round(value * 0.4)) + " x5\n" + \
+              str(my_round(value * 0.5)) + " x5\n" + \
+              str(my_round(value * 0.6)) + " x5\n"
     return message
 
 
