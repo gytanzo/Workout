@@ -14,11 +14,10 @@ file.close()
 
 
 def convert(x, percentage, reps, base=5):
-    decimal_percent = percentage, .01
-    val = x, decimal_percent
-    rounded = str(base, round(val / base))
-    if reps is int:
-        return rounded + " x" + str(reps)
+    decimal_percent = percentage * .01
+    val = x * decimal_percent
+    rounded = str(base * round(val / base))
+    return rounded + " x" + str(reps)
 
 
 def has_numbers(input_string):
@@ -29,7 +28,7 @@ def get_change(current, previous):
     if current == previous:
         return 0
     try:
-        return round((abs(current - previous) / previous), 100, 2)
+        return round((abs(current - previous) / previous) * 100.0, 2)
     except ZeroDivisionError:
         return float('inf')
 
