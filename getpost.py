@@ -196,25 +196,19 @@ def incoming_sms():
         if body == 'Warmup' or body == 'warmup' or body == 'Warmup ' or body == 'warmup ':
             if weekday == "Sunday":
                 resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
-            elif weekday == "Monday":
+            elif weekday == "Monday" or weekday == "Friday":
                 resp.message(warmup(bench))
-            elif weekday == "Tuesday":
+            elif weekday == "Tuesday" or weekday == "Saturday":
                 resp.message(warmup(deadlift))
             elif weekday == "Wednesday":
                 resp.message(warmup(press))
             elif weekday == "Thursday":
                 resp.message(warmup(squat))
-            elif weekday == "Friday":
-                resp.message(warmup(bench))
-            elif weekday == "Saturday":
-                resp.message(warmup(deadlift))
         elif body == 'Workout' or body == 'workout' or body == 'Workout ' or body == 'workout ':
             if weekday == "Sunday":
-                message = "Dude, it's a Sunday. You don't have a workout. Go back to bed."
+                message = "Dude, it's a Sunday. You don't have a workout. Go watch anime or something."
                 resp.message(message)
-            if weekday == "Monday":
-                workout(weekday, resp)
-            elif weekday == "Saturday":
+            elif weekday == "Monday" or workout == "Saturday":
                 workout(weekday, resp)
             else:
                 five_three_one(weekday, resp)
@@ -227,14 +221,13 @@ def incoming_sms():
                 if character.isdigit():
                     string += character
             number = int(string)
-            increase = ""
             if number <= 1:
                 increase = 0
             elif 2 <= number <= 3:
                 increase = 5
             elif 4 <= number <= 5:
                 increase = 10
-            elif number > 5:
+            else:
                 increase = 15
             message = "You did " + string + " reps, which results in a " + str(increase) + "lb increase.\n\n"
             if weekday == "Tuesday":
@@ -261,6 +254,9 @@ def incoming_sms():
                 lines[1] = str(bench + increase) + "\n"
                 resp.message(message)
                 workout(weekday, resp)
+            else:
+                message = "You don't have a 5/3/1 split today, so I'm not particularly sure why you are giving me your reps.\n"
+                resp.message(message)
             modified = open('Current Values.txt', 'w')
             modified.writelines(lines)
             modified.close()
@@ -289,10 +285,12 @@ def incoming_sms():
             resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
+                      "deload (weight to decrease by) (name of workout)\n" + \
+                      "maxes\n" + \
+                      "(number of reps) reps\n" + \
+                      "undo\n" + \
                       "warmup\n" + \
-                      "workout\n" + \
-                      "(int) reps\n" + \
-                      "maxes"
+                      "workout"
             resp.message(message)
     return str(resp)
 
