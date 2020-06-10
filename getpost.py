@@ -283,6 +283,9 @@ def incoming_sms():
                 current.writelines(backup_lines)
                 current.close()
             resp.message(message)
+        elif "deload" in body or "Deload" in body:
+            message = "This works :)"
+            resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
                       "deload (# decrease) (workout)\n" + \
