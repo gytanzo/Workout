@@ -285,7 +285,7 @@ def incoming_sms():
             resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
-                      "deload (weight to decrease by) (workout)\n" + \
+                      "deload (# decrease) (workout)\n" + \
                       "maxes\n" + \
                       "(# of reps) reps\n" + \
                       "undo\n" + \
