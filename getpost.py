@@ -212,7 +212,7 @@ def incoming_sms():
                 workout(weekday, resp)
             else:
                 five_three_one(weekday, resp)
-        elif has_numbers(body):
+        elif has_numbers(body) and ("reps" in body or "Reps" in body or "rep" in body or "Rep" in body):
             backup = open('backup.txt', 'w')
             backup.writelines(lines)
             backup.close()
