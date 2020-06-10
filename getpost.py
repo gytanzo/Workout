@@ -216,11 +216,7 @@ def incoming_sms():
             backup = open('backup.txt', 'w')
             backup.writelines(lines)
             backup.close()
-            string = ""
-            for character in body:
-                if character.isdigit():
-                    string += character
-            number = int(string)
+            number = int(''.join(filter(str.isdigit, body)))
             if number <= 1:
                 increase = 0
             elif 2 <= number <= 3:
@@ -229,7 +225,7 @@ def incoming_sms():
                 increase = 10
             else:
                 increase = 15
-            message = "You did " + string + " reps, which results in a " + str(increase) + "lb increase.\n\n"
+            message = "You did " + str(number) + " reps, which results in a " + str(increase) + "lb increase.\n\n"
             if weekday == "Tuesday":
                 message += "Old max: " + str(deadlift) + "\n" + \
                            "New max: " + str(deadlift + increase)
@@ -284,7 +280,35 @@ def incoming_sms():
                 current.close()
             resp.message(message)
         elif "deload" in body or "Deload" in body:
-            message = "This works :)"
+            if not has_numbers(body):
+                message = "This failed. You seem to have forgotten to provide a number."
+            else:
+                backup = open('backup.txt', 'w')
+                backup.writelines(lines)
+                backup.close()
+                number = int(''.join(filter(str.isdigit, body)))
+                message = "Successfully lowered Training Max.\n\n"
+                if "squat" in body or "Squat" in body:
+                    message += "Old max: " + str(squat) + "\n" + \
+                               "New max: " + str(squat - number)
+                    lines[0] = str(squat - number) + "\n"
+                elif "bench" in body or "Bench" in body:
+                    message += "Old max: " + str(bench) + "\n" + \
+                               "New max: " + str(bench - number)
+                    lines[1] = str(bench - number) + "\n"
+                elif "deadlift" in body or "Deadlift" in body:
+                    message += "Old max: " + str(deadlift) + "\n" + \
+                               "New max: " + str(deadlift - number)
+                    lines[2] = str(deadlift - number) + "\n"
+                elif "press" in body or "Press" in body or "ohp" in body or "OHP" in body:
+                    message += "Old max: " + str(press) + "\n" + \
+                               "New max: " + str(press - number)
+                    lines[3] = str(press - number) + "\n"
+                else:
+                    message = "This failed. Did you spell the name of the workout incorrectly?"
+            modified = open('Current Values.txt', 'w')
+            modified.writelines(lines)
+            modified.close()
             resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
