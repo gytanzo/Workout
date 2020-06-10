@@ -283,12 +283,9 @@ def incoming_sms():
                 current.writelines(backup_lines)
                 current.close()
             resp.message(message)
-        elif body.contains("deload") or body.contains("Deload"):
-            message = "This works."
-            resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
-                      "deload (# decrease) (name of workout)\n" + \
+                      "deload (weight to decrease by) (workout)\n" + \
                       "maxes\n" + \
                       "(# of reps) reps\n" + \
                       "undo\n" + \
