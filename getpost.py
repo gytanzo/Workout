@@ -5,6 +5,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 name = "Ben"
+names = {"Ben": "+15853974321"}
 
 file = open(name + ".txt", 'r')
 lines = file.readlines()
@@ -193,6 +194,8 @@ def incoming_sms():
     body = request.values.get('Body', None)
     phone_number = request.values.get('From', None)
 
+    user = list(names.keys())[list(names.values()).index(phone_number)]
+
     resp = MessagingResponse()
 
     if body is not None and body != '"':
@@ -282,7 +285,7 @@ def incoming_sms():
                 current.writelines(backup_lines)
                 current.close()
             resp.message(message)
-        elif "deload" in body or "Deload" in body:
+        elif "deload" in body or "Deload" or "deload " or "Deload " in body:
             if not has_numbers(body):
                 message = "This failed. You seem to have forgotten to provide a number."
             else:
@@ -313,8 +316,8 @@ def incoming_sms():
             modified.writelines(lines)
             modified.close()
             resp.message(message)
-        elif "test" in body:
-            message = phone_number
+        elif "hello " or "Hello " or "hello" or "Hello" in body:
+            message = "Hello, " + user + "!"
             resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
