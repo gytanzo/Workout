@@ -285,6 +285,9 @@ def incoming_sms():
                 current.writelines(backup_lines)
                 current.close()
             resp.message(message)
+        elif "hello " or "Hello " or "hello" or "Hello" in body:
+            message = "Hello, " + user + "!"
+            resp.message(message)
         elif "deload" in body or "Deload" or "deload " or "Deload " in body:
             if has_numbers(body) is False:
                 message = "This failed. You seem to have forgotten to provide a number."
@@ -315,9 +318,6 @@ def incoming_sms():
             modified = open(name + ".txt", 'w')
             modified.writelines(lines)
             modified.close()
-            resp.message(message)
-        elif "hello " or "Hello " or "hello" or "Hello" in body:
-            message = "Hello, " + user + "!"
             resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
