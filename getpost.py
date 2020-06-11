@@ -205,7 +205,7 @@ def incoming_sms():
     if body is not None and body != '"':
         if user == "":
             if re.search('initial', body, re.IGNORECASE) is not None:
-                if re.search('name', body, re.IGNORECASE) is None:  # They received the welcome message.
+                if re.search('name', body, re.IGNORECASE) is not None:  # They received the welcome message.
                     new_body = re.sub('initial', '', body, re.IGNORECASE)  # Remove the "initial" part of the string.
                     new_body = re.sub('name', '', new_body, re.IGNORECASE)  # Remove the "name" part of the string."
                     new_body = "".join(new_body.split())  # Remove all whitespaces from string. String should JUST be name now.
