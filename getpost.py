@@ -1,6 +1,7 @@
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 from datetime import datetime
+import re
 
 app = Flask(__name__)
 
@@ -199,7 +200,7 @@ def incoming_sms():
     resp = MessagingResponse()
 
     if body is not None and body != '"':
-        if body == 'Warmup' or body == 'warmup' or body == 'Warmup ' or body == 'warmup ':
+        if re.search('warmup', body, re.IGNORECASE) is not None:
             if weekday == "Sunday":
                 resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
             elif weekday == "Monday" or weekday == "Friday":
@@ -210,7 +211,7 @@ def incoming_sms():
                 resp.message(warmup(press))
             elif weekday == "Thursday":
                 resp.message(warmup(squat))
-        elif body == 'Workout' or body == 'workout' or body == 'Workout ' or body == 'workout ':
+        elif re.search('workout', body, re.IGNORECASE) is not None:
             if weekday == "Sunday":
                 message = "Dude, it's a Sunday. You don't have a workout. Go watch anime or something."
                 resp.message(message)
@@ -218,7 +219,7 @@ def incoming_sms():
                 workout(weekday, resp)
             else:
                 five_three_one(weekday, resp)
-        elif has_numbers(body) and ("reps" in body or "Reps" in body or "rep" in body or "Rep" in body):
+        elif has_numbers(body) and re.search('rep', body, re.IGNORECASE) is not None:
             backup = open(name + "_Backup.txt", 'w')
             backup.writelines(lines)
             backup.close()
@@ -262,7 +263,7 @@ def incoming_sms():
             modified = open(name + ".txt", 'w')
             modified.writelines(lines)
             modified.close()
-        elif body == 'maxes' or body == 'Maxes' or body == 'maxes ' or body == 'Maxes ':
+        elif re.search('maxes', body, re.IGNORECASE) is not None:
             og_squat = int(lines[7].rstrip())
             og_bench = int(lines[8].rstrip())
             og_deadlift = int(lines[9].rstrip())
@@ -273,7 +274,7 @@ def incoming_sms():
                 "Deadlift: " + str(og_deadlift) + " -> " + str(deadlift) + " (A " + str(get_change(og_deadlift, deadlift)) + "% increase!)\n" + \
                 "Press: " + str(og_press) + " -> " + str(press) + " (A " + str(get_change(og_press, press)) + "% increase!)"
             resp.message(message)
-        elif body == 'Undo' or body == 'undo' or body == 'Undo ' or body == 'undo ':
+        elif re.search('undo', body, re.IGNORECASE) is not None:
             backup = open(name + "_Backup.txt", 'r')
             backup_lines = backup.readlines()
             backup.close()
@@ -285,10 +286,10 @@ def incoming_sms():
                 current.writelines(backup_lines)
                 current.close()
             resp.message(message)
-        elif "hello " or "Hello " or "hello" or "Hello" in body:
+        elif re.search('hello', body, re.IGNORECASE) is not None:
             message = "Hello, " + user + "!"
             resp.message(message)
-        elif "deload" in body or "Deload" or "deload " or "Deload " in body:
+        elif re.search('deload', body, re.IGNORECASE) is not None:
             if has_numbers(body) is False:
                 message = "This failed. You seem to have forgotten to provide a number."
             else:
