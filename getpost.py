@@ -232,7 +232,11 @@ def incoming_sms():
                 message = "You do not seem to be registered yet. To learn how to register, text this number \"initial\"."
                 resp.message(message)
         else:
-            if re.search('warmup', body, re.IGNORECASE) is not None:
+            if re.search('initial', body, re.IGNORECASE) is not None:
+                message = "This will be filled out later. For now, this confirms that something in my code doesn't" + \
+                    " get reset each time someone texts it, otherwise it would never recognize anyone but me."
+                resp.message(message)
+            elif re.search('warmup', body, re.IGNORECASE) is not None:
                 if weekday == "Sunday":
                     resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
                 elif weekday == "Monday" or weekday == "Friday":
