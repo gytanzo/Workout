@@ -4,7 +4,9 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-file = open('Current Values.txt', 'r')
+name = "Ben"
+
+file = open(name + ".txt", 'r')
 lines = file.readlines()
 squat = int(lines[0].rstrip())
 bench = int(lines[1].rstrip())
@@ -213,7 +215,7 @@ def incoming_sms():
             else:
                 five_three_one(weekday, resp)
         elif has_numbers(body) and ("reps" in body or "Reps" in body or "rep" in body or "Rep" in body):
-            backup = open('backup.txt', 'w')
+            backup = open(name + "_Backup.txt", 'w')
             backup.writelines(lines)
             backup.close()
             number = int(''.join(filter(str.isdigit, body)))
@@ -253,7 +255,7 @@ def incoming_sms():
             else:
                 message = "You don't have a 5/3/1 split today, so I'm not particularly sure why you are giving me your reps.\n"
                 resp.message(message)
-            modified = open('Current Values.txt', 'w')
+            modified = open(name + ".txt", 'w')
             modified.writelines(lines)
             modified.close()
         elif body == 'maxes' or body == 'Maxes' or body == 'maxes ' or body == 'Maxes ':
@@ -268,14 +270,14 @@ def incoming_sms():
                 "Press: " + str(og_press) + " -> " + str(press) + " (A " + str(get_change(og_press, press)) + "% increase!)"
             resp.message(message)
         elif body == 'Undo' or body == 'undo' or body == 'Undo ' or body == 'undo ':
-            backup = open('backup.txt', 'r')
+            backup = open(name + "_Backup.txt", 'r')
             backup_lines = backup.readlines()
             backup.close()
             if backup_lines == lines:
                 message = "There are no changes to undo."
             else:
                 message = "Undid most recent change."
-                current = open('Current Values.txt', 'w')
+                current = open(name + ".txt", 'w')
                 current.writelines(backup_lines)
                 current.close()
             resp.message(message)
@@ -283,7 +285,7 @@ def incoming_sms():
             if not has_numbers(body):
                 message = "This failed. You seem to have forgotten to provide a number."
             else:
-                backup = open('backup.txt', 'w')
+                backup = open(name + "_Backup.txt", 'w')
                 backup.writelines(lines)
                 backup.close()
                 number = int(''.join(filter(str.isdigit, body)))
@@ -306,7 +308,7 @@ def incoming_sms():
                     lines[3] = str(press - number) + "\n"
                 else:
                     message = "This failed. Did you spell the name of the workout incorrectly?"
-            modified = open('Current Values.txt', 'w')
+            modified = open(name + ".txt", 'w')
             modified.writelines(lines)
             modified.close()
             resp.message(message)
