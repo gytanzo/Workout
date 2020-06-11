@@ -211,7 +211,7 @@ def incoming_sms():
                     new_body = "".join(new_body.split())  # Remove all whitespaces from string. String should JUST be name now.
                     names[new_body] = phone_number  # Register the user.
 
-                    message = "Hello, " + new_body + "!" # Change this later to request starting lifts.
+                    message = "Hello, " + new_body + "!"  # Change this later to request starting lifts.
                     resp.message(message)
                 else:  # Welcome them!
                     message = "Welcome to my program! I hope this workout tool will be useful in your steroid pump" + \
