@@ -191,6 +191,7 @@ def incoming_sms():
     weekday = datetime.today().strftime('%A')
 
     body = request.values.get('Body', None)
+    phone_number = request.values.get('From', None)
 
     resp = MessagingResponse()
 
@@ -311,6 +312,9 @@ def incoming_sms():
             modified = open(name + ".txt", 'w')
             modified.writelines(lines)
             modified.close()
+            resp.message(message)
+        elif "test" in body:
+            message = phone_number
             resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
