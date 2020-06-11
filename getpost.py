@@ -211,6 +211,16 @@ def incoming_sms():
                     new_body = "".join(new_body.split())  # Remove all whitespaces from string. String should JUST be name now.
                     names[new_body] = phone_number  # Register the user.
 
+                    user_value = open(new_body + ".txt", "w+")  # Create a file for the user's values.
+                    value_lines = [new_body, ""]
+                    user_value.writelines(value_lines)
+                    user_value.close()
+
+                    user_value = open(new_body + "_Backup.txt", "w+")  # Repeat the process for their backup.
+                    value_lines = [new_body, ""]
+                    user_value.writelines(value_lines)
+                    user_value.close()
+
                     message = "Hello, " + new_body + "!"  # Change this later to request starting lifts.
                     resp.message(message)
                 else:  # Welcome them!
