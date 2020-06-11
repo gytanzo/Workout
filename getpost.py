@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 name = "Ben"
 
-file = open('Ben.txt', 'r')
+file = open(name + ".txt", 'r')
 lines = file.readlines()
 squat = int(lines[2].rstrip())
 bench = int(lines[3].rstrip())
