@@ -194,8 +194,11 @@ def incoming_sms():
 
     body = request.values.get('Body', None)
     phone_number = request.values.get('From', None)
+    user = ""
 
-    user = list(names.keys())[list(names.values()).index(phone_number)]
+    for username, number in names.items():
+        if number == phone_number:
+            user = username
 
     resp = MessagingResponse()
 
@@ -286,9 +289,6 @@ def incoming_sms():
                 current.writelines(backup_lines)
                 current.close()
             resp.message(message)
-        elif re.search('hello', body, re.IGNORECASE) is not None:
-            message = "Hello, " + user + "!"
-            resp.message(message)
         elif re.search('deload', body, re.IGNORECASE) is not None:
             if has_numbers(body) is False:
                 message = "This failed. You seem to have forgotten to provide a number."
@@ -319,6 +319,12 @@ def incoming_sms():
             modified = open(name + ".txt", 'w')
             modified.writelines(lines)
             modified.close()
+            resp.message(message)
+        elif re.search('hello', body, re.IGNORECASE) is not None:
+            if user == "":
+                message = "You don't seem to be registered yet. Type \"initial\" to learn how to begin using this program."
+            else:
+                message = "Hello, " + user + "!"
             resp.message(message)
         else:
             message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
