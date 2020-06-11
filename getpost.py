@@ -203,138 +203,158 @@ def incoming_sms():
     resp = MessagingResponse()
 
     if body is not None and body != '"':
-        if re.search('warmup', body, re.IGNORECASE) is not None:
-            if weekday == "Sunday":
-                resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
-            elif weekday == "Monday" or weekday == "Friday":
-                resp.message(warmup(bench))
-            elif weekday == "Tuesday" or weekday == "Saturday":
-                resp.message(warmup(deadlift))
-            elif weekday == "Wednesday":
-                resp.message(warmup(press))
-            elif weekday == "Thursday":
-                resp.message(warmup(squat))
-        elif re.search('workout', body, re.IGNORECASE) is not None:
-            if weekday == "Sunday":
-                message = "Dude, it's a Sunday. You don't have a workout. Go watch anime or something."
-                resp.message(message)
-            elif weekday == "Monday" or workout == "Saturday":
-                workout(weekday, resp)
+        if user == "":
+            if re.search('initial', body, re.IGNORECASE) is not None:
+                if re.search('name', body, re.IGNORECASE) is None:  # They received the welcome message.
+                    new_body = re.sub('initial', '', body, re.IGNORECASE)  # Remove the "initial" part of the string.
+                    new_body = re.sub('name', '', new_body, re.IGNORECASE)  # Remove the "name" part of the string."
+                    new_body = "".join(new_body.split())  # Remove all whitespaces from string. String should JUST be name now.
+                    names[new_body] = phone_number  # Register the user.
+
+                    message = "Hello, " + new_body + "!" # Change this later to request starting lifts.
+                    resp.message(message)
+                else:  # Welcome them!
+                    message = "Welcome to my program! I hope this workout tool will be useful in your steroid pump" + \
+                              " seeking goals. To begin, let's get your name. Reply to this message with \"initial name\"" + \
+                              ", followed by your name."
+                    resp.message(message)
             else:
-                five_three_one(weekday, resp)
-        elif has_numbers(body) and re.search('rep', body, re.IGNORECASE) is not None:
-            backup = open(name + "_Backup.txt", 'w')
-            backup.writelines(lines)
-            backup.close()
-            number = int(''.join(filter(str.isdigit, body)))
-            if number <= 1:
-                increase = 0
-            elif 2 <= number <= 3:
-                increase = 5
-            elif 4 <= number <= 5:
-                increase = 10
-            else:
-                increase = 15
-            message = "You did " + str(number) + " reps, which results in a " + str(increase) + "lb increase.\n\n"
-            if weekday == "Tuesday":
-                message += "Old max: " + str(deadlift) + "\n" + \
-                           "New max: " + str(deadlift + increase)
-                lines[4] = str(deadlift + increase) + "\n"
+                message = "You do not seem to be registered yet. To learn how to register, text this number \"initial\"."
                 resp.message(message)
-                workout(weekday, resp)
-            elif weekday == "Wednesday":
-                message += "Old max: " + str(press) + "\n" + \
-                           "New max: " + str(press + increase)
-                lines[5] = str(press + increase) + "\n"
-                resp.message(message)
-                workout(weekday, resp)
-            elif weekday == "Thursday":
-                message += "Old max: " + str(squat) + "\n" + \
-                           "New max: " + str(squat + increase)
-                lines[2] = str(squat + increase) + "\n"
-                resp.message(message)
-                workout(weekday, resp)
-            elif weekday == "Friday":
-                message += "Old max: " + str(bench) + "\n" + \
-                           "New max: " + str(bench + increase)
-                lines[3] = str(bench + increase) + "\n"
-                resp.message(message)
-                workout(weekday, resp)
-            else:
-                message = "You don't have a 5/3/1 split today, so I'm not particularly sure why you are giving me your reps.\n"
-                resp.message(message)
-            modified = open(name + ".txt", 'w')
-            modified.writelines(lines)
-            modified.close()
-        elif re.search('maxes', body, re.IGNORECASE) is not None:
-            og_squat = int(lines[7].rstrip())
-            og_bench = int(lines[8].rstrip())
-            og_deadlift = int(lines[9].rstrip())
-            og_press = int(lines[10].rstrip())
-            message = "These are your current maxes.\n\n" + \
-                "Squat: " + str(og_squat) + " -> " + str(squat) + " (A " + str(get_change(og_squat, squat)) + "% increase!)\n" + \
-                "Bench: " + str(og_bench) + " -> " + str(bench) + " (A " + str(get_change(og_bench, bench)) + "% increase!)\n" + \
-                "Deadlift: " + str(og_deadlift) + " -> " + str(deadlift) + " (A " + str(get_change(og_deadlift, deadlift)) + "% increase!)\n" + \
-                "Press: " + str(og_press) + " -> " + str(press) + " (A " + str(get_change(og_press, press)) + "% increase!)"
-            resp.message(message)
-        elif re.search('undo', body, re.IGNORECASE) is not None:
-            backup = open(name + "_Backup.txt", 'r')
-            backup_lines = backup.readlines()
-            backup.close()
-            if backup_lines == lines:
-                message = "There are no changes to undo."
-            else:
-                message = "Undid most recent change."
-                current = open(name + ".txt", 'w')
-                current.writelines(backup_lines)
-                current.close()
-            resp.message(message)
-        elif re.search('deload', body, re.IGNORECASE) is not None:
-            if has_numbers(body) is False:
-                message = "This failed. You seem to have forgotten to provide a number."
-            else:
+        else:
+            if re.search('warmup', body, re.IGNORECASE) is not None:
+                if weekday == "Sunday":
+                    resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
+                elif weekday == "Monday" or weekday == "Friday":
+                    resp.message(warmup(bench))
+                elif weekday == "Tuesday" or weekday == "Saturday":
+                    resp.message(warmup(deadlift))
+                elif weekday == "Wednesday":
+                    resp.message(warmup(press))
+                elif weekday == "Thursday":
+                    resp.message(warmup(squat))
+            elif re.search('workout', body, re.IGNORECASE) is not None:
+                if weekday == "Sunday":
+                    message = "Dude, it's a Sunday. You don't have a workout. Go watch anime or something."
+                    resp.message(message)
+                elif weekday == "Monday" or workout == "Saturday":
+                    workout(weekday, resp)
+                else:
+                    five_three_one(weekday, resp)
+            elif has_numbers(body) and re.search('rep', body, re.IGNORECASE) is not None:
                 backup = open(name + "_Backup.txt", 'w')
                 backup.writelines(lines)
                 backup.close()
                 number = int(''.join(filter(str.isdigit, body)))
-                message = "Successfully lowered Training Max.\n\n"
-                if "squat" in body or "Squat" in body:
-                    message += "Old max: " + str(squat) + "\n" + \
-                               "New max: " + str(squat - number)
-                    lines[2] = str(squat - number) + "\n"
-                elif "bench" in body or "Bench" in body:
-                    message += "Old max: " + str(bench) + "\n" + \
-                               "New max: " + str(bench - number)
-                    lines[3] = str(bench - number) + "\n"
-                elif "deadlift" in body or "Deadlift" in body:
-                    message += "Old max: " + str(deadlift) + "\n" + \
-                               "New max: " + str(deadlift - number)
-                    lines[4] = str(deadlift - number) + "\n"
-                elif "press" in body or "Press" in body or "ohp" in body or "OHP" in body:
-                    message += "Old max: " + str(press) + "\n" + \
-                               "New max: " + str(press - number)
-                    lines[5] = str(press - number) + "\n"
+                if number <= 1:
+                    increase = 0
+                elif 2 <= number <= 3:
+                    increase = 5
+                elif 4 <= number <= 5:
+                    increase = 10
                 else:
-                    message = "This failed. Did you spell the name of the workout incorrectly?"
-            modified = open(name + ".txt", 'w')
-            modified.writelines(lines)
-            modified.close()
-            resp.message(message)
-        elif re.search('hello', body, re.IGNORECASE) is not None:
-            if user == "":
-                message = "You don't seem to be registered yet."
-            else:
+                    increase = 15
+                message = "You did " + str(number) + " reps, which results in a " + str(increase) + "lb increase.\n\n"
+                if weekday == "Tuesday":
+                    message += "Old max: " + str(deadlift) + "\n" + \
+                               "New max: " + str(deadlift + increase)
+                    lines[4] = str(deadlift + increase) + "\n"
+                    resp.message(message)
+                    workout(weekday, resp)
+                elif weekday == "Wednesday":
+                    message += "Old max: " + str(press) + "\n" + \
+                               "New max: " + str(press + increase)
+                    lines[5] = str(press + increase) + "\n"
+                    resp.message(message)
+                    workout(weekday, resp)
+                elif weekday == "Thursday":
+                    message += "Old max: " + str(squat) + "\n" + \
+                               "New max: " + str(squat + increase)
+                    lines[2] = str(squat + increase) + "\n"
+                    resp.message(message)
+                    workout(weekday, resp)
+                elif weekday == "Friday":
+                    message += "Old max: " + str(bench) + "\n" + \
+                               "New max: " + str(bench + increase)
+                    lines[3] = str(bench + increase) + "\n"
+                    resp.message(message)
+                    workout(weekday, resp)
+                else:
+                    message = "You don't have a 5/3/1 split today, so I'm not particularly sure why you are giving me your reps.\n"
+                    resp.message(message)
+                modified = open(name + ".txt", 'w')
+                modified.writelines(lines)
+                modified.close()
+            elif re.search('maxes', body, re.IGNORECASE) is not None:
+                og_squat = int(lines[7].rstrip())
+                og_bench = int(lines[8].rstrip())
+                og_deadlift = int(lines[9].rstrip())
+                og_press = int(lines[10].rstrip())
+                message = "These are your current maxes.\n\n" + \
+                          "Squat: " + str(og_squat) + " -> " + str(squat) + " (A " + str(
+                    get_change(og_squat, squat)) + "% increase!)\n" + \
+                          "Bench: " + str(og_bench) + " -> " + str(bench) + " (A " + str(
+                    get_change(og_bench, bench)) + "% increase!)\n" + \
+                          "Deadlift: " + str(og_deadlift) + " -> " + str(deadlift) + " (A " + str(
+                    get_change(og_deadlift, deadlift)) + "% increase!)\n" + \
+                          "Press: " + str(og_press) + " -> " + str(press) + " (A " + str(
+                    get_change(og_press, press)) + "% increase!)"
+                resp.message(message)
+            elif re.search('undo', body, re.IGNORECASE) is not None:
+                backup = open(name + "_Backup.txt", 'r')
+                backup_lines = backup.readlines()
+                backup.close()
+                if backup_lines == lines:
+                    message = "There are no changes to undo."
+                else:
+                    message = "Undid most recent change."
+                    current = open(name + ".txt", 'w')
+                    current.writelines(backup_lines)
+                    current.close()
+                resp.message(message)
+            elif re.search('deload', body, re.IGNORECASE) is not None:
+                if has_numbers(body) is False:
+                    message = "This failed. You seem to have forgotten to provide a number."
+                else:
+                    backup = open(name + "_Backup.txt", 'w')
+                    backup.writelines(lines)
+                    backup.close()
+                    number = int(''.join(filter(str.isdigit, body)))
+                    message = "Successfully lowered Training Max.\n\n"
+                    if "squat" in body or "Squat" in body:
+                        message += "Old max: " + str(squat) + "\n" + \
+                                   "New max: " + str(squat - number)
+                        lines[2] = str(squat - number) + "\n"
+                    elif "bench" in body or "Bench" in body:
+                        message += "Old max: " + str(bench) + "\n" + \
+                                   "New max: " + str(bench - number)
+                        lines[3] = str(bench - number) + "\n"
+                    elif "deadlift" in body or "Deadlift" in body:
+                        message += "Old max: " + str(deadlift) + "\n" + \
+                                   "New max: " + str(deadlift - number)
+                        lines[4] = str(deadlift - number) + "\n"
+                    elif "press" in body or "Press" in body or "ohp" in body or "OHP" in body:
+                        message += "Old max: " + str(press) + "\n" + \
+                                   "New max: " + str(press - number)
+                        lines[5] = str(press - number) + "\n"
+                    else:
+                        message = "This failed. Did you spell the name of the workout incorrectly?"
+                modified = open(name + ".txt", 'w')
+                modified.writelines(lines)
+                modified.close()
+                resp.message(message)
+            elif re.search('hello', body, re.IGNORECASE) is not None:
                 message = "Hello, " + user + "!"
-            resp.message(message)
-        else:
-            message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
-                      "deload (# decrease) (workout)\n" + \
-                      "maxes\n" + \
-                      "(# of reps) reps\n" + \
-                      "undo\n" + \
-                      "warmup\n" + \
-                      "workout"
-            resp.message(message)
+                resp.message(message)
+            else:
+                message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
+                          "deload (# decrease) (workout)\n" + \
+                          "maxes\n" + \
+                          "(# of reps) reps\n" + \
+                          "undo\n" + \
+                          "warmup\n" + \
+                          "workout"
+                resp.message(message)
     return str(resp)
 
 
