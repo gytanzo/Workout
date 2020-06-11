@@ -8,10 +8,10 @@ name = "Ben"
 
 file = open(name + ".txt", 'r')
 lines = file.readlines()
-squat = int(lines[0].rstrip())
-bench = int(lines[1].rstrip())
-deadlift = int(lines[2].rstrip())
-press = int(lines[3].rstrip())
+squat = int(lines[2].rstrip())
+bench = int(lines[3].rstrip())
+deadlift = int(lines[4].rstrip())
+press = int(lines[5].rstrip())
 file.close()
 
 
@@ -231,25 +231,25 @@ def incoming_sms():
             if weekday == "Tuesday":
                 message += "Old max: " + str(deadlift) + "\n" + \
                            "New max: " + str(deadlift + increase)
-                lines[2] = str(deadlift + increase) + "\n"
+                lines[4] = str(deadlift + increase) + "\n"
                 resp.message(message)
                 workout(weekday, resp)
             elif weekday == "Wednesday":
                 message += "Old max: " + str(press) + "\n" + \
                            "New max: " + str(press + increase)
-                lines[3] = str(press + increase) + "\n"
+                lines[5] = str(press + increase) + "\n"
                 resp.message(message)
                 workout(weekday, resp)
             elif weekday == "Thursday":
                 message += "Old max: " + str(squat) + "\n" + \
                            "New max: " + str(squat + increase)
-                lines[0] = str(squat + increase) + "\n"
+                lines[2] = str(squat + increase) + "\n"
                 resp.message(message)
                 workout(weekday, resp)
             elif weekday == "Friday":
                 message += "Old max: " + str(bench) + "\n" + \
                            "New max: " + str(bench + increase)
-                lines[1] = str(bench + increase) + "\n"
+                lines[3] = str(bench + increase) + "\n"
                 resp.message(message)
                 workout(weekday, resp)
             else:
@@ -259,10 +259,10 @@ def incoming_sms():
             modified.writelines(lines)
             modified.close()
         elif body == 'maxes' or body == 'Maxes' or body == 'maxes ' or body == 'Maxes ':
-            og_squat = int(lines[5].rstrip())
-            og_bench = int(lines[6].rstrip())
-            og_deadlift = int(lines[7].rstrip())
-            og_press = int(lines[8].rstrip())
+            og_squat = int(lines[7].rstrip())
+            og_bench = int(lines[8].rstrip())
+            og_deadlift = int(lines[9].rstrip())
+            og_press = int(lines[10].rstrip())
             message = "These are your current maxes.\n\n" + \
                 "Squat: " + str(og_squat) + " -> " + str(squat) + " (A " + str(get_change(og_squat, squat)) + "% increase!)\n" + \
                 "Bench: " + str(og_bench) + " -> " + str(bench) + " (A " + str(get_change(og_bench, bench)) + "% increase!)\n" + \
@@ -293,19 +293,19 @@ def incoming_sms():
                 if "squat" in body or "Squat" in body:
                     message += "Old max: " + str(squat) + "\n" + \
                                "New max: " + str(squat - number)
-                    lines[0] = str(squat - number) + "\n"
+                    lines[2] = str(squat - number) + "\n"
                 elif "bench" in body or "Bench" in body:
                     message += "Old max: " + str(bench) + "\n" + \
                                "New max: " + str(bench - number)
-                    lines[1] = str(bench - number) + "\n"
+                    lines[3] = str(bench - number) + "\n"
                 elif "deadlift" in body or "Deadlift" in body:
                     message += "Old max: " + str(deadlift) + "\n" + \
                                "New max: " + str(deadlift - number)
-                    lines[2] = str(deadlift - number) + "\n"
+                    lines[4] = str(deadlift - number) + "\n"
                 elif "press" in body or "Press" in body or "ohp" in body or "OHP" in body:
                     message += "Old max: " + str(press) + "\n" + \
                                "New max: " + str(press - number)
-                    lines[3] = str(press - number) + "\n"
+                    lines[5] = str(press - number) + "\n"
                 else:
                     message = "This failed. Did you spell the name of the workout incorrectly?"
             modified = open(name + ".txt", 'w')
