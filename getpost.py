@@ -322,7 +322,7 @@ def incoming_sms():
             resp.message(message)
         elif re.search('hello', body, re.IGNORECASE) is not None:
             if user == "":
-                message = "You don't seem to be registered yet. Type \"initial\" to learn how to begin using this program."
+                message = "You don't seem to be registered yet."
             else:
                 message = "Hello, " + user + "!"
             resp.message(message)
