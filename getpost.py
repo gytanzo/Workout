@@ -235,6 +235,9 @@ def incoming_sms():
             if re.search('initial', body, re.IGNORECASE) is not None:
                 message = "This will be filled out later. For now, this confirms that something in my code doesn't" + \
                     " get reset each time someone texts it, otherwise it would never recognize anyone but me."
+                # If the above line doesn't work, you will need to figure out a solution using a text file, which
+                # wouldn't get overriden each execution. That's an uglier implementation, however, so this method
+                # was tried first.
                 resp.message(message)
             elif re.search('warmup', body, re.IGNORECASE) is not None:
                 if weekday == "Sunday":
