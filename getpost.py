@@ -286,7 +286,7 @@ def incoming_sms():
                 current.close()
             resp.message(message)
         elif "deload" in body or "Deload" or "deload " or "Deload " in body:
-            if not has_numbers(body):
+            if has_numbers(body) is False:
                 message = "This failed. You seem to have forgotten to provide a number."
             else:
                 backup = open(name + "_Backup.txt", 'w')
