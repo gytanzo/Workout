@@ -68,8 +68,7 @@ def five_three_one(weekday, resp):
             convert(bench, 85, 3) + "\n" + \
             convert(bench, 95, 1) + "+\n"
     else:
-        #  message = "You don't have a 5/3/1 split today."
-        message = weekday
+        message = "You don't have a 5/3/1 split today."
     resp.message(message)
 
 
@@ -255,7 +254,7 @@ def incoming_sms():
                 if weekday == "Sunday":
                     message = "Dude, it's a Sunday. You don't have a workout. Go watch anime or something."
                     resp.message(message)
-                elif weekday == "Monday" or workout == "Saturday":
+                elif weekday == "Monday" or weekday == "Saturday":
                     workout(weekday, resp)
                 else:
                     five_three_one(weekday, resp)
