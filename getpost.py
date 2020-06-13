@@ -75,7 +75,7 @@ def five_three_one(weekday, resp):
 def workout(weekday, resp):
     message = "Here is the remainder of your workout.\n\n"
     if weekday == "Monday":
-        message = \
+        message += \
             "BENCH PRESS\n" + \
             convert(bench, 65, 8) + "\n" + \
             convert(bench, 75, 6) + "\n" + \
@@ -168,7 +168,7 @@ def workout(weekday, resp):
             convert(bench, 60, 6) + "\n" + \
             convert(bench, 60, 8)
     elif weekday == "Saturday":
-        message = \
+        message += \
             "DEADLIFT\n" + \
             convert(deadlift, 72.5, 3) + "\n" + \
             convert(deadlift, 72.5, 3) + "\n" + \
