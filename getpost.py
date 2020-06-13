@@ -68,7 +68,8 @@ def five_three_one(weekday, resp):
             convert(bench, 85, 3) + "\n" + \
             convert(bench, 95, 1) + "+\n"
     else:
-        message = "You don't have a 5/3/1 split today."
+        #  message = "You don't have a 5/3/1 split today."
+        message = weekday
     resp.message(message)
 
 
@@ -236,7 +237,7 @@ def incoming_sms():
                 message = "This will be filled out later. For now, this confirms that something in my code doesn't" + \
                     " get reset each time someone texts it, otherwise it would never recognize anyone but me."
                 # If the above line doesn't work, you will need to figure out a solution using a text file, which
-                # wouldn't get overriden each execution. That's an uglier implementation, however, so this method
+                # wouldn't get overridden each execution. That's an uglier implementation, however, so this method
                 # was tried first.
                 resp.message(message)
             elif re.search('warmup', body, re.IGNORECASE) is not None:
