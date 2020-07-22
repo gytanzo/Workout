@@ -37,11 +37,20 @@ def get_change(current, previous):
         return float('inf')
 
 
-def warmup(value):
-    message = "Here is your warmup.\n\n" + \
-              convert(value, 40, 5) + "\n" + \
-              convert(value, 50, 5) + "\n" + \
-              convert(value, 60, 5) + "\n"
+def warmup(value, weekday):
+    message = ""
+    if weekday == "Monday" or weekday == "Friday":
+        message = "Today is a bench press day."
+    elif weekday == "Tuesday" or weekday == "Saturday":
+        message = "Today is a deadlift day."
+    elif weekday == "Wednesday":
+        message = "Today is an overhead press day."
+    elif weekday == "Thursday":
+        message = "Today is a squat day."
+    message += "Here is your warmup.\n\n" + \
+               convert(value, 40, 5) + "\n" + \
+               convert(value, 50, 5) + "\n" + \
+               convert(value, 60, 5) + "\n"
     return message
 
 
@@ -243,13 +252,13 @@ def incoming_sms():
                 if weekday == "Sunday":
                     resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
                 elif weekday == "Monday" or weekday == "Friday":
-                    resp.message(warmup(bench))
+                    resp.message(warmup(bench, weekday))
                 elif weekday == "Tuesday" or weekday == "Saturday":
-                    resp.message(warmup(deadlift))
+                    resp.message(warmup(deadlift, weekday))
                 elif weekday == "Wednesday":
-                    resp.message(warmup(press))
+                    resp.message(warmup(press, weekday))
                 elif weekday == "Thursday":
-                    resp.message(warmup(squat))
+                    resp.message(warmup(squat, weekday))
             elif re.search('workout', body, re.IGNORECASE) is not None:
                 if weekday == "Sunday":
                     message = "Dude, it's a Sunday. You don't have a workout. Go watch anime or something."
