@@ -203,7 +203,7 @@ def incoming_sms():
 
     body = request.values.get('Body', None)
     phone_number = request.values.get('From', None)
-    phone_number = phone_number[:1]  # removes the addition symbol that messes w/ regex
+    phone_number = phone_number[1:]  # removes the addition symbol that messes w/ regex
     user = ""
 
     name_file = open("Names.txt", 'r')
