@@ -6,7 +6,6 @@ import re
 app = Flask(__name__)
 
 name = "Ben"
-names = {"Ben": "+15853974321"}
 
 file = open(name + ".txt", 'r')
 lines = file.readlines()
@@ -204,9 +203,16 @@ def incoming_sms():
     phone_number = request.values.get('From', None)
     user = ""
 
-    for username, number in names.items():
-        if number == phone_number:
-            user = username
+    name_file = open("Names.txt", 'r')
+    names = name_file.readlines()
+    file.close()
+
+    for line in names:
+        if re.search(phone_number, line, re.IGNORECASE) is not None:
+            line_copy = line
+            line_copy = re.sub(phone_number, '', line_copy, re.IGNORECASE) # Remove phone number from string.
+            line_copy = re.sub(", ", '', line_copy, re.IGNORECASE) # Remove trailing characters, should just be name now
+            user = line_copy
 
     resp = MessagingResponse()
 
@@ -218,7 +224,8 @@ def incoming_sms():
                     new_body = re.sub('name', '', new_body, re.IGNORECASE)  # Remove the "name" part of the string."
                     new_body = "".join(
                         new_body.split())  # Remove all whitespaces from string. String should JUST be name now.
-                    names[new_body] = phone_number  # Register the user.
+                    # names; This code is now deprecated.
+                    # names[new_body] = phone_number  # Register the user.
 
                     user_value = open(new_body + ".txt", "w+")  # Create a file for the user's values.
                     value_lines = [new_body, ""]
@@ -233,9 +240,7 @@ def incoming_sms():
                     message = "Hello, " + new_body + "!"  # Change this later to request starting lifts.
                     resp.message(message)
                 else:  # Welcome them!
-                    message = "Welcome to my program! I hope this workout tool will be useful in your steroid pump" + \
-                              " seeking goals. To begin, let's get your name. Reply to this message with \"initial name\"" + \
-                              ", followed by your name."
+                    message = "You have already registered with this program, " + user + "."
                     resp.message(message)
             else:
                 message = "You do not seem to be registered yet. To learn how to register, text this number \"initial\"."
