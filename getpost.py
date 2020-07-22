@@ -5,16 +5,6 @@ import re
 
 app = Flask(__name__)
 
-my_name = "Ben"
-
-file = open(my_name + ".txt", 'r')
-lines = file.readlines()
-squat = int(lines[2].rstrip())
-bench = int(lines[3].rstrip())
-deadlift = int(lines[4].rstrip())
-press = int(lines[5].rstrip())
-file.close()
-
 
 def convert(x, percentage, reps, base=5):
     decimal_percent = percentage * .01
@@ -48,11 +38,15 @@ def warmup(value, weekday):
         message += "SQUAT\n"
     message += convert(value, 40, 5) + "\n" + \
                convert(value, 50, 5) + "\n" + \
-               convert(value, 60, 5) + "\n"
+               convert(value, 60, 5) + "\n"  # Is this "over-indented? Maybe. Does it look better this way? YES.
     return message
 
 
-def five_three_one(weekday, resp):
+def five_three_one(weekday, lifts, resp):
+    squat = lifts[0]
+    bench = lifts[1]
+    deadlift = lifts[2]
+    press = lifts[3]
     message = "Here is your 5/3/1 split for today.\n\n"
     if weekday == "Tuesday":
         message += \
@@ -79,7 +73,11 @@ def five_three_one(weekday, resp):
     resp.message(message)
 
 
-def workout(weekday, resp):
+def workout(weekday, lifts, resp):
+    squat = lifts[0]
+    bench = lifts[1]
+    deadlift = lifts[2]
+    press = lifts[3]
     message = "Here is the remainder of your workout.\n\n"
     if weekday == "Monday":
         message += \
@@ -232,12 +230,12 @@ def incoming_sms():
                     name_file.close()
 
                     user_value = open(name + ".txt", "w+")  # Create a file for the user's values.
-                    value_lines = [name, ""]
+                    value_lines = [name + "\n", "" + "\n"]
                     user_value.writelines(value_lines)
                     user_value.close()
 
                     user_value = open(name + "_Backup.txt", "w+")  # Repeat the process for their backup.
-                    value_lines = [name, ""]
+                    value_lines = [name + "\n", "" + "\n"]
                     user_value.writelines(value_lines)
                     user_value.close()
 
@@ -292,14 +290,15 @@ def incoming_sms():
                           "\"initial name\" followed by your name."
                 resp.message(message)
         else:
-            if re.search('initial', body, re.IGNORECASE) is not None:
-                message = "This will be filled out later. For now, this confirms that something in my code doesn't" + \
-                          " get reset each time someone texts it, otherwise it would never recognize anyone but me."
-                # If the above line doesn't work, you will need to figure out a solution using a text file, which
-                # wouldn't get overridden each execution. That's an uglier implementation, however, so this method
-                # was tried first.
-                resp.message(message)
-            elif re.search('warmup', body, re.IGNORECASE) is not None:
+            file = open(user + ".txt", 'r')
+            lines = file.readlines()
+            squat = int(lines[2].rstrip())
+            bench = int(lines[3].rstrip())
+            deadlift = int(lines[4].rstrip())
+            press = int(lines[5].rstrip())
+            lifts = [squat, bench, deadlift, press]
+            file.close()
+            if re.search('warmup', body, re.IGNORECASE) is not None:
                 if weekday == "Sunday":
                     resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
                 elif weekday == "Monday" or weekday == "Friday":
@@ -315,9 +314,9 @@ def incoming_sms():
                     message = "Dude, it's a Sunday. You don't have a workout. Go watch anime or something."
                     resp.message(message)
                 elif weekday == "Monday" or weekday == "Saturday":
-                    workout(weekday, resp)
+                    workout(weekday, lifts, resp)
                 else:
-                    five_three_one(weekday, resp)
+                    five_three_one(weekday, lifts, resp)
             elif has_numbers(body) and re.search('rep', body, re.IGNORECASE) is not None:
                 backup = open(user + "_Backup.txt", 'w')
                 backup.writelines(lines)
@@ -337,25 +336,25 @@ def incoming_sms():
                                "New max: " + str(deadlift + increase)
                     lines[4] = str(deadlift + increase) + "\n"
                     resp.message(message)
-                    workout(weekday, resp)
+                    workout(weekday, lifts, resp)
                 elif weekday == "Wednesday":
                     message += "Old max: " + str(press) + "\n" + \
                                "New max: " + str(press + increase)
                     lines[5] = str(press + increase) + "\n"
                     resp.message(message)
-                    workout(weekday, resp)
+                    workout(weekday, lifts, resp)
                 elif weekday == "Thursday":
                     message += "Old max: " + str(squat) + "\n" + \
                                "New max: " + str(squat + increase)
                     lines[2] = str(squat + increase) + "\n"
                     resp.message(message)
-                    workout(weekday, resp)
+                    workout(weekday, lifts, resp)
                 elif weekday == "Friday":
                     message += "Old max: " + str(bench) + "\n" + \
                                "New max: " + str(bench + increase)
                     lines[3] = str(bench + increase) + "\n"
                     resp.message(message)
-                    workout(weekday, resp)
+                    workout(weekday, lifts, resp)
                 else:
                     message = "You don't have a 5/3/1 split today, so I'm not particularly sure why you are giving me your reps.\n"
                     resp.message(message)
@@ -368,14 +367,14 @@ def incoming_sms():
                 og_deadlift = int(lines[9].rstrip())
                 og_press = int(lines[10].rstrip())
                 message = "These are your current maxes.\n\n" + \
-                          "Squat: " + str(og_squat) + " -> " + str(squat) + " (A " + str(
-                    get_change(og_squat, squat)) + "% increase!)\n" + \
-                          "Bench: " + str(og_bench) + " -> " + str(bench) + " (A " + str(
-                    get_change(og_bench, bench)) + "% increase!)\n" + \
-                          "Deadlift: " + str(og_deadlift) + " -> " + str(deadlift) + " (A " + str(
-                    get_change(og_deadlift, deadlift)) + "% increase!)\n" + \
-                          "Press: " + str(og_press) + " -> " + str(press) + " (A " + str(
-                    get_change(og_press, press)) + "% increase!)"
+                          "Squat: " + str(og_squat) + " -> " + str(squat) + " (A " + \
+                          str(get_change(og_squat, squat)) + "% increase!)\n" + \
+                          "Bench: " + str(og_bench) + " -> " + str(bench) + " (A " + \
+                          str(get_change(og_bench, bench)) + "% increase!)\n" + \
+                          "Deadlift: " + str(og_deadlift) + " -> " + str(deadlift) + " (A " + \
+                          str(get_change(og_deadlift, deadlift)) + "% increase!)\n" + \
+                          "Press: " + str(og_press) + " -> " + str(press) + " (A " + \
+                          str(get_change(og_press, press)) + "% increase!)"
                 resp.message(message)
             elif re.search('undo', body, re.IGNORECASE) is not None:
                 backup = open(user + "_Backup.txt", 'r')
