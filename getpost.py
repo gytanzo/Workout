@@ -241,14 +241,55 @@ def incoming_sms():
                     user_value.writelines(value_lines)
                     user_value.close()
 
-                    message = "Welcome, " + name + "! Let's get you set up. In four separate texts, reply to " + \
-                        "this with your four main lifts in the order of squat, bench, deadlift, and overhead press. " + \
-                        "The numbers should be 90% of your 1RMs. For example, if your 1RMs are 200/120/300/100, " + \
-                        "reply with 180 as the first text, 108 as the second, 270 as the third, and 90 as the last."
+                    message = "Welcome, " + name + "! Let's get you set up. In four separate texts, reply to this" + \
+                              "message with your four main lifts: squat, bench, deadlift, and overhead press. " + \
+                              "The numbers should be prefaced with \"initial lift (lift name)\". Additionally, the numbers " + \
+                              "should be 90% of your 1RMs. For example, if your 1RMs are 200 squat, 120 bench, 300 deadlift" + \
+                              ", and 100 overhead, then the squat text as an example would be \"initial lift squat 180\"."
                     resp.message(message)
+                elif re.search('lift', body, re.IGNORECASE) is not None:  # They want to submit initial numbers.
+                    sent = body.replace("initial lift ", "")  # Remove the "initial" part of the string.
+
+                    main = open(user + ".txt", "r+")
+                    main_lines = main.readlines()
+                    backup = open(user + "_Backup.txt", "r+")
+                    backup_lines = backup.readlines()
+
+                    if re.search('squat', body, re.IGNORECASE) is not None:  # Inputting squat number.
+                        sent = sent.replace("squat ", "")
+                        sent = "".join(sent.split())
+                        main_lines[2] = sent
+                        main_lines[7] = sent
+                        backup_lines[2] = sent
+                        backup_lines[7] = sent
+                    elif re.search('bench', body, re.IGNORECASE) is not None:  # Inputting squat number.
+                        sent = sent.replace("bench ", "")
+                        sent = "".join(sent.split())
+                        main_lines[3] = sent
+                        main_lines[8] = sent
+                        backup_lines[3] = sent
+                        backup_lines[8] = sent
+                    elif re.search('deadlift', body, re.IGNORECASE) is not None:  # Inputting squat number.
+                        sent = sent.replace("deadlift ", "")
+                        sent = "".join(sent.split())
+                        main_lines[4] = sent
+                        main_lines[9] = sent
+                        backup_lines[4] = sent
+                        backup_lines[9] = sent
+                    elif re.search('overhead', body, re.IGNORECASE) is not None:  # Inputting squat number.
+                        sent = sent.replace("overhead ", "")
+                        sent = "".join(sent.split())
+                        main_lines[5] = sent
+                        main_lines[10] = sent
+                        backup_lines[5] = sent
+                        backup_lines[10] = sent
+                    main.writelines(main_lines)
+                    backup.writelines(backup_lines)
+                    main.close()
+                    backup.close()
             else:
-                message = "You do not seem to be registered yet. To to register, reply to this text with " + \
-                        "\"initial name\" followed by your name."
+                message = "You do not seem to be registered yet. To register, reply to this text with " + \
+                          "\"initial name\" followed by your name."
                 resp.message(message)
         else:
             if re.search('initial', body, re.IGNORECASE) is not None:
@@ -278,7 +319,7 @@ def incoming_sms():
                 else:
                     five_three_one(weekday, resp)
             elif has_numbers(body) and re.search('rep', body, re.IGNORECASE) is not None:
-                backup = open(name + "_Backup.txt", 'w')
+                backup = open(user + "_Backup.txt", 'w')
                 backup.writelines(lines)
                 backup.close()
                 number = int(''.join(filter(str.isdigit, body)))
@@ -318,7 +359,7 @@ def incoming_sms():
                 else:
                     message = "You don't have a 5/3/1 split today, so I'm not particularly sure why you are giving me your reps.\n"
                     resp.message(message)
-                modified = open(name + ".txt", 'w')
+                modified = open(user + ".txt", 'w')
                 modified.writelines(lines)
                 modified.close()
             elif re.search('maxes', body, re.IGNORECASE) is not None:
@@ -337,14 +378,14 @@ def incoming_sms():
                     get_change(og_press, press)) + "% increase!)"
                 resp.message(message)
             elif re.search('undo', body, re.IGNORECASE) is not None:
-                backup = open(name + "_Backup.txt", 'r')
+                backup = open(user + "_Backup.txt", 'r')
                 backup_lines = backup.readlines()
                 backup.close()
                 if backup_lines == lines:
                     message = "There are no changes to undo."
                 else:
                     message = "Undid most recent change."
-                    current = open(name + ".txt", 'w')
+                    current = open(user + ".txt", 'w')
                     current.writelines(backup_lines)
                     current.close()
                 resp.message(message)
@@ -352,7 +393,7 @@ def incoming_sms():
                 if has_numbers(body) is False:
                     message = "This failed. You seem to have forgotten to provide a number."
                 else:
-                    backup = open(name + "_Backup.txt", 'w')
+                    backup = open(user + "_Backup.txt", 'w')
                     backup.writelines(lines)
                     backup.close()
                     number = int(''.join(filter(str.isdigit, body)))
@@ -375,7 +416,7 @@ def incoming_sms():
                         lines[5] = str(press - number) + "\n"
                     else:
                         message = "This failed. Did you spell the name of the workout incorrectly?"
-                modified = open(name + ".txt", 'w')
+                modified = open(user + ".txt", 'w')
                 modified.writelines(lines)
                 modified.close()
                 resp.message(message)
@@ -389,8 +430,7 @@ def incoming_sms():
                           "(# of reps) reps\n" + \
                           "undo\n" + \
                           "warmup\n" + \
-                          "workout\n\n" + \
-                          "If this is your first time using this program, reply with \"initial\" to get started!"
+                          "workout"
                 resp.message(message)
     return str(resp)
 
