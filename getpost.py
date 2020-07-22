@@ -247,7 +247,7 @@ def incoming_sms():
                         "reply with 180 as the first text, 108 as the second, 270 as the third, and 90 as the last."
                     resp.message(message)
             else:
-                message = "You do not seem to be registered yet. To learn how to register, text this number " + \
+                message = "You do not seem to be registered yet. To to register, reply to this text with " + \
                         "\"initial name\" followed by your name."
                 resp.message(message)
         else:
