@@ -203,7 +203,7 @@ def incoming_sms():
 
     body = request.values.get('Body', None)
     phone_number = request.values.get('From', None)
-    phone_number = phone_number[1:]  # removes the addition symbol that messes w/ regex
+    # phone_number = phone_number[1:]  # removes the addition symbol that messes w/ regex
     user = ""
 
     name_file = open("Names.txt", 'r')
@@ -213,8 +213,7 @@ def incoming_sms():
     for line in names:
         if re.search(phone_number, line, re.IGNORECASE) is not None:
             line_copy = line
-            line_copy = re.sub(phone_number, '', line_copy, re.IGNORECASE)  # Remove phone number from string.
-            line_copy = re.sub(r", +", '', line_copy, re.IGNORECASE)  # Remove trailing characters, should just be name now
+            line_copy = line_copy.replace(", " + phone_number, '')
             user = line_copy
 
     if body is not None and body != '"':
