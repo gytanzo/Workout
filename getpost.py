@@ -223,7 +223,7 @@ def incoming_sms():
             if re.search('initial', body, re.IGNORECASE) is not None:
                 if re.search('name', body, re.IGNORECASE) is not None:  # They received the welcome message.
                     name = re.sub("initial", '', body, re.IGNORECASE)  # Remove the "initial" part of the string.
-                    name = re.sub("name", '', body, re.IGNORECASE)  # Remove the "name" part of the string.
+                    name = re.sub("name", '', name, re.IGNORECASE)  # Remove the "name" part of the string.
                     name = "".join(name.split())  # Remove all whitespaces from string.
 
                     name_file = open("Names.txt", 'a')
