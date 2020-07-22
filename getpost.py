@@ -222,12 +222,14 @@ def incoming_sms():
         if user == "":
             if re.search('initial', body, re.IGNORECASE) is not None:
                 if re.search('name', body, re.IGNORECASE) is not None:  # They received the welcome message.
-                    new_body = re.sub('initial', '', body, re.IGNORECASE)  # Remove the "initial" part of the string.
-                    new_body = re.sub('name', '', new_body, re.IGNORECASE)  # Remove the "name" part of the string."
-                    new_body = "".join(
-                        new_body.split())  # Remove all whitespaces from string. String should JUST be name now.
-                    # names; This code is now deprecated.
-                    # names[new_body] = phone_number  # Register the user.
+                    new_body = body.replace("initial", "")  # Remove the "initial" part of the string.
+                    new_body = new_body.replace("name", "")  # Remove the "name" part of the string.
+                    new_body = "".join(new_body.split())  # Remove all whitespaces from string.
+
+                    name_file = open("Names.txt", 'a')
+                    new_user = new_body + ", +" + phone_number + "\n"
+                    name_file.write(new_user)
+                    name_file.close()
 
                     user_value = open(new_body + ".txt", "w+")  # Create a file for the user's values.
                     value_lines = [new_body, ""]
@@ -239,7 +241,10 @@ def incoming_sms():
                     user_value.writelines(value_lines)
                     user_value.close()
 
-                    message = "Hello, " + new_body + "!"  # Change this later to request starting lifts.
+                    message = "Welcome, " + new_body + "! Let's get you set up. In four separate texts, reply to " + \
+                        "this with your four main lifts in the order of squat, bench, deadlift, and overhead press. " + \
+                        "The numbers should be 90% of your 1RMs. For example, if your 1RMs are 200/120/300/100, " + \
+                        "reply with 180 as the first text, 108 as the second, 270 as the third, and 90 as the last."
                     resp.message(message)
                 else:  # Welcome them!
                     message = "You have already registered with this program, " + user + "."
