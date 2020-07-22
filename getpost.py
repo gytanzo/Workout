@@ -379,7 +379,8 @@ def incoming_sms():
                           "(# of reps) reps\n" + \
                           "undo\n" + \
                           "warmup\n" + \
-                          "workout"
+                          "workout\n\n" + \
+                          "If this is your first time using this program, reply with \"initial\" to get started!"
                 resp.message(message)
     return str(resp)
 
