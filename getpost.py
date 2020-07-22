@@ -38,17 +38,16 @@ def get_change(current, previous):
 
 
 def warmup(value, weekday):
-    message = ""
+    message = "Here is your warmup.\n\n"
     if weekday == "Monday" or weekday == "Friday":
-        message = "Today is a bench press day."
+        message += "BENCH PRESS\n"
     elif weekday == "Tuesday" or weekday == "Saturday":
-        message = "Today is a deadlift day."
+        message += "DEADLIFT\n"
     elif weekday == "Wednesday":
-        message = "Today is an overhead press day."
+        message += "OVERHEAD PRESS\n"
     elif weekday == "Thursday":
-        message = "Today is a squat day."
-    message += "Here is your warmup.\n\n" + \
-               convert(value, 40, 5) + "\n" + \
+        message += "SQUAT\n"
+    message += convert(value, 40, 5) + "\n" + \
                convert(value, 50, 5) + "\n" + \
                convert(value, 60, 5) + "\n"
     return message
@@ -217,7 +216,8 @@ def incoming_sms():
                 if re.search('name', body, re.IGNORECASE) is not None:  # They received the welcome message.
                     new_body = re.sub('initial', '', body, re.IGNORECASE)  # Remove the "initial" part of the string.
                     new_body = re.sub('name', '', new_body, re.IGNORECASE)  # Remove the "name" part of the string."
-                    new_body = "".join(new_body.split())  # Remove all whitespaces from string. String should JUST be name now.
+                    new_body = "".join(
+                        new_body.split())  # Remove all whitespaces from string. String should JUST be name now.
                     names[new_body] = phone_number  # Register the user.
 
                     user_value = open(new_body + ".txt", "w+")  # Create a file for the user's values.
@@ -243,7 +243,7 @@ def incoming_sms():
         else:
             if re.search('initial', body, re.IGNORECASE) is not None:
                 message = "This will be filled out later. For now, this confirms that something in my code doesn't" + \
-                    " get reset each time someone texts it, otherwise it would never recognize anyone but me."
+                          " get reset each time someone texts it, otherwise it would never recognize anyone but me."
                 # If the above line doesn't work, you will need to figure out a solution using a text file, which
                 # wouldn't get overridden each execution. That's an uglier implementation, however, so this method
                 # was tried first.
