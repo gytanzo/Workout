@@ -5,9 +5,9 @@ import re
 
 app = Flask(__name__)
 
-name = "Ben"
+my_name = "Ben"
 
-file = open(name + ".txt", 'r')
+file = open(my_name + ".txt", 'r')
 lines = file.readlines()
 squat = int(lines[2].rstrip())
 bench = int(lines[3].rstrip())
@@ -222,35 +222,33 @@ def incoming_sms():
         if user == "":
             if re.search('initial', body, re.IGNORECASE) is not None:
                 if re.search('name', body, re.IGNORECASE) is not None:  # They received the welcome message.
-                    new_body = body.replace("initial", "")  # Remove the "initial" part of the string.
-                    new_body = new_body.replace("name", "")  # Remove the "name" part of the string.
-                    new_body = "".join(new_body.split())  # Remove all whitespaces from string.
+                    name = body.replace("initial", "")  # Remove the "initial" part of the string.
+                    name = name.replace("name", "")  # Remove the "name" part of the string.
+                    name = "".join(name.split())  # Remove all whitespaces from string.
 
                     name_file = open("Names.txt", 'a')
-                    new_user = new_body + ", +" + phone_number + "\n"
+                    new_user = name + ", +" + phone_number + "\n"
                     name_file.write(new_user)
                     name_file.close()
 
-                    user_value = open(new_body + ".txt", "w+")  # Create a file for the user's values.
-                    value_lines = [new_body, ""]
+                    user_value = open(name + ".txt", "w+")  # Create a file for the user's values.
+                    value_lines = [name, ""]
                     user_value.writelines(value_lines)
                     user_value.close()
 
-                    user_value = open(new_body + "_Backup.txt", "w+")  # Repeat the process for their backup.
-                    value_lines = [new_body, ""]
+                    user_value = open(name + "_Backup.txt", "w+")  # Repeat the process for their backup.
+                    value_lines = [name, ""]
                     user_value.writelines(value_lines)
                     user_value.close()
 
-                    message = "Welcome, " + new_body + "! Let's get you set up. In four separate texts, reply to " + \
+                    message = "Welcome, " + name + "! Let's get you set up. In four separate texts, reply to " + \
                         "this with your four main lifts in the order of squat, bench, deadlift, and overhead press. " + \
                         "The numbers should be 90% of your 1RMs. For example, if your 1RMs are 200/120/300/100, " + \
                         "reply with 180 as the first text, 108 as the second, 270 as the third, and 90 as the last."
                     resp.message(message)
-                else:  # Welcome them!
-                    message = "You have already registered with this program, " + user + "."
-                    resp.message(message)
             else:
-                message = "You do not seem to be registered yet. To learn how to register, text this number \"initial\"."
+                message = "You do not seem to be registered yet. To learn how to register, text this number " + \
+                        "\"initial name\" followed by your name."
                 resp.message(message)
         else:
             if re.search('initial', body, re.IGNORECASE) is not None:
