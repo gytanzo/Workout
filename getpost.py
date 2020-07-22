@@ -207,6 +207,15 @@ def incoming_sms():
     names = name_file.readlines()
     name_file.close()
 
+    for line in names:
+        if re.search(phone_number, line, re.IGNORECASE) is not None:
+            message = line
+            resp.message(message)
+            return
+            line_copy = line
+            line_copy = re.sub(phone_number, '', line_copy, re.IGNORECASE)  # Remove phone number from string.
+            line_copy = re.sub(", ", '', line_copy, re.IGNORECASE)  # Remove trailing characters, should just be name now
+            user = line_copy
 
     resp = MessagingResponse()
 
