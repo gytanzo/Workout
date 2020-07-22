@@ -207,10 +207,7 @@ def incoming_sms():
     names = name_file.readlines()
     name_file.close()
 
-    for line in names:
-        if re.search(phone_number, line, re.IGNORECASE) is not None:
-            line_copy = line
-            user = line_copy
+    user = "Ben"
 
     resp = MessagingResponse()
 
