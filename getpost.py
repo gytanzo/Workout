@@ -207,9 +207,10 @@ def incoming_sms():
     names = name_file.readlines()
     name_file.close()
 
-    user = "Ben"
-
     resp = MessagingResponse()
+    message = phone_number
+    resp.message(message)
+    return str(resp)
 
     if body is not None and body != '"':
         if user == "":
@@ -238,8 +239,7 @@ def incoming_sms():
                     message = "You have already registered with this program, " + user + "."
                     resp.message(message)
             else:
-                #message = "You do not seem to be registered yet. To learn how to register, text this number \"initial\"."
-                message = user
+                message = "You do not seem to be registered yet. To learn how to register, text this number \"initial\"."
                 resp.message(message)
         else:
             if re.search('initial', body, re.IGNORECASE) is not None:
