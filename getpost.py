@@ -258,11 +258,6 @@ def incoming_sms():
                     backup = open(user + "_Backup.txt", "r+")
                     backup_lines = backup.readlines()
 
-                    if file_len(user + ".txt") >= 11:
-                        message = "You have already provided your initial lifts."
-                        resp.message(message)
-                        return str(resp)
-
                     if re.search('squat', body, re.IGNORECASE) is not None:  # Inputting squat number.
                         sent = sent.replace("squat ", "")
                         sent = "".join(sent.split())
