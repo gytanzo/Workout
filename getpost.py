@@ -193,6 +193,13 @@ def workout(weekday, lifts, resp):
     resp.message(message)
 
 
+def file_len(fname):
+    with open(fname) as f:
+        for i, l in enumerate(f):
+            pass
+    return i + 1
+
+
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
     resp = MessagingResponse()
@@ -252,6 +259,11 @@ def incoming_sms():
                     main_lines = main.readlines()
                     backup = open(user + "_Backup.txt", "r+")
                     backup_lines = backup.readlines()
+
+                    if file_len(user + ".txt") >= 11:
+                        message = "You already provided your initial lifts."
+                        resp.message(message)
+                        return str(message)
 
                     if re.search('squat', body, re.IGNORECASE) is not None:  # Inputting squat number.
                         sent = sent.replace("squat ", "")
