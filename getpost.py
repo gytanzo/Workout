@@ -200,6 +200,22 @@ def file_len(fname):
     return i + 1
 
 
+def setup_file(name):
+    file = name + "\n" + \
+           "\n" + \
+           "Squat" + \
+           "Bench" + \
+           "Deadlift" + \
+           "Press" + \
+           "\n" + \
+           "Squat" + \
+           "Bench" + \
+           "Deadlift" + \
+           "Press" + \
+           "\n"
+    return file
+
+
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
     resp = MessagingResponse()
@@ -237,13 +253,12 @@ def incoming_sms():
                     name_file.close()
 
                     user_value = open(name + ".txt", "w+")  # Create a file for the user's values.
-                    value_lines = [name + "\n", "" + "\n"]
-                    user_value.writelines(value_lines)
+                    value_lines = setup_file(name)
+                    user_value.write(value_lines)
                     user_value.close()
 
                     user_value = open(name + "_Backup.txt", "w+")  # Repeat the process for their backup.
-                    value_lines = [name + "\n", "" + "\n"]
-                    user_value.writelines(value_lines)
+                    user_value.write(value_lines)
                     user_value.close()
 
                     message = "Welcome, " + name + "! Let's get you set up. In four separate texts, reply to this" + \
@@ -266,50 +281,113 @@ def incoming_sms():
             lifts = [squat, bench, deadlift, press]
             file.close()
 
-            if re.search('lift', body, re.IGNORECASE) is not None:  # They want to submit initial numbers.
-                sent = body.replace("initial lift ", "")  # Remove the "initial" part of the string.
+            if re.search('intial lift', body, re.IGNORECASE) is not None:  # They want to submit initial numbers.
+                sent = re.sub("initial lift ", '', body, flags=re.IGNORECASE)  # Remove the "initial" part of the string.
 
-                main = open(user + ".txt", "r+")
-                main_lines = main.readlines()
-                backup = open(user + "_Backup.txt", "r+")
-                backup_lines = backup.readlines()
+                if re.search('squat', body, re.IGNORECASE) is not None:  # Inputting squat number.
+                    sent = re.sub("squat", '', sent, flags=re.IGNORECASE)
+                    sent = "".join(sent.split())
+                    read_first_file = open(user + ".txt", "r")
+                    first_file_content = ""
+                    for line in read_first_file:
+                        stripped_line = line.strip()
+                        new_line = stripped_line.replace("Squat", sent)
+                        first_file_content += new_line + "\n"
+                    read_first_file.close()
 
-                if file_len(user + ".txt") >= 11:
-                    message = "You already provided your initial lifts."
-                    resp.message(message)
-                else:
-                    if re.search('squat', body, re.IGNORECASE) is not None:  # Inputting squat number.
-                        sent = sent.replace("squat ", "")
-                        sent = "".join(sent.split())
-                        main_lines[2] = sent
-                        main_lines[7] = sent
-                        backup_lines[2] = sent
-                        backup_lines[7] = sent
-                    elif re.search('bench', body, re.IGNORECASE) is not None:  # Inputting squat number.
-                        sent = sent.replace("bench ", "")
-                        sent = "".join(sent.split())
-                        main_lines[3] = sent
-                        main_lines[8] = sent
-                        backup_lines[3] = sent
-                        backup_lines[8] = sent
-                    elif re.search('deadlift', body, re.IGNORECASE) is not None:  # Inputting squat number.
-                        sent = sent.replace("deadlift ", "")
-                        sent = "".join(sent.split())
-                        main_lines[4] = sent
-                        main_lines[9] = sent
-                        backup_lines[4] = sent
-                        backup_lines[9] = sent
-                    elif re.search('overhead', body, re.IGNORECASE) is not None:  # Inputting squat number.
-                        sent = sent.replace("overhead ", "")
-                        sent = "".join(sent.split())
-                        main_lines[5] = sent
-                        main_lines[10] = sent
-                        backup_lines[5] = sent
-                        backup_lines[10] = sent
-                main.writelines(main_lines)
-                backup.writelines(backup_lines)
-                main.close()
-                backup.close()
+                    write_first_file = open(user + ".txt", "w")
+                    write_first_file.write(first_file_content)
+                    write_first_file.close()
+
+                    read_second_file = open(user + "_Backup.txt", "r")
+                    second_file_content = ""
+                    for line in read_second_file:
+                        stripped_line = line.strip()
+                        new_line = stripped_line.replace("Squat", sent)
+                        second_file_content += new_line + "\n"
+                    read_second_file.close()
+
+                    write_second_file = open(user + "_Backup.txt", "w")
+                    write_second_file.write(second_file_content)
+                    write_second_file.close()
+                elif re.search('bench', sent, re.IGNORECASE) is not None:  # Inputting squat number.
+                    sent = re.sub("bench", '', sent, flags=re.IGNORECASE)
+                    sent = "".join(sent.split())
+                    read_first_file = open(user + ".txt", "r")
+                    first_file_content = ""
+                    for line in read_first_file:
+                        stripped_line = line.strip()
+                        new_line = stripped_line.replace("Bench", sent)
+                        first_file_content += new_line + "\n"
+                    read_first_file.close()
+
+                    write_first_file = open(user + ".txt", "w")
+                    write_first_file.write(first_file_content)
+                    write_first_file.close()
+
+                    read_second_file = open(user + "_Backup.txt", "r")
+                    second_file_content = ""
+                    for line in read_second_file:
+                        stripped_line = line.strip()
+                        new_line = stripped_line.replace("Bench", sent)
+                        second_file_content += new_line + "\n"
+                    read_second_file.close()
+
+                    write_second_file = open(user + "_Backup.txt", "w")
+                    write_second_file.write(second_file_content)
+                    write_second_file.close()
+                elif re.search('deadlift', sent, re.IGNORECASE) is not None:  # Inputting squat number.
+                    sent = re.sub("deadlift", '', sent, flags=re.IGNORECASE)
+                    sent = "".join(sent.split())
+                    read_first_file = open(user + ".txt", "r")
+                    first_file_content = ""
+                    for line in read_first_file:
+                        stripped_line = line.strip()
+                        new_line = stripped_line.replace("Deadlift", sent)
+                        first_file_content += new_line + "\n"
+                    read_first_file.close()
+
+                    write_first_file = open(user + ".txt", "w")
+                    write_first_file.write(first_file_content)
+                    write_first_file.close()
+
+                    read_second_file = open(user + "_Backup.txt", "r")
+                    second_file_content = ""
+                    for line in read_second_file:
+                        stripped_line = line.strip()
+                        new_line = stripped_line.replace("Deadlift", sent)
+                        second_file_content += new_line + "\n"
+                    read_second_file.close()
+
+                    write_second_file = open(user + "_Backup.txt", "w")
+                    write_second_file.write(second_file_content)
+                    write_second_file.close()
+                elif re.search('overhead press', sent, re.IGNORECASE) is not None:  # Inputting squat number.
+                    sent = re.sub("overhead press", '', sent, flags=re.IGNORECASE)
+                    sent = "".join(sent.split())
+                    read_first_file = open(user + ".txt", "r")
+                    first_file_content = ""
+                    for line in read_first_file:
+                        stripped_line = line.strip()
+                        new_line = stripped_line.replace("Press", sent)
+                        first_file_content += new_line + "\n"
+                    read_first_file.close()
+
+                    write_first_file = open(user + ".txt", "w")
+                    write_first_file.write(first_file_content)
+                    write_first_file.close()
+
+                    read_second_file = open(user + "_Backup.txt", "r")
+                    second_file_content = ""
+                    for line in read_second_file:
+                        stripped_line = line.strip()
+                        new_line = stripped_line.replace("Press", sent)
+                        second_file_content += new_line + "\n"
+                    read_second_file.close()
+
+                    write_second_file = open(user + "_Backup.txt", "w")
+                    write_second_file.write(second_file_content)
+                    write_second_file.close()
             elif re.search('warmup', body, re.IGNORECASE) is not None:
                 if weekday == "Sunday":
                     resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
