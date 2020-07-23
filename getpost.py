@@ -313,6 +313,9 @@ def incoming_sms():
                     write_second_file = open(user + "_Backup.txt", "w")
                     write_second_file.write(second_file_content)
                     write_second_file.close()
+
+                    message = "Successfully initialized squat!"
+                    resp.message(message)
                 elif re.search('bench', sent, re.IGNORECASE) is not None:  # Inputting squat number.
                     sent = re.sub("bench", '', sent, flags=re.IGNORECASE)
                     sent = "".join(sent.split())
