@@ -281,7 +281,7 @@ def incoming_sms():
             lifts = [squat, bench, deadlift, press]
             file.close()
 
-            if re.search('intial lift', body, re.IGNORECASE) is not None:  # They want to submit initial numbers.
+            if re.search('initial lift', body, re.IGNORECASE) is not None:  # They want to submit initial numbers.
                 sent = re.sub("initial lift ", '', body, flags=re.IGNORECASE)  # Remove the "initial" part of the string.
 
                 if re.search('squat', body, re.IGNORECASE) is not None:  # Inputting squat number.
