@@ -252,51 +252,6 @@ def incoming_sms():
                               "should be 90% of your 1RMs. For example, if your 1RMs are 200 squat, 120 bench, 300 deadlift" + \
                               ", and 100 overhead, then the squat text as an example would be \"initial lift squat 180\"."
                     resp.message(message)
-                elif re.search('lift', body, re.IGNORECASE) is not None:  # They want to submit initial numbers.
-                    sent = body.replace("initial lift ", "")  # Remove the "initial" part of the string.
-
-                    main = open(user + ".txt", "r+")
-                    main_lines = main.readlines()
-                    backup = open(user + "_Backup.txt", "r+")
-                    backup_lines = backup.readlines()
-
-                    if file_len(user + ".txt") >= 11:
-                        message = "You already provided your initial lifts."
-                        resp.message(message)
-                        return str(message)
-
-                    if re.search('squat', body, re.IGNORECASE) is not None:  # Inputting squat number.
-                        sent = sent.replace("squat ", "")
-                        sent = "".join(sent.split())
-                        main_lines[2] = sent
-                        main_lines[7] = sent
-                        backup_lines[2] = sent
-                        backup_lines[7] = sent
-                    elif re.search('bench', body, re.IGNORECASE) is not None:  # Inputting squat number.
-                        sent = sent.replace("bench ", "")
-                        sent = "".join(sent.split())
-                        main_lines[3] = sent
-                        main_lines[8] = sent
-                        backup_lines[3] = sent
-                        backup_lines[8] = sent
-                    elif re.search('deadlift', body, re.IGNORECASE) is not None:  # Inputting squat number.
-                        sent = sent.replace("deadlift ", "")
-                        sent = "".join(sent.split())
-                        main_lines[4] = sent
-                        main_lines[9] = sent
-                        backup_lines[4] = sent
-                        backup_lines[9] = sent
-                    elif re.search('overhead', body, re.IGNORECASE) is not None:  # Inputting squat number.
-                        sent = sent.replace("overhead ", "")
-                        sent = "".join(sent.split())
-                        main_lines[5] = sent
-                        main_lines[10] = sent
-                        backup_lines[5] = sent
-                        backup_lines[10] = sent
-                    main.writelines(main_lines)
-                    backup.writelines(backup_lines)
-                    main.close()
-                    backup.close()
             else:
                 message = "You do not seem to be registered yet. To register, reply to this text with " + \
                           "\"initial name\" followed by your name."
@@ -310,7 +265,53 @@ def incoming_sms():
             press = int(lines[5].rstrip())
             lifts = [squat, bench, deadlift, press]
             file.close()
-            if re.search('warmup', body, re.IGNORECASE) is not None:
+            
+            if re.search('lift', body, re.IGNORECASE) is not None:  # They want to submit initial numbers.
+                sent = body.replace("initial lift ", "")  # Remove the "initial" part of the string.
+
+                main = open(user + ".txt", "r+")
+                main_lines = main.readlines()
+                backup = open(user + "_Backup.txt", "r+")
+                backup_lines = backup.readlines()
+
+                if file_len(user + ".txt") >= 11:
+                    message = "You already provided your initial lifts."
+                    resp.message(message)
+                    return str(message)
+
+                if re.search('squat', body, re.IGNORECASE) is not None:  # Inputting squat number.
+                    sent = sent.replace("squat ", "")
+                    sent = "".join(sent.split())
+                    main_lines[2] = sent
+                    main_lines[7] = sent
+                    backup_lines[2] = sent
+                    backup_lines[7] = sent
+                elif re.search('bench', body, re.IGNORECASE) is not None:  # Inputting squat number.
+                    sent = sent.replace("bench ", "")
+                    sent = "".join(sent.split())
+                    main_lines[3] = sent
+                    main_lines[8] = sent
+                    backup_lines[3] = sent
+                    backup_lines[8] = sent
+                elif re.search('deadlift', body, re.IGNORECASE) is not None:  # Inputting squat number.
+                    sent = sent.replace("deadlift ", "")
+                    sent = "".join(sent.split())
+                    main_lines[4] = sent
+                    main_lines[9] = sent
+                    backup_lines[4] = sent
+                    backup_lines[9] = sent
+                elif re.search('overhead', body, re.IGNORECASE) is not None:  # Inputting squat number.
+                    sent = sent.replace("overhead ", "")
+                    sent = "".join(sent.split())
+                    main_lines[5] = sent
+                    main_lines[10] = sent
+                    backup_lines[5] = sent
+                    backup_lines[10] = sent
+                main.writelines(main_lines)
+                backup.writelines(backup_lines)
+                main.close()
+                backup.close()
+            elif re.search('warmup', body, re.IGNORECASE) is not None:
                 if weekday == "Sunday":
                     resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
                 elif weekday == "Monday" or weekday == "Friday":
