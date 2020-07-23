@@ -48,7 +48,7 @@ def warmup(value, weekday):
         message += "SQUAT\n"
     message += convert(value, 40, 5) + "\n" + \
                convert(value, 50, 5) + "\n" + \
-               convert(value, 60, 5) + "\n"  # Is this "over-indented? Maybe. Does it look better this way? YES.
+               convert(value, 60, 5) + "\n"
     return message
 
 
@@ -232,12 +232,12 @@ def incoming_sms():
                     name_file.close()
 
                     user_value = open(name + ".txt", "w+")  # Create a file for the user's values.
-                    value_lines = [name + "\n", "" + "\n"]
+                    value_lines = [name, ""]
                     user_value.writelines(value_lines)
                     user_value.close()
 
                     user_value = open(name + "_Backup.txt", "w+")  # Repeat the process for their backup.
-                    value_lines = [name + "\n", "" + "\n"]
+                    value_lines = [name, ""]
                     user_value.writelines(value_lines)
                     user_value.close()
 
