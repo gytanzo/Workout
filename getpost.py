@@ -191,12 +191,7 @@ def workout(weekday, lifts, resp):
             convert(squat, 56.25, 3) + "\n" + \
             convert(squat, 56.25, 3)
     resp.message(message)
-
-def file_len(fname):
-    with open(fname) as f:
-        for i, l in enumerate(f):
-            pass
-    return i + 1
+    
 
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
