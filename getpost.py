@@ -265,7 +265,7 @@ def incoming_sms():
             press = int(lines[5].rstrip())
             lifts = [squat, bench, deadlift, press]
             file.close()
-            
+
             if re.search('lift', body, re.IGNORECASE) is not None:  # They want to submit initial numbers.
                 sent = body.replace("initial lift ", "")  # Remove the "initial" part of the string.
 
@@ -277,36 +277,35 @@ def incoming_sms():
                 if file_len(user + ".txt") >= 11:
                     message = "You already provided your initial lifts."
                     resp.message(message)
-                    return str(message)
-
-                if re.search('squat', body, re.IGNORECASE) is not None:  # Inputting squat number.
-                    sent = sent.replace("squat ", "")
-                    sent = "".join(sent.split())
-                    main_lines[2] = sent
-                    main_lines[7] = sent
-                    backup_lines[2] = sent
-                    backup_lines[7] = sent
-                elif re.search('bench', body, re.IGNORECASE) is not None:  # Inputting squat number.
-                    sent = sent.replace("bench ", "")
-                    sent = "".join(sent.split())
-                    main_lines[3] = sent
-                    main_lines[8] = sent
-                    backup_lines[3] = sent
-                    backup_lines[8] = sent
-                elif re.search('deadlift', body, re.IGNORECASE) is not None:  # Inputting squat number.
-                    sent = sent.replace("deadlift ", "")
-                    sent = "".join(sent.split())
-                    main_lines[4] = sent
-                    main_lines[9] = sent
-                    backup_lines[4] = sent
-                    backup_lines[9] = sent
-                elif re.search('overhead', body, re.IGNORECASE) is not None:  # Inputting squat number.
-                    sent = sent.replace("overhead ", "")
-                    sent = "".join(sent.split())
-                    main_lines[5] = sent
-                    main_lines[10] = sent
-                    backup_lines[5] = sent
-                    backup_lines[10] = sent
+                else:
+                    if re.search('squat', body, re.IGNORECASE) is not None:  # Inputting squat number.
+                        sent = sent.replace("squat ", "")
+                        sent = "".join(sent.split())
+                        main_lines[2] = sent
+                        main_lines[7] = sent
+                        backup_lines[2] = sent
+                        backup_lines[7] = sent
+                    elif re.search('bench', body, re.IGNORECASE) is not None:  # Inputting squat number.
+                        sent = sent.replace("bench ", "")
+                        sent = "".join(sent.split())
+                        main_lines[3] = sent
+                        main_lines[8] = sent
+                        backup_lines[3] = sent
+                        backup_lines[8] = sent
+                    elif re.search('deadlift', body, re.IGNORECASE) is not None:  # Inputting squat number.
+                        sent = sent.replace("deadlift ", "")
+                        sent = "".join(sent.split())
+                        main_lines[4] = sent
+                        main_lines[9] = sent
+                        backup_lines[4] = sent
+                        backup_lines[9] = sent
+                    elif re.search('overhead', body, re.IGNORECASE) is not None:  # Inputting squat number.
+                        sent = sent.replace("overhead ", "")
+                        sent = "".join(sent.split())
+                        main_lines[5] = sent
+                        main_lines[10] = sent
+                        backup_lines[5] = sent
+                        backup_lines[10] = sent
                 main.writelines(main_lines)
                 backup.writelines(backup_lines)
                 main.close()
