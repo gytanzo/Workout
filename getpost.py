@@ -5,6 +5,16 @@ import re
 
 app = Flask(__name__)
 
+my_name = "Ben"
+
+file = open(my_name + ".txt", 'r')
+lines = file.readlines()
+squat = int(lines[2].rstrip())
+bench = int(lines[3].rstrip())
+deadlift = int(lines[4].rstrip())
+press = int(lines[5].rstrip())
+file.close()
+
 
 def convert(x, percentage, reps, base=5):
     decimal_percent = percentage * .01
@@ -42,11 +52,7 @@ def warmup(value, weekday):
     return message
 
 
-def five_three_one(weekday, lifts, resp):
-    squat = lifts[0]
-    bench = lifts[1]
-    deadlift = lifts[2]
-    press = lifts[3]
+def five_three_one(weekday, resp):
     message = "Here is your 5/3/1 split for today.\n\n"
     if weekday == "Tuesday":
         message += \
@@ -73,11 +79,7 @@ def five_three_one(weekday, lifts, resp):
     resp.message(message)
 
 
-def workout(weekday, lifts, resp):
-    squat = lifts[0]
-    bench = lifts[1]
-    deadlift = lifts[2]
-    press = lifts[3]
+def workout(weekday, resp):
     message = "Here is the remainder of your workout.\n\n"
     if weekday == "Monday":
         message += \
@@ -191,7 +193,7 @@ def workout(weekday, lifts, resp):
             convert(squat, 56.25, 3) + "\n" + \
             convert(squat, 56.25, 3)
     resp.message(message)
-    
+
 
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
@@ -290,14 +292,6 @@ def incoming_sms():
                           "\"initial name\" followed by your name."
                 resp.message(message)
         else:
-            file = open(user + ".txt", 'r')
-            lines = file.readlines()
-            squat = int(lines[2].rstrip())
-            bench = int(lines[3].rstrip())
-            deadlift = int(lines[4].rstrip())
-            press = int(lines[5].rstrip())
-            lifts = [squat, bench, deadlift, press]
-            file.close()
             if re.search('warmup', body, re.IGNORECASE) is not None:
                 if weekday == "Sunday":
                     resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
@@ -314,9 +308,9 @@ def incoming_sms():
                     message = "Dude, it's a Sunday. You don't have a workout. Go watch anime or something."
                     resp.message(message)
                 elif weekday == "Monday" or weekday == "Saturday":
-                    workout(weekday, lifts, resp)
+                    workout(weekday, resp)
                 else:
-                    five_three_one(weekday, lifts, resp)
+                    five_three_one(weekday, resp)
             elif has_numbers(body) and re.search('rep', body, re.IGNORECASE) is not None:
                 backup = open(user + "_Backup.txt", 'w')
                 backup.writelines(lines)
@@ -336,25 +330,25 @@ def incoming_sms():
                                "New max: " + str(deadlift + increase)
                     lines[4] = str(deadlift + increase) + "\n"
                     resp.message(message)
-                    workout(weekday, lifts, resp)
+                    workout(weekday, resp)
                 elif weekday == "Wednesday":
                     message += "Old max: " + str(press) + "\n" + \
                                "New max: " + str(press + increase)
                     lines[5] = str(press + increase) + "\n"
                     resp.message(message)
-                    workout(weekday, lifts, resp)
+                    workout(weekday, resp)
                 elif weekday == "Thursday":
                     message += "Old max: " + str(squat) + "\n" + \
                                "New max: " + str(squat + increase)
                     lines[2] = str(squat + increase) + "\n"
                     resp.message(message)
-                    workout(weekday, lifts, resp)
+                    workout(weekday, resp)
                 elif weekday == "Friday":
                     message += "Old max: " + str(bench) + "\n" + \
                                "New max: " + str(bench + increase)
                     lines[3] = str(bench + increase) + "\n"
                     resp.message(message)
-                    workout(weekday, lifts, resp)
+                    workout(weekday, resp)
                 else:
                     message = "You don't have a 5/3/1 split today, so I'm not particularly sure why you are giving me your reps.\n"
                     resp.message(message)
