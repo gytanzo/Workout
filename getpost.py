@@ -247,7 +247,7 @@ def incoming_sms():
                     name = re.sub("name", '', name, flags=re.IGNORECASE)  # Remove the "name" part of the string."
                     name = "".join(name.split())  # Remove all whitespaces from string. String should JUST be name now.
 
-                    name_file = open("Names.txt", 'a')
+                    name_file = open("Names.txt", 'a+')
                     new_user = name + ", +" + phone_number + "\n"
                     name_file.write(new_user)
                     name_file.close()
@@ -267,6 +267,10 @@ def incoming_sms():
                               "should be 90% of your 1RMs. For example, if your 1RMs are 200 squat, 120 bench, 300 deadlift" + \
                               ", and 100 overhead, then the squat text as an example would be \"initial lift squat 180\"."
                     resp.message(message)
+                else:
+                    message = "You aren't using the initial command correctly. Respond with \"initial name\" followed" + \
+                              "by your name to get started. For example, I would respond with \"initial name Ben\"."
+                    resp.message(message)
             else:
                 message = "You do not seem to be registered yet. To register, reply to this text with " + \
                           "\"initial name\" followed by your name."
@@ -283,7 +287,6 @@ def incoming_sms():
 
             if re.search('initial lift', body, re.IGNORECASE) is not None:  # They want to submit initial numbers.
                 sent = re.sub("initial lift ", '', body, flags=re.IGNORECASE)  # Remove the "initial" part of the string.
-
                 if re.search('squat', body, re.IGNORECASE) is not None:  # Inputting squat number.
                     sent = re.sub("squat", '', sent, flags=re.IGNORECASE)
                     sent = "".join(sent.split())
@@ -514,7 +517,7 @@ def incoming_sms():
                 modified.close()
                 resp.message(message)
             elif re.search('hello', body, re.IGNORECASE) is not None:
-                message = "Hello, " + user + "!"
+                message = body + ", " + user + "!"
                 resp.message(message)
             else:
                 message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
