@@ -388,6 +388,10 @@ def incoming_sms():
                     write_second_file = open(user + "_Backup.txt", "w")
                     write_second_file.write(second_file_content)
                     write_second_file.close()
+                else:
+                    message = "You either have already registered your training max for this specific list or all four" + \
+                        "of the lists. Carry on."
+                    resp.message(message)
             elif re.search('warmup', body, re.IGNORECASE) is not None:
                 if weekday == "Sunday":
                     resp.message("Silly goose, it's a Sunday. You don't have a warmup. Or a workout.")
