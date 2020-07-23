@@ -3,11 +3,11 @@ from twilio.twiml.messaging_response import MessagingResponse
 from datetime import datetime
 import re
 
-
 app = Flask(__name__)
 
 name = "Ben"
 names = {"Ben": "+15853974321"}
+
 file = open(name + ".txt", 'r')
 lines = file.readlines()
 squat = int(lines[2].rstrip())
@@ -68,8 +68,6 @@ def five_three_one(weekday, resp):
             convert(bench, 85, 3) + "\n" + \
             convert(bench, 95, 1) + "+\n"
     else:
-        #  message = "You don't have a 5/3/1 split today."
-        message = weekday
         message = "You don't have a 5/3/1 split today."
     resp.message(message)
 
@@ -77,7 +75,7 @@ def five_three_one(weekday, resp):
 def workout(weekday, resp):
     message = "Here is the remainder of your workout.\n\n"
     if weekday == "Monday":
-        message = \
+        message += \
             "BENCH PRESS\n" + \
             convert(bench, 65, 8) + "\n" + \
             convert(bench, 75, 6) + "\n" + \
@@ -170,7 +168,7 @@ def workout(weekday, resp):
             convert(bench, 60, 6) + "\n" + \
             convert(bench, 60, 8)
     elif weekday == "Saturday":
-        message = \
+        message += \
             "DEADLIFT\n" + \
             convert(deadlift, 72.5, 3) + "\n" + \
             convert(deadlift, 72.5, 3) + "\n" + \
@@ -193,13 +191,17 @@ def workout(weekday, resp):
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
     weekday = datetime.today().strftime('%A')
+
     body = request.values.get('Body', None)
     phone_number = request.values.get('From', None)
     user = ""
+
     for username, number in names.items():
         if number == phone_number:
             user = username
+
     resp = MessagingResponse()
+
     if body is not None and body != '"':
         if user == "":
             if re.search('initial', body, re.IGNORECASE) is not None:
@@ -208,14 +210,17 @@ def incoming_sms():
                     new_body = re.sub('name', '', new_body, re.IGNORECASE)  # Remove the "name" part of the string."
                     new_body = "".join(new_body.split())  # Remove all whitespaces from string. String should JUST be name now.
                     names[new_body] = phone_number  # Register the user.
+
                     user_value = open(new_body + ".txt", "w+")  # Create a file for the user's values.
                     value_lines = [new_body, ""]
                     user_value.writelines(value_lines)
                     user_value.close()
+
                     user_value = open(new_body + "_Backup.txt", "w+")  # Repeat the process for their backup.
                     value_lines = [new_body, ""]
                     user_value.writelines(value_lines)
                     user_value.close()
+
                     message = "Hello, " + new_body + "!"  # Change this later to request starting lifts.
                     resp.message(message)
                 else:  # Welcome them!
@@ -249,7 +254,7 @@ def incoming_sms():
                 if weekday == "Sunday":
                     message = "Dude, it's a Sunday. You don't have a workout. Go watch anime or something."
                     resp.message(message)
-                elif weekday == "Monday" or workout == "Saturday":
+                elif weekday == "Monday" or weekday == "Saturday":
                     workout(weekday, resp)
                 else:
                     five_three_one(weekday, resp)
@@ -368,5 +373,7 @@ def incoming_sms():
                           "workout"
                 resp.message(message)
     return str(resp)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
