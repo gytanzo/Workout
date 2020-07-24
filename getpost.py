@@ -79,8 +79,7 @@ def five_three_one(weekday, resp):
     resp.message(message)
 
 
-def workout(weekday, resp):
-    message = "Here is the remainder of your workout.\n\n"
+def workout(message, weekday, resp):
     if weekday == "Monday":
         message += \
             "BENCH PRESS\n" + \
@@ -315,7 +314,8 @@ def incoming_sms():
                     message = "Dude, it's a Sunday. You don't have a workout. Go watch anime or something."
                     resp.message(message)
                 elif weekday == "Monday" or weekday == "Saturday":
-                    workout(weekday, resp)
+                    message = "Here is the remainder of your workout.\n\n"
+                    workout(message, weekday, resp)
                 else:
                     five_three_one(weekday, resp)
             elif has_numbers(body) and re.search('rep', body, re.IGNORECASE) is not None:
@@ -337,25 +337,29 @@ def incoming_sms():
                                "New max: " + str(deadlift + increase)
                     lines[4] = str(deadlift + increase) + "\n"
                     resp.message(message)
-                    workout(weekday, resp)
+                    message = "Here is the remainder of your workout.\n\n"
+                    workout(message, weekday, resp)
                 elif weekday == "Wednesday":
                     message += "Old max: " + str(press) + "\n" + \
                                "New max: " + str(press + increase)
                     lines[5] = str(press + increase) + "\n"
                     resp.message(message)
-                    workout(weekday, resp)
+                    message = "Here is the remainder of your workout.\n\n"
+                    workout(message, weekday, resp)
                 elif weekday == "Thursday":
                     message += "Old max: " + str(squat) + "\n" + \
                                "New max: " + str(squat + increase)
                     lines[2] = str(squat + increase) + "\n"
                     resp.message(message)
-                    workout(weekday, resp)
+                    message = "Here is the remainder of your workout.\n\n"
+                    workout(message, weekday, resp)
                 elif weekday == "Friday":
                     message += "Old max: " + str(bench) + "\n" + \
                                "New max: " + str(bench + increase)
                     lines[3] = str(bench + increase) + "\n"
                     resp.message(message)
-                    workout(weekday, resp)
+                    message = "Here is the remainder of your workout.\n\n"
+                    workout(message, weekday, resp)
                 else:
                     message = "You don't have a 5/3/1 split today, so I'm not particularly sure why you are giving me your reps.\n"
                     resp.message(message)
@@ -420,6 +424,8 @@ def incoming_sms():
                 modified.writelines(lines)
                 modified.close()
                 resp.message(message)
+                message = "Here is the remainder of today's now adjusted workout.\n\n"
+                workout(message, weekday, resp)
             elif re.search('hello', body, re.IGNORECASE) is not None:
                 message = "Hello, " + user + "!"
                 resp.message(message)
