@@ -231,7 +231,8 @@ def incoming_sms():
 
     for name in names:
         if name.__contains__(phone_number):
-            resp.message(name)
+            user = name.split(",", 1)
+            resp.message(user)
 
     if body is not None and body != '"':
         if user == "":  # User not found.
