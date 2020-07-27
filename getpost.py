@@ -263,10 +263,10 @@ def incoming_sms():
                     message = "You aren't using the initial command correctly. Respond with \"initial name\" followed" + \
                               "by your name to get started. For example, I would respond with \"initial name Ben\"."
                     resp.message(message)
-            #else:
-                #message = "You do not seem to be registered yet. To register, reply to this text with " + \
-                          #"\"initial name\" followed by your name."
-                #resp.message(message)
+            else:
+                message = "You do not seem to be registered yet. To register, reply to this text with " + \
+                          "\"initial name\" followed by your name."
+                resp.message(message)
         else:
             if re.search('initial lift', body, re.IGNORECASE) is not None:  # They want to submit initial numbers.
                 sent = re.sub("initial lift ", '', body,
