@@ -223,6 +223,8 @@ def incoming_sms():
 
     body = request.values.get('Body', None)
     phone_number = request.values.get('From', None)
+    message = phone_number
+    resp.message(message)
     phone_number = phone_number[1:]  # removes the addition symbol that messes w/ regex
     user = ""
 
@@ -230,16 +232,16 @@ def incoming_sms():
     names = name_file.readlines()
     name_file.close()
 
-    for line in names:
-        if re.search(phone_number, line, re.IGNORECASE) is not None:
-            line_copy = line
+    for name in names:
+        if re.search(phone_number, name, re.IGNORECASE) is not None:
+            line_copy = name
             line_copy = line_copy.replace(phone_number, "")  # Remove the phone number from the string.
             line_copy = line_copy.replace(", +", "")  # Remove remaining characters.
             line_copy = line_copy.replace("\n", "")  # Remove newline. Should JUST be the name now.
             user = line_copy
 
     if body is not None and body != '"':
-        if user == "":
+        if user == "":  # User not found.
             if re.search('initial', body, re.IGNORECASE) is not None:
                 if re.search('name', body, re.IGNORECASE) is not None:  # They received the welcome message.
                     name = re.sub("initial", '', body, flags=re.IGNORECASE)  # Remove the "initial" part of the string.
