@@ -231,8 +231,11 @@ def incoming_sms():
 
     for name in names:
         if name.__contains__(phone_number):
-            message = "You're in!"
-            resp.message(message)
+            line_copy = name
+            line_copy = line_copy.replace(phone_number, "")  # Remove the phone number from the string.
+            line_copy = line_copy.replace(", +", "")  # Remove remaining characters.
+            line_copy = line_copy.replace("\n", "")  # Remove newline. Should JUST be the name now.
+            user = line_copy
 
     if body is not None and body != '"':
         if user == "":  # User not found.
