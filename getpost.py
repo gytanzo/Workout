@@ -266,11 +266,11 @@ def incoming_sms():
                     with open(name + "_Backup.txt", "w+") as f:
                         f.write(value_lines)
 
-                    message = "Welcome, " + name + "! Let's get you set up. In four separate texts, reply to this" + \
+                    message = "Welcome, " + name + "! Let's get you set up. In four separate texts, reply to this " + \
                               "message with your four main lifts: squat, bench, deadlift, and overhead press. " + \
                               "The numbers should be prefaced with \"initial lift (lift name)\". Additionally, the numbers " + \
-                              "should be 90% of your 1RMs. For example, if your 1RM for squats is 200 lb," + \
-                              "the squat text as an example would be \"initial lift squat 180\"."
+                              "should be 90% of your 1RMs. For example, if your 1RM for squats is 200 lbs, " + \
+                              "the squat text would be \"initial lift squat 180\"."
                     resp.message(message)
                 else:
                     message = "You aren't using the initial command correctly. Respond with \"initial name\" followed" + \
@@ -530,11 +530,13 @@ def incoming_sms():
                     message = body + ", " + user + "!"
                     resp.message(message)
                 elif re.search('howto', body, re.IGNORECASE) is not None:
-                    message = "For a guide on how to use the program, go here: https://pastebin.com/BNcZ8yYZ"
+                    message = "https://google.com"
                     resp.message(message)
                 else:
                     message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
                               "deload (# decrease) (workout)\n" + \
+                              "hello (followed by anything)\n" + \
+                              "howto\n" + \
                               "maxes\n" + \
                               "(# of reps) reps\n" + \
                               "undo\n" + \
