@@ -263,8 +263,8 @@ def incoming_sms():
                     message = "Welcome, " + name + "! Let's get you set up. In four separate texts, reply to this" + \
                               "message with your four main lifts: squat, bench, deadlift, and overhead press. " + \
                               "The numbers should be prefaced with \"initial lift (lift name)\". Additionally, the numbers " + \
-                              "should be 90% of your 1RMs. For example, if your 1RMs are 200 squat, 120 bench, 300 deadlift" + \
-                              ", and 100 overhead, then the squat text as an example would be \"initial lift squat 180\"."
+                              "should be 90% of your 1RMs. For example, if your 1RM for squats is 200 lb," + \
+                              "the squat text as an example would be \"initial lift squat 180\"."
                     resp.message(message)
                 else:
                     message = "You aren't using the initial command correctly. Respond with \"initial name\" followed" + \
