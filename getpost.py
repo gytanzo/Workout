@@ -233,14 +233,6 @@ def incoming_sms():
     message = "Test obtained"
     resp.message(message)
 
-    for name in names:
-        if re.search(phone_number, name, re.IGNORECASE) is not None:
-            line_copy = name
-            line_copy = line_copy.replace(phone_number, "")  # Remove the phone number from the string.
-            line_copy = line_copy.replace(", +", "")  # Remove remaining characters.
-            line_copy = line_copy.replace("\n", "")  # Remove newline. Should JUST be the name now.
-            user = line_copy
-
     if body is not None and body != '"':
         if user == "":  # User not found.
             if re.search('initial', body, re.IGNORECASE) is not None:
