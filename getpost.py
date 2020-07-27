@@ -269,13 +269,7 @@ def incoming_sms():
                           #"\"initial name\" followed by your name."
                 #resp.message(message)
         else:
-            with open(user + ".txt", "r") as f:
-                lines = f.readlines()
-                squat = int(lines[2].rstrip())
-                bench = int(lines[3].rstrip())
-                deadlift = int(lines[4].rstrip())
-                press = int(lines[5].rstrip())
-                lifts = [squat, bench, deadlift, press]
+            message = ":("
     return str(resp)
 
 
