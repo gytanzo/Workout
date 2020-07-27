@@ -203,16 +203,15 @@ def file_len(fname):
 def setup_file(name):
     file = name + "\n" + \
            "\n" + \
-           "Squat" + \
-           "Bench" + \
-           "Deadlift" + \
-           "Press" + \
+           "Squat" + "\n" + \
+           "Bench" + "\n" + \
+           "Deadlift" + "\n" + \
+           "Press" + "\n" + \
            "\n" + \
-           "Squat" + \
-           "Bench" + \
-           "Deadlift" + \
-           "Press" + \
-           "\n"
+           "Squat" + "\n" + \
+           "Bench" + "\n" + \
+           "Deadlift" + "\n" + \
+           "Press" + "\n"
     return file
 
 
@@ -230,9 +229,6 @@ def incoming_sms():
     name_file = open("Names.txt", 'r')
     names = name_file.readlines()
     name_file.close()
-
-    message = "User found!"
-    resp.message(message)
 
     for line in names:
         if re.search(phone_number, line, re.IGNORECASE) is not None:
