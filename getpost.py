@@ -237,6 +237,9 @@ def incoming_sms():
             line_copy = line_copy.replace("\n", "")  # Remove newline. Should JUST be the name now.
             user = line_copy
 
+    message = user
+    resp.message(message)
+
     if body is not None and body != '"':
         if user == "":  # User not found.
             if re.search('initial', body, re.IGNORECASE) is not None:
