@@ -50,21 +50,25 @@ def five_three_one(weekday, lifts, resp):
     message = "Here is your 5/3/1 split for today.\n\n"
     if weekday == "Tuesday":
         message += \
+            "DEADLIFT" + "\n" + \
             convert(deadlift, 75, 5) + "\n" + \
             convert(deadlift, 85, 3) + "\n" + \
             convert(deadlift, 95, 1) + "+\n"
     elif weekday == "Wednesday":
         message += \
+            "OVERHEAD PRESS" + "\n" + \
             convert(press, 75, 5) + "\n" + \
             convert(press, 85, 3) + "\n" + \
             convert(press, 95, 1) + "+\n"
     elif weekday == "Thursday":
         message += \
+            "SQUAT" + "\n" + \
             convert(squat, 75, 5) + "\n" + \
             convert(squat, 85, 3) + "\n" + \
             convert(squat, 95, 1) + "+\n"
     elif weekday == "Friday":
         message += \
+            "BENCH PRESS" + "\n" + \
             convert(bench, 75, 5) + "\n" + \
             convert(bench, 85, 3) + "\n" + \
             convert(bench, 95, 1) + "+\n"
