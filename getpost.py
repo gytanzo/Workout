@@ -530,7 +530,7 @@ def incoming_sms():
                     message = body + ", " + user + "!"
                     resp.message(message)
                 elif re.search('howto', body, re.IGNORECASE) is not None:
-                    message = "pastebin.com/BNcZ8yYZ"
+                    message = "For a guide on how to use this program, go to pastebin (dot) com (slash) BNcZ8yYZ. "
                     resp.message(message)
                 else:
                     message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
