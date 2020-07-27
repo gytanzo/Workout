@@ -238,6 +238,8 @@ def incoming_sms():
             line_copy = line_copy.replace(", +", "")  # Remove remaining characters.
             line_copy = line_copy.replace("\n", "")  # Remove newline. Should JUST be the name now.
             user = line_copy
+            message = "User found!"
+            resp.message(message)
 
     if body is not None and body != '"':
         if user == "":
@@ -284,9 +286,6 @@ def incoming_sms():
             press = int(lines[5].rstrip())
             lifts = [squat, bench, deadlift, press]
             file.close()
-
-            message = "The user is not empty."
-            resp.message(message)
 
             if re.search('initial lift', body, re.IGNORECASE) is not None:  # They want to submit initial numbers.
                 sent = re.sub("initial lift ", '', body, flags=re.IGNORECASE)  # Remove the "initial" part of the string.
