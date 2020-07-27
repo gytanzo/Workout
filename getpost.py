@@ -294,110 +294,107 @@ def incoming_sms():
                 if re.search('squat', body, re.IGNORECASE) is not None:  # Inputting squat number.
                     sent = re.sub("squat", '', sent, flags=re.IGNORECASE)
                     sent = "".join(sent.split())
-                    read_first_file = open(user + ".txt", "r")
-                    first_file_content = ""
-                    for line in read_first_file:
-                        stripped_line = line.strip()
-                        new_line = stripped_line.replace("Squat", sent)
-                        first_file_content += new_line + "\n"
-                    read_first_file.close()
 
-                    write_first_file = open(user + ".txt", "w")
-                    write_first_file.write(first_file_content)
-                    write_first_file.close()
+                    with open(user + ".txt", "r") as f:
+                        first_file_content = ""
+                        for line in f:
+                            stripped_line = line.strip()
+                            new_line = stripped_line.replace("Squat", sent)
+                            first_file_content += new_line + "\n"
 
-                    read_second_file = open(user + "_Backup.txt", "r")
-                    second_file_content = ""
-                    for line in read_second_file:
-                        stripped_line = line.strip()
-                        new_line = stripped_line.replace("Squat", sent)
-                        second_file_content += new_line + "\n"
-                    read_second_file.close()
+                    with open(user + ".txt", "w") as f:
+                        f.write(first_file_content)
 
-                    write_second_file = open(user + "_Backup.txt", "w")
-                    write_second_file.write(second_file_content)
-                    write_second_file.close()
+                    with open(user + "_Backup.txt", "r") as f:
+                        second_file_content = ""
+                        for line in f:
+                            stripped_line = line.strip()
+                            new_line = stripped_line.replace("Squat", sent)
+                            second_file_content += new_line + "\n"
+
+                    with open(user + "_Backup.txt", "w") as f:
+                        f.write(second_file_content)
 
                     message = "Successfully initialized squat!"
                     resp.message(message)
                 elif re.search('bench', sent, re.IGNORECASE) is not None:  # Inputting squat number.
                     sent = re.sub("bench", '', sent, flags=re.IGNORECASE)
                     sent = "".join(sent.split())
-                    read_first_file = open(user + ".txt", "r")
-                    first_file_content = ""
-                    for line in read_first_file:
-                        stripped_line = line.strip()
-                        new_line = stripped_line.replace("Bench", sent)
-                        first_file_content += new_line + "\n"
-                    read_first_file.close()
 
-                    write_first_file = open(user + ".txt", "w")
-                    write_first_file.write(first_file_content)
-                    write_first_file.close()
+                    with open(user + ".txt", "r") as f:
+                        first_file_content = ""
+                        for line in f:
+                            stripped_line = line.strip()
+                            new_line = stripped_line.replace("Bench", sent)
+                            first_file_content += new_line + "\n"
 
-                    read_second_file = open(user + "_Backup.txt", "r")
-                    second_file_content = ""
-                    for line in read_second_file:
-                        stripped_line = line.strip()
-                        new_line = stripped_line.replace("Bench", sent)
-                        second_file_content += new_line + "\n"
-                    read_second_file.close()
+                    with open(user + ".txt", "w") as f:
+                        f.write(first_file_content)
 
-                    write_second_file = open(user + "_Backup.txt", "w")
-                    write_second_file.write(second_file_content)
-                    write_second_file.close()
+                    with open(user + "_Backup.txt", "r") as f:
+                        second_file_content = ""
+                        for line in f:
+                            stripped_line = line.strip()
+                            new_line = stripped_line.replace("Bench", sent)
+                            second_file_content += new_line + "\n"
+
+                    with open(user + "_Backup.txt", "w") as f:
+                        f.write(second_file_content)
+
+                    message = "Successfully initialized bench!"
+                    resp.message(message)
                 elif re.search('deadlift', sent, re.IGNORECASE) is not None:  # Inputting squat number.
                     sent = re.sub("deadlift", '', sent, flags=re.IGNORECASE)
                     sent = "".join(sent.split())
-                    read_first_file = open(user + ".txt", "r")
-                    first_file_content = ""
-                    for line in read_first_file:
-                        stripped_line = line.strip()
-                        new_line = stripped_line.replace("Deadlift", sent)
-                        first_file_content += new_line + "\n"
-                    read_first_file.close()
 
-                    write_first_file = open(user + ".txt", "w")
-                    write_first_file.write(first_file_content)
-                    write_first_file.close()
+                    with open(user + ".txt", "r") as f:
+                        first_file_content = ""
+                        for line in f:
+                            stripped_line = line.strip()
+                            new_line = stripped_line.replace("Deadlift", sent)
+                            first_file_content += new_line + "\n"
 
-                    read_second_file = open(user + "_Backup.txt", "r")
-                    second_file_content = ""
-                    for line in read_second_file:
-                        stripped_line = line.strip()
-                        new_line = stripped_line.replace("Deadlift", sent)
-                        second_file_content += new_line + "\n"
-                    read_second_file.close()
+                    with open(user + ".txt", "w") as f:
+                        f.write(first_file_content)
 
-                    write_second_file = open(user + "_Backup.txt", "w")
-                    write_second_file.write(second_file_content)
-                    write_second_file.close()
+                    with open(user + "_Backup.txt", "r") as f:
+                        second_file_content = ""
+                        for line in f:
+                            stripped_line = line.strip()
+                            new_line = stripped_line.replace("Deadlift", sent)
+                            second_file_content += new_line + "\n"
+
+                    with open(user + "_Backup.txt", "w") as f:
+                        f.write(second_file_content)
+
+                    message = "Successfully initialized deadlift!"
+                    resp.message(message)
                 elif re.search('overhead press', sent, re.IGNORECASE) is not None:  # Inputting squat number.
                     sent = re.sub("overhead press", '', sent, flags=re.IGNORECASE)
                     sent = "".join(sent.split())
-                    read_first_file = open(user + ".txt", "r")
-                    first_file_content = ""
-                    for line in read_first_file:
-                        stripped_line = line.strip()
-                        new_line = stripped_line.replace("Press", sent)
-                        first_file_content += new_line + "\n"
-                    read_first_file.close()
 
-                    write_first_file = open(user + ".txt", "w")
-                    write_first_file.write(first_file_content)
-                    write_first_file.close()
+                    with open(user + ".txt", "r") as f:
+                        first_file_content = ""
+                        for line in f:
+                            stripped_line = line.strip()
+                            new_line = stripped_line.replace("Press", sent)
+                            first_file_content += new_line + "\n"
 
-                    read_second_file = open(user + "_Backup.txt", "r")
-                    second_file_content = ""
-                    for line in read_second_file:
-                        stripped_line = line.strip()
-                        new_line = stripped_line.replace("Press", sent)
-                        second_file_content += new_line + "\n"
-                    read_second_file.close()
+                    with open(user + ".txt", "w") as f:
+                        f.write(first_file_content)
 
-                    write_second_file = open(user + "_Backup.txt", "w")
-                    write_second_file.write(second_file_content)
-                    write_second_file.close()
+                    with open(user + "_Backup.txt", "r") as f:
+                        second_file_content = ""
+                        for line in f:
+                            stripped_line = line.strip()
+                            new_line = stripped_line.replace("Press", sent)
+                            second_file_content += new_line + "\n"
+
+                    with open(user + "_Backup.txt", "w") as f:
+                        f.write(second_file_content)
+
+                    message = "Successfully initialized press!"
+                    resp.message(message)
                 else:
                     message = "You either have already registered your training max for this specific list or all four" + \
                               "of the lists. Carry on."
@@ -497,9 +494,8 @@ def incoming_sms():
                 if has_numbers(body) is False:
                     message = "This failed. You seem to have forgotten to provide a number."
                 else:
-                    backup = open(user + "_Backup.txt", 'w')
-                    backup.writelines(lines)
-                    backup.close()
+                    with open(user + "_Backup.txt", "w") as f:
+                        f.writelines(lines)
                     number = int(''.join(filter(str.isdigit, body)))
                     message = "Successfully lowered Training Max.\n\n"
                     if "squat" in body or "Squat" in body:
@@ -520,9 +516,8 @@ def incoming_sms():
                         lines[5] = str(press - number) + "\n"
                     else:
                         message = "This failed. Did you spell the name of the workout incorrectly?"
-                modified = open(user + ".txt", 'w')
-                modified.writelines(lines)
-                modified.close()
+                with open(user + ".txt", "w") as f:
+                    f.writelines(lines)
                 resp.message(message)
                 message = "Here's the adjusted version of today's workout.\n\n"
                 workout(message, weekday, lifts, resp)
