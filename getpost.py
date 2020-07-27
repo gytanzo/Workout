@@ -231,7 +231,8 @@ def incoming_sms():
 
     for name in names:
         if name.__contains__(phone_number):
-            user = name.split(",", 1)
+            split_user = name.split(",", 1)
+            user = split_user[0]
             resp.message(user)
 
     if body is not None and body != '"':
