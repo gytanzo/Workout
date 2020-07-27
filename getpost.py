@@ -376,8 +376,7 @@ def incoming_sms():
                     message = "Successfully initialized press!"
                     resp.message(message)
                 else:
-                    message = "You either have already registered your training max for this specific list or all four" + \
-                              "of the lists. Carry on."
+                    message = "You have already registered your four lifts. Carry on."
                     resp.message(message)
             else:
                 with open(user + ".txt", "r") as f:
