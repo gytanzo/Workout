@@ -235,6 +235,39 @@ def incoming_sms():
             user = split_user[0]
             resp.message(user)
 
+    if body is not None and body != '"':
+        if user == "":  # User not found.
+            if re.search('initial', body, re.IGNORECASE) is not None:
+                if re.search('name', body, re.IGNORECASE) is not None:  # They received the welcome message.
+                    name = re.sub("initial", '', body, flags=re.IGNORECASE)  # Remove the "initial" part of the string.
+                    name = re.sub("name", '', name, flags=re.IGNORECASE)  # Remove the "name" part of the string."
+                    name = "".join(name.split())  # Remove all whitespaces from string. String should JUST be name now.
+
+                    with open("Names.txt", "a+") as f:
+                        new_user = name + ", +" + phone_number + "\n"
+                        f.write(new_user)
+
+                    with open(name + ".txt", "w+") as f:
+                        value_lines = setup_file(name)
+                        f.write(value_lines)
+
+                    with open(name + "_Backup.txt", "w+") as f:
+                        f.write(value_lines)
+
+                    message = "Welcome, " + name + "! Let's get you set up. In four separate texts, reply to this" + \
+                              "message with your four main lifts: squat, bench, deadlift, and overhead press. " + \
+                              "The numbers should be prefaced with \"initial lift (lift name)\". Additionally, the numbers " + \
+                              "should be 90% of your 1RMs. For example, if your 1RM for squats is 200 lb," + \
+                              "the squat text as an example would be \"initial lift squat 180\"."
+                    resp.message(message)
+                else:
+                    message = "You aren't using the initial command correctly. Respond with \"initial name\" followed" + \
+                              "by your name to get started. For example, I would respond with \"initial name Ben\"."
+                    resp.message(message)
+            #else:
+                #message = "You do not seem to be registered yet. To register, reply to this text with " + \
+                          #"\"initial name\" followed by your name."
+                #resp.message(message)
     return str(resp)
 
 
