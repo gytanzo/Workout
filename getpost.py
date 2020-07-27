@@ -529,6 +529,9 @@ def incoming_sms():
                 elif re.search('hello', body, re.IGNORECASE) is not None:
                     message = body + ", " + user + "!"
                     resp.message(message)
+                elif re.search('howto', body, re.IGNORECASE) is not None:
+                    message = "For a guide on how to use the program, go here: https://pastebin.com/BNcZ8yYZ"
+                    resp.message(message)
                 else:
                     message = "You don't seem to be using this correctly. These are the currently available commands.\n\n" + \
                               "deload (# decrease) (workout)\n" + \
