@@ -233,7 +233,6 @@ def incoming_sms():
         if name.__contains__(phone_number):
             split_user = name.split(",", 1)
             user = split_user[0]
-            resp.message(user)
 
     if body is not None and body != '"':
         if user == "":  # User not found.
@@ -269,7 +268,8 @@ def incoming_sms():
                           #"\"initial name\" followed by your name."
                 #resp.message(message)
         else:
-            message = ":("
+            message = "This part at least gets executed."
+            resp.message(message)
     return str(resp)
 
 
