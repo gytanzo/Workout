@@ -223,7 +223,7 @@ def finished_registration(resp, user):
                 if lines[4] != "Deadlift\n":
                     if lines[5] != "Press\n":
                         message = "You have finished registering your lifts! With this, you are all set up and ready" + \
-                                  "to use the program. If you want help getting started, send the message \"howto\"." + \
+                                  "to use the program. If you need help getting started, send the message \"howto\"." + \
                                   "Good luck!"
                         resp.message(message)
 
