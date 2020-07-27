@@ -227,24 +227,12 @@ def incoming_sms():
     user = ""
 
     with open("Names.txt") as f:
-        if phone_number in f.read():
-            message = "You're in!"
-            resp.message(message)
-
-    name_file = open("Names.txt", 'r')
-    names = name_file.readlines()
-    name_file.close()
-
-    message = "Test obtained"
-    resp.message(message)
+        names = f.readlines()
 
     for name in names:
-        if re.search(phone_number, name, re.IGNORECASE) is not None:
-            line_copy = name
-            line_copy = line_copy.replace(phone_number, "")  # Remove the phone number from the string.
-            line_copy = line_copy.replace(", +", "")  # Remove remaining characters.
-            line_copy = line_copy.replace("\n", "")  # Remove newline. Should JUST be the name now.
-            user = line_copy
+        if name.__contains__(phone_number):
+            message = "You're in!"
+            resp.message(message)
 
     if body is not None and body != '"':
         if user == "":  # User not found.
@@ -256,7 +244,7 @@ def incoming_sms():
 
                     with open("Names.txt", "a+") as f:
                         new_user = name + ", +" + phone_number + "\n"
-                        name_file.write(new_user)
+                        f.write(new_user)
 
                     with open(name + ".txt", "w+") as f:
                         value_lines = setup_file(name)
