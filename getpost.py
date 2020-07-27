@@ -286,7 +286,7 @@ def incoming_sms():
             file.close()
 
             message = "The user is not empty."
-            resp.message(resp)
+            resp.message(message)
 
             if re.search('initial lift', body, re.IGNORECASE) is not None:  # They want to submit initial numbers.
                 sent = re.sub("initial lift ", '', body, flags=re.IGNORECASE)  # Remove the "initial" part of the string.
