@@ -215,6 +215,19 @@ def setup_file(name):
     return file
 
 
+def finished_registration(resp, user):
+    with open(user + ".txt", "r") as f:
+        lines = f.readlines()
+        if lines[2] != "Squat\n":
+            if lines[3] != "Bench\n":
+                if lines[4] != "Deadlift\n":
+                    if lines[5] != "Press\n":
+                        message = "You have finished registering your lifts! With this, you are all set up and ready" + \
+                                  "to use the program. If you want help getting started, send the message \"howto\"." + \
+                                  "Good luck!"
+                        resp.message(message)
+
+
 @app.route('/', methods=['GET', 'POST'])
 def incoming_sms():
     resp = MessagingResponse()
@@ -297,6 +310,7 @@ def incoming_sms():
 
                     message = "Successfully initialized squat!"
                     resp.message(message)
+                    finished_registration(resp, user)
                 elif re.search('bench', sent, re.IGNORECASE) is not None:  # Inputting squat number.
                     sent = re.sub("bench", '', sent, flags=re.IGNORECASE)
                     sent = "".join(sent.split())
@@ -323,6 +337,7 @@ def incoming_sms():
 
                     message = "Successfully initialized bench!"
                     resp.message(message)
+                    finished_registration(resp, user)
                 elif re.search('deadlift', sent, re.IGNORECASE) is not None:  # Inputting squat number.
                     sent = re.sub("deadlift", '', sent, flags=re.IGNORECASE)
                     sent = "".join(sent.split())
@@ -349,6 +364,7 @@ def incoming_sms():
 
                     message = "Successfully initialized deadlift!"
                     resp.message(message)
+                    finished_registration(resp, user)
                 elif re.search('overhead press', sent, re.IGNORECASE) is not None:  # Inputting squat number.
                     sent = re.sub("overhead press", '', sent, flags=re.IGNORECASE)
                     sent = "".join(sent.split())
@@ -375,6 +391,7 @@ def incoming_sms():
 
                     message = "Successfully initialized press!"
                     resp.message(message)
+                    finished_registration(resp, user)
                 else:
                     message = "You have already registered your four lifts. Carry on."
                     resp.message(message)
