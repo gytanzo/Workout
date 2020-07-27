@@ -226,12 +226,10 @@ def incoming_sms():
     phone_number = phone_number[1:]  # removes the addition symbol that messes w/ regex
     user = ""
 
-    name_file = open("Names.txt", 'r')
-    names = name_file.readlines()
-    name_file.close()
-
-    message = "Test obtained"
-    resp.message(message)
+    with open("Names.txt") as f:
+        if phone_number in f.read():
+            message = "You're in!"
+            resp.message(message)
 
     if body is not None and body != '"':
         if user == "":  # User not found.
