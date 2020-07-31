@@ -529,6 +529,13 @@ def incoming_sms():
                         f.writelines(lines)
                     resp.message(message)
                     message = "Here's the adjusted version of today's workout.\n\n"
+                    with open(user + ".txt", "r") as f:
+                        lines = f.readlines()
+                    squat = int(lines[2].rstrip())
+                    bench = int(lines[3].rstrip())
+                    deadlift = int(lines[4].rstrip())
+                    press = int(lines[5].rstrip())
+                    lifts = [squat, bench, deadlift, press]
                     workout(message, weekday, lifts, resp)
                 elif re.search('hello', body, re.IGNORECASE) is not None:
                     message = body + ", " + user + "!"
