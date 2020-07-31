@@ -519,6 +519,7 @@ def incoming_sms():
                 modified.writelines(lines)
                 modified.close()
                 resp.message(message)
+                message = hello
             elif re.search('hello', body, re.IGNORECASE) is not None:
                 message = body + ", " + user + "!"
                 resp.message(message)
