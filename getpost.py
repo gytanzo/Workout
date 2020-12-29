@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from twilio.twiml.messaging_response import MessagingResponse
 from datetime import datetime
 import re
@@ -242,7 +242,7 @@ def incoming_sms():
     phone_number = request.values.get('From', None)
 
     if phone_number is None:
-        return "<h1 style='color:blue'>Just you wait! A really cool website will be here one day!</h1>"
+        return render_template('index.html', name=None)
 
     phone_number = phone_number[1:]  # removes the addition symbol that messes w/ regex
     user = ""
