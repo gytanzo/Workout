@@ -236,6 +236,9 @@ def finished_registration(resp, user):
 def incoming_sms():
     resp = MessagingResponse()
 
+    if resp is None:
+        return "<h1 style='color:blue'>Hello There!</h1>"
+
     weekday = datetime.today().strftime('%A')
 
     body = request.values.get('Body', None)
