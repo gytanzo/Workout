@@ -233,11 +233,6 @@ def finished_registration(resp, user):
 
 
 @app.route('/', methods=['GET', 'POST'])
-def home():
-    incoming_sms()
-    return "<h1 style='color:blue'>Hello There!</h1>"
-
-
 def incoming_sms():
     resp = MessagingResponse()
 
