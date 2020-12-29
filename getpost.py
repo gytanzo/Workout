@@ -233,6 +233,7 @@ def finished_registration(resp, user):
 
 
 @app.route('/', methods=['GET', 'POST'])
+@app.route("/home")
 def incoming_sms():
     resp = MessagingResponse()
 
@@ -242,7 +243,8 @@ def incoming_sms():
     phone_number = request.values.get('From', None)
 
     if phone_number is None:
-        return
+        # Put home page here
+        return render_template('home.html')
 
     phone_number = phone_number[1:]  # removes the addition symbol that messes w/ regex
     user = ""
@@ -559,11 +561,6 @@ def incoming_sms():
                               "workout"
                     resp.message(message)
     return str(resp)
-
-
-@app.route("/home")
-def home():
-    return render_template('home.html')
 
 
 @app.route("/about")
