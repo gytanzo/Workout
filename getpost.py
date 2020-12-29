@@ -236,13 +236,14 @@ def finished_registration(resp, user):
 def incoming_sms():
     resp = MessagingResponse()
 
-    if resp is None:
-        return "<h1 style='color:blue'>Hello There!</h1>"
-
     weekday = datetime.today().strftime('%A')
 
     body = request.values.get('Body', None)
     phone_number = request.values.get('From', None)
+
+    if phone_number is None:
+        return "<h1 style='color:blue'>Hello There!</h1>"
+
     phone_number = phone_number[1:]  # removes the addition symbol that messes w/ regex
     user = ""
 
