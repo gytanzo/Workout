@@ -244,7 +244,7 @@ def incoming_sms():
 
     if phone_number is None:
         # Put home page here
-        return render_template('index.html')
+        return render_template('index.html', template_folder='static')
 
     phone_number = phone_number[1:]  # removes the addition symbol that messes w/ regex
     user = ""
