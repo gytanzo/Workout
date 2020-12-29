@@ -244,7 +244,7 @@ def incoming_sms():
 
     if phone_number is None:
         # Put home page here
-        return render_template('home.html')
+        return render_template('index.html')
 
     phone_number = phone_number[1:]  # removes the addition symbol that messes w/ regex
     user = ""
@@ -561,12 +561,6 @@ def incoming_sms():
                               "workout"
                     resp.message(message)
     return str(resp)
-
-
-@app.route("/about")
-def about():
-    return render_template('about.html', title='About')
-
 
 if __name__ == "__main__":
     app.run(debug=True)
