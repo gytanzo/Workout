@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 from datetime import datetime
 import re
@@ -242,10 +242,6 @@ def incoming_sms():
     body = request.values.get('Body', None)
     phone_number = request.values.get('From', None)
 
-    if phone_number is None:
-        # Put home page here
-        return render_template('index.html')
-
     phone_number = phone_number[1:]  # removes the addition symbol that messes w/ regex
     user = ""
 
@@ -403,7 +399,7 @@ def incoming_sms():
                     resp.message(message)
                     finished_registration(resp, user)
                 else:
-                    message = "You have already registered your four lifts. Carry on."
+                    message = "You have already registered your four lifts. If you need help using the program, reply with \"howto\"."
                     resp.message(message)
             else:
                 with open(user + ".txt", "r") as f:
@@ -561,6 +557,7 @@ def incoming_sms():
                               "workout"
                     resp.message(message)
     return str(resp)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
